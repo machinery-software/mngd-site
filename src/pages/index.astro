@@ -1,0 +1,202 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="mngd — Apple MDM for the DDM era">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+  <section class="section pt-32 pb-28 text-center relative overflow-hidden">
+
+    <!-- Subtle radial glow -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue/[0.07] rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="container relative">
+      <div class="label mb-6">Apple MDM · DDM-native · macOS 26 ready</div>
+
+      <h1 class="text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.1] mb-6 max-w-3xl mx-auto">
+        Device management that<br />stays out of your way.
+      </h1>
+
+      <p class="text-lg text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
+        mngd is a modern Apple MDM platform built on Declarative Device Management.
+        Less polling. Less noise. Devices do what you declare, not what you command.
+      </p>
+
+      <div class="flex items-center justify-center gap-3 flex-wrap">
+        <a href="https://app.mngd.app/register" class="btn-primary">
+          Get started free
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="/pricing" class="btn-secondary">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Social proof strip ─────────────────────────────────────────────── -->
+  <div class="border-y border-white/[0.06] py-5 px-6">
+    <div class="max-w-6xl mx-auto flex items-center justify-center gap-10 flex-wrap">
+      {[
+        'DDM-native from day one',
+        'SCEP device certificates',
+        'Apple Business Manager',
+        'SCIM 2.0 provisioning',
+        'Declarative profiles',
+        'macOS · iOS · iPadOS',
+      ].map(item => (
+        <span class="text-xs text-white/30 font-medium tracking-wide">{item}</span>
+      ))}
+    </div>
+  </div>
+
+  <!-- ── Features ──────────────────────────────────────────────────────── -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="text-center mb-16">
+        <div class="label mb-4">Platform</div>
+        <h2 class="text-3xl md:text-4xl font-semibold text-white tracking-tight">
+          Built for where Apple MDM is going,<br class="hidden md:block" /> not where it's been.
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        {[
+          {
+            icon: '◈',
+            title: 'Declarative Device Management',
+            body: 'DDM is Apple\'s replacement for the polling-based MDM protocol. mngd speaks DDM natively — declarations, not commands. Devices enforce their own configuration without waiting to be asked.',
+          },
+          {
+            icon: '⬡',
+            title: 'SCEP enrollment',
+            body: 'Devices receive a signed identity certificate at enrollment via SCEP. mngd includes a built-in SCEP CA with a persistent cert/key so devices aren\'t orphaned by server restarts.',
+          },
+          {
+            icon: '⊕',
+            title: 'Apple Business Manager',
+            body: 'Zero-touch deployment. Devices come out of the box enrolled, supervised, and configured — no imaging, no manual steps. ABM tokens are managed per-org.',
+          },
+          {
+            icon: '⊞',
+            title: 'MSP multi-tenancy',
+            body: 'Manage multiple client orgs from a single MSP account. Consolidated billing, per-org feature flags, and a partner dashboard that gives you the full picture at a glance.',
+          },
+          {
+            icon: '⊛',
+            title: 'Smart groups & policies',
+            body: 'Dynamic device groups built from live inventory data. Assign declarations and profiles to groups — mngd handles delivery, retry, and status tracking per device.',
+          },
+          {
+            icon: '⊜',
+            title: 'Patchable integration',
+            body: 'Already running Patchable? Your agents become mngd agents. One installer, one management plane. Upgrading adds MDM capabilities — no migration, no re-enrollment.',
+          },
+          {
+            icon: '⊝',
+            title: 'SCIM 2.0 provisioning',
+            body: 'Sync users and groups from Okta, Azure AD, or any SCIM-compatible IdP. Users are provisioned and deprovisioned automatically. SSO enrollment supported.',
+          },
+          {
+            icon: '⊡',
+            title: 'FileVault & escrow',
+            body: 'Enable FileVault via DDM declaration. Personal recovery keys are escrowed automatically at enrollment and rotated on schedule — no scripts required.',
+          },
+          {
+            icon: '⊟',
+            title: 'Automation engine',
+            body: 'Event-driven automations triggered by device check-ins, CVE alerts, patch status, or custom webhooks. Route notifications to Slack, Teams, or any endpoint.',
+          },
+        ].map(f => (
+          <div class="card p-6">
+            <div class="text-blue text-xl mb-3 font-mono">{f.icon}</div>
+            <h3 class="text-white font-semibold text-[15px] mb-2">{f.title}</h3>
+            <p class="text-sm text-white/45 leading-relaxed">{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it works ───────────────────────────────────────────────────── -->
+  <section class="section bg-dim/50">
+    <div class="container">
+      <div class="text-center mb-16">
+        <div class="label mb-4">Enrollment</div>
+        <h2 class="text-3xl font-semibold text-white tracking-tight">
+          From box to enrolled in under two minutes.
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-4">
+        {[
+          { step: '01', title: 'ABM assignment', body: 'Device ships from Apple already assigned to your org in Apple Business Manager.' },
+          { step: '02', title: 'Zero-touch boot', body: 'Device boots, hits Apple\'s activation server, gets redirected to mngd enrollment.' },
+          { step: '03', title: 'SCEP cert', body: 'Device generates a key pair, mngd issues a signed identity certificate via SCEP.' },
+          { step: '04', title: 'DDM declarations', body: 'mngd pushes the device\'s full configuration as DDM declarations. Done.' },
+        ].map(s => (
+          <div class="card p-6">
+            <div class="text-xs font-mono text-white/20 mb-4">{s.step}</div>
+            <h3 class="text-white font-semibold text-[15px] mb-2">{s.title}</h3>
+            <p class="text-sm text-white/45 leading-relaxed">{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Patchable bridge ───────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="card p-10 md:p-14 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-blue/[0.05] rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative max-w-xl">
+          <div class="label mb-4">Already on Patchable?</div>
+          <h2 class="text-3xl font-semibold text-white tracking-tight mb-4">
+            Patchable is mngd with patch management on.
+          </h2>
+          <p class="text-white/50 text-[15px] leading-relaxed mb-8">
+            mngd and Patchable share an agent and a management plane. If you're already running
+            Patchable across your fleet, upgrading to a Managed plan adds full MDM without
+            re-enrollment, re-imaging, or migration work. The agent you already deployed becomes
+            your MDM agent.
+          </p>
+          <a href="/pricing" class="btn-primary">See plans</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing teaser ─────────────────────────────────────────────────── -->
+  <section class="section bg-dim/50">
+    <div class="container text-center">
+      <div class="label mb-4">Pricing</div>
+      <h2 class="text-3xl font-semibold text-white tracking-tight mb-4">Simple, honest pricing.</h2>
+      <p class="text-white/50 mb-8 max-w-md mx-auto">
+        Four plans. No per-seat gotchas on the lower tiers. MSP plans scale with your fleet.
+      </p>
+      <a href="/pricing" class="btn-primary">See full pricing</a>
+    </div>
+  </section>
+
+  <!-- ── Bottom CTA ─────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center max-w-xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-semibold text-white tracking-tight mb-4">
+          Ready to enroll your first device?
+        </h2>
+        <p class="text-white/50 mb-8">
+          Get started free. No credit card required. Enroll up to 5 devices on the free plan.
+        </p>
+        <div class="flex items-center justify-center gap-3 flex-wrap">
+          <a href="https://app.mngd.app/register" class="btn-primary">Create an account</a>
+          <a href="https://docs.mngd.app/getting-started" class="btn-secondary">Read the docs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>

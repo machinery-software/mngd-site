@@ -1,0 +1,2 @@
+# SPA fallback — Astro handles this natively, but belt-and-suspenders for CF Pages
+/docs   https://docs.mngd.app   301

@@ -1,0 +1,69 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// Posts live here as static data for now.
+// When there's content to publish, switch to Astro content collections:
+//   https://docs.astro.build/en/guides/content-collections/
+const posts: {
+  slug: string;
+  title: string;
+  date: string;
+  category: string;
+  excerpt: string;
+}[] = [
+  // Add posts here as:
+  // {
+  //   slug: 'introducing-mngd',
+  //   title: 'Introducing mngd',
+  //   date: '2026-04-07',
+  //   category: 'Announcement',
+  //   excerpt: '...',
+  // },
+];
+---
+
+<Layout
+  title="Blog — mngd"
+  description="Product announcements, changelog, and MDM deep-dives from Machinery Software."
+>
+
+  <section class="section pt-28">
+    <div class="container max-w-3xl">
+
+      <div class="mb-12">
+        <div class="label mb-4">Blog</div>
+        <h1 class="text-4xl font-semibold text-white tracking-tight">
+          Updates from mngd.
+        </h1>
+      </div>
+
+      {posts.length === 0 ? (
+        <div class="card p-12 text-center">
+          <div class="text-3xl mb-4">✦</div>
+          <h2 class="text-white font-semibold mb-2">Coming soon.</h2>
+          <p class="text-sm text-white/40">
+            First post incoming. Follow along at{' '}
+            <a href="https://x.com/mngdapp" class="text-blue hover:underline">@mngdapp</a>.
+          </p>
+        </div>
+      ) : (
+        <div class="space-y-4">
+          {posts.map(post => (
+            <a href={`/blog/${post.slug}`} class="card p-6 flex items-start gap-6 hover:border-white/10 transition-colors block">
+              <div class="text-xs text-white/30 font-mono pt-0.5 whitespace-nowrap">
+                {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+              </div>
+              <div>
+                <div class="text-[11px] font-semibold text-blue uppercase tracking-widest mb-1">{post.category}</div>
+                <h2 class="text-white font-semibold text-[15px] mb-1">{post.title}</h2>
+                <p class="text-sm text-white/45 leading-relaxed">{post.excerpt}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+
+</Layout>

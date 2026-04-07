@@ -1,0 +1,45 @@
+---
+const links = [
+  { label: 'Features', href: '/#features' },
+  { label: 'Pricing',  href: '/pricing' },
+  { label: 'Docs',     href: 'https://docs.mngd.app' },
+  { label: 'Blog',     href: '/blog' },
+];
+---
+
+<header class="fixed top-0 inset-x-0 z-50 border-b border-white/[0.06] bg-ink/80 backdrop-blur-md">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
+
+    <!-- Wordmark -->
+    <a href="/" class="text-white font-semibold text-[15px] tracking-tight">mngd</a>
+
+    <!-- Nav links (desktop) -->
+    <nav class="hidden md:flex items-center gap-1">
+      {links.map(l => (
+        <a
+          href={l.href}
+          class="px-3 py-1.5 text-sm text-white/60 hover:text-white rounded-md transition-colors"
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Right actions -->
+    <div class="flex items-center gap-2">
+      <a
+        href="https://app.mngd.app/login"
+        class="hidden md:inline-flex px-3 py-1.5 text-sm text-white/60 hover:text-white rounded-md transition-colors"
+      >
+        Sign in
+      </a>
+      <a href="https://app.mngd.app/register" class="btn-primary text-[13px] px-4 py-2">
+        Get started
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<!-- Spacer for fixed nav -->
+<div class="h-14"></div>

@@ -7,33 +7,36 @@ const links = [
 ];
 ---
 
-<header class="fixed top-0 inset-x-0 z-50 border-b border-white/[0.06] bg-ink/80 backdrop-blur-md">
-  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
+<header class="fixed top-0 inset-x-0 z-50 border-b border-white/[0.05] bg-ink/75 backdrop-blur-xl">
+  <div class="max-w-6xl mx-auto px-6 h-14 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
 
-    <!-- Wordmark -->
+    <!-- Wordmark — left -->
     <a href="/" class="text-white font-semibold text-[15px] tracking-tight">mngd</a>
 
-    <!-- Nav links (desktop) -->
-    <nav class="hidden md:flex items-center gap-1">
+    <!-- Nav links — truly centered -->
+    <nav class="hidden md:flex items-center gap-0.5">
       {links.map(l => (
         <a
           href={l.href}
-          class="px-3 py-1.5 text-sm text-white/60 hover:text-white rounded-md transition-colors"
+          class="px-3.5 py-1.5 text-[13px] font-medium text-white/50 hover:text-white rounded-md transition-colors duration-150"
         >
           {l.label}
         </a>
       ))}
     </nav>
 
-    <!-- Right actions -->
-    <div class="flex items-center gap-2">
+    <!-- Actions — right, justified to end -->
+    <div class="flex items-center justify-end gap-1">
       <a
         href="https://app.mngd.app/login"
-        class="hidden md:inline-flex px-3 py-1.5 text-sm text-white/60 hover:text-white rounded-md transition-colors"
+        class="hidden md:inline-flex px-3.5 py-1.5 text-[13px] font-medium text-white/50 hover:text-white rounded-md transition-colors duration-150"
       >
         Sign in
       </a>
-      <a href="https://app.mngd.app/register" class="btn-primary text-[13px] px-4 py-2">
+      <a
+        href="https://app.mngd.app/register"
+        class="inline-flex items-center px-3.5 py-1.5 rounded-md bg-white text-ink text-[13px] font-semibold hover:bg-white/90 transition-colors duration-150"
+      >
         Get started
       </a>
     </div>
@@ -41,5 +44,4 @@ const links = [
   </div>
 </header>
 
-<!-- Spacer for fixed nav -->
 <div class="h-14"></div>

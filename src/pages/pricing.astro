@@ -1,230 +1,262 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const plans = [
-  {
-    key: 'patchable',
-    name: 'Patchable',
-    tagline: 'Patch management + Slack alerts',
-    monthly: 29,
-    annual: 23,
-    deviceBase: 25,
-    overageMonthly: 2.50,
-    color: 'amber',
-    features: [
-      'Up to 25 devices included',
-      'Patchable agent (patch management)',
-      'Slack & Teams notifications',
-      'CVE vulnerability tracking',
-      'Automation engine',
-      'API access',
-    ],
-    cta: 'Get started',
-  },
-  {
-    key: 'managed',
-    name: 'Managed',
-    tagline: 'Full Apple MDM',
-    monthly: 59,
-    annual: 47,
-    deviceBase: 25,
-    overageMonthly: 4.50,
-    color: 'blue',
-    highlight: true,
-    features: [
-      'Everything in Patchable',
-      'Full Apple MDM (DDM-native)',
-      'SCEP device certificates',
-      'Apple Business Manager',
-      'FileVault + key escrow',
-      'Profiles & declarations',
-      'Script execution',
-      'SCIM 2.0 provisioning',
-    ],
-    cta: 'Get started',
-  },
-  {
-    key: 'msp_patch',
-    name: 'MSP Patch',
-    tagline: 'Volume Patchable for MSPs',
-    monthly: null,
-    annual: null,
-    graduated: [
-      { range: '1–250 devices',   price: 6 },
-      { range: '251–1,000 devices', price: 5 },
-      { range: '1,001+ devices', price: 4 },
-    ],
-    color: 'green',
-    features: [
-      'Everything in Patchable',
-      'Multi-org partner dashboard',
-      'Consolidated billing',
-      'Volume device pricing',
-      'Per-client org isolation',
-      'Dedicated support',
-    ],
-    cta: 'Contact us',
-    ctaHref: 'mailto:hello@mngd.app',
-  },
-  {
-    key: 'msp_managed',
-    name: 'MSP Managed',
-    tagline: 'Volume MDM for MSPs',
-    monthly: null,
-    annual: null,
-    graduated: [
-      { range: '1–250 devices',   price: 9 },
-      { range: '251–1,000 devices', price: 7.50 },
-      { range: '1,001+ devices', price: 6 },
-    ],
-    color: 'violet',
-    features: [
-      'Everything in Managed',
-      'Multi-org partner dashboard',
-      'Consolidated billing',
-      'Volume device pricing',
-      'Per-client org isolation',
-      'Dedicated support',
-    ],
-    cta: 'Contact us',
-    ctaHref: 'mailto:hello@mngd.app',
-  },
-];
-
-const colorMap: Record<string, { border: string; badge: string; check: string }> = {
-  amber:  { border: 'border-amber-500/30',  badge: 'bg-amber-500/10 text-amber-400',  check: 'text-amber-400' },
-  blue:   { border: 'border-blue/40',        badge: 'bg-blue/10 text-blue',            check: 'text-blue' },
-  green:  { border: 'border-green-500/30',  badge: 'bg-green-500/10 text-green-400',  check: 'text-green-400' },
-  violet: { border: 'border-violet-500/30', badge: 'bg-violet-500/10 text-violet-400', check: 'text-violet-400' },
-};
 ---
 
 <Layout
   title="Pricing — mngd"
-  description="Simple, honest pricing for Apple MDM. Four plans from patch management to full MSP MDM."
+  description="Simple, transparent pricing for Apple MDM. Managed plans for small teams, MSP plans for scale."
 >
 
   <section class="section pt-28">
     <div class="container">
 
-      <div class="text-center mb-6">
+      <div class="text-center mb-12">
         <div class="label mb-4">Pricing</div>
         <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
           Simple, honest pricing.
         </h1>
         <p class="text-white/50 max-w-lg mx-auto">
-          No per-seat gotchas on the lower tiers. MSP plans scale linearly with your fleet.
+          One plan for teams managing their own fleet. MSP plans for partners managing clients at scale.
           All plans include a free tier for up to 5 devices.
         </p>
       </div>
 
-      <!-- Toggle (visual only — JS handles it) -->
-      <div class="flex items-center justify-center gap-3 mb-12" id="billing-toggle">
-        <button
-          id="btn-monthly"
-          class="text-sm px-4 py-1.5 rounded-full font-medium transition-colors bg-white/10 text-white"
-          onclick="setBilling('monthly')"
-        >
-          Monthly
-        </button>
-        <button
-          id="btn-annual"
-          class="text-sm px-4 py-1.5 rounded-full font-medium transition-colors text-white/50 hover:text-white"
-          onclick="setBilling('annual')"
-        >
-          Annual
-          <span class="ml-1.5 text-[11px] px-1.5 py-0.5 rounded bg-green-500/20 text-green-400 font-semibold">–20%</span>
-        </button>
-      </div>
+      <!-- ── Calculator ─────────────────────────────────────────────────── -->
+      <div class="card p-8 mb-16 max-w-3xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-start gap-8">
 
-      <!-- Plan grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-        {plans.map((plan) => {
-          const c = colorMap[plan.color];
-          return (
-            <div class={`card p-6 flex flex-col gap-5 ${plan.highlight ? `border ${c.border} ring-1 ring-inset ring-blue/20` : ''}`}>
-
-              <!-- Header -->
-              <div>
-                <div class={`inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3 ${c.badge}`}>
-                  {plan.name}
-                </div>
-                <p class="text-xs text-white/40">{plan.tagline}</p>
+          <!-- Left: inputs -->
+          <div class="flex-1 space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-white/70 mb-2">
+                How many devices?
+              </label>
+              <div class="flex items-center gap-4">
+                <input
+                  id="device-count"
+                  type="range"
+                  min="1"
+                  max="2000"
+                  value="50"
+                  step="1"
+                  class="flex-1 accent-blue h-1.5 rounded-full cursor-pointer"
+                />
+                <input
+                  id="device-input"
+                  type="number"
+                  min="1"
+                  max="9999"
+                  value="50"
+                  class="w-20 text-center bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-blue/50"
+                />
               </div>
-
-              <!-- Price -->
-              <div>
-                {plan.graduated ? (
-                  <div class="space-y-1.5">
-                    {plan.graduated.map(g => (
-                      <div class="flex items-baseline justify-between">
-                        <span class="text-xs text-white/40">{g.range}</span>
-                        <span class="text-sm font-semibold text-white">${g.price}<span class="text-xs font-normal text-white/40">/dev</span></span>
-                      </div>
-                    ))}
-                    <p class="text-[11px] text-white/30 pt-1">Per device per month</p>
-                  </div>
-                ) : (
-                  <>
-                    <div class="flex items-end gap-1">
-                      <span class="monthly-price text-4xl font-semibold text-white">${plan.monthly}</span>
-                      <span class="annual-price text-4xl font-semibold text-white hidden">${plan.annual}</span>
-                      <span class="text-sm text-white/40 mb-1">/mo</span>
-                    </div>
-                    <p class="text-xs text-white/35 mt-1">
-                      Includes {plan.deviceBase} devices ·
-                      <span class="monthly-overage">${plan.overageMonthly}</span>
-                      <span class="annual-overage hidden">${plan.overageMonthly}</span>
-                      /device above
-                    </p>
-                  </>
-                )}
-              </div>
-
-              <!-- CTA -->
-              <a
-                href={plan.ctaHref ?? 'https://app.mngd.app/register'}
-                class={`text-center text-sm font-medium py-2 rounded-lg transition-colors ${
-                  plan.highlight
-                    ? 'bg-blue hover:bg-blue-hover text-white'
-                    : 'border border-white/10 hover:border-white/20 text-white/70 hover:text-white'
-                }`}
-              >
-                {plan.cta}
-              </a>
-
-              <!-- Features -->
-              <ul class="space-y-2.5">
-                {plan.features.map(f => (
-                  <li class="flex items-start gap-2 text-sm text-white/55">
-                    <svg class={`w-4 h-4 mt-0.5 shrink-0 ${c.check}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-
             </div>
-          );
-        })}
+
+            <div>
+              <label class="block text-sm font-medium text-white/70 mb-2">Billing</label>
+              <div class="flex gap-2">
+                <button id="btn-monthly" onclick="setBilling('monthly')"
+                  class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors bg-white/10 text-white">
+                  Monthly
+                </button>
+                <button id="btn-annual" onclick="setBilling('annual')"
+                  class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors text-white/50 hover:text-white">
+                  Annual
+                  <span class="ml-1.5 text-[11px] px-1.5 py-0.5 rounded bg-green-500/20 text-green-400 font-semibold">–20%</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: estimated costs -->
+          <div class="flex-1 space-y-3">
+            <p class="text-xs text-white/30 uppercase tracking-wider font-medium mb-4">Estimated monthly cost</p>
+
+            <!-- Managed -->
+            <div id="calc-managed" class="flex items-center justify-between px-4 py-3 rounded-xl border border-blue/30 bg-blue/5">
+              <div>
+                <p class="text-sm font-medium text-white">Managed</p>
+                <p class="text-xs text-white/40">Your own fleet</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xl font-semibold text-white"><span id="managed-price">—</span></p>
+                <p class="text-[11px] text-white/35">/month</p>
+              </div>
+            </div>
+
+            <!-- MSP Patch -->
+            <div id="calc-msp-patch" class="flex items-center justify-between px-4 py-3 rounded-xl border border-white/8 bg-white/3">
+              <div>
+                <p class="text-sm font-medium text-white">MSP Patch</p>
+                <p class="text-xs text-white/40">Patch mgmt across clients</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xl font-semibold text-white"><span id="msp-patch-price">—</span></p>
+                <p class="text-[11px] text-white/35">/month</p>
+              </div>
+            </div>
+
+            <!-- MSP Managed -->
+            <div id="calc-msp-managed" class="flex items-center justify-between px-4 py-3 rounded-xl border border-white/8 bg-white/3">
+              <div>
+                <p class="text-sm font-medium text-white">MSP Managed</p>
+                <p class="text-xs text-white/40">Full MDM across clients</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xl font-semibold text-white"><span id="msp-managed-price">—</span></p>
+                <p class="text-[11px] text-white/35">/month</p>
+              </div>
+            </div>
+
+            <p id="calc-note" class="text-[11px] text-white/25 pt-1 text-right"></p>
+          </div>
+
+        </div>
       </div>
 
-      <!-- Free plan note -->
+      <!-- ── Plan cards ─────────────────────────────────────────────────── -->
+      <div class="grid md:grid-cols-3 gap-4 items-start max-w-4xl mx-auto">
+
+        <!-- Managed -->
+        <div class="card p-6 flex flex-col gap-5 border border-blue/40 ring-1 ring-inset ring-blue/20">
+          <div>
+            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3 bg-blue/10 text-blue">Managed</div>
+            <p class="text-xs text-white/40">Full Apple MDM for your own fleet</p>
+          </div>
+          <div>
+            <div class="flex items-end gap-1">
+              <span class="text-4xl font-semibold text-white">$59</span>
+              <span class="text-sm text-white/40 mb-1">/mo</span>
+            </div>
+            <p class="text-xs text-white/35 mt-1">Includes 25 devices · $4.50/device above</p>
+          </div>
+          <a href="https://app.mngd.app/register" class="text-center text-sm font-medium py-2 rounded-lg bg-blue hover:bg-blue-hover text-white transition-colors">
+            Get started
+          </a>
+          <ul class="space-y-2.5">
+            {[
+              'DDM-native Apple MDM',
+              'SCEP device certificates',
+              'Apple Business Manager',
+              'FileVault + key escrow',
+              'Profiles & declarations',
+              'Script execution',
+              'SCIM 2.0 provisioning',
+              'Automations engine',
+              'API access',
+            ].map(f => (
+              <li class="flex items-start gap-2 text-sm text-white/55">
+                <svg class="w-4 h-4 mt-0.5 shrink-0 text-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- MSP Patch -->
+        <div class="card p-6 flex flex-col gap-5">
+          <div>
+            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3 bg-green-500/10 text-green-400">MSP Patch</div>
+            <p class="text-xs text-white/40">Patch management across all your clients</p>
+          </div>
+          <div class="space-y-1.5">
+            {[
+              { range: '1–250 devices',      price: '$6' },
+              { range: '251–1,000 devices',  price: '$5' },
+              { range: '1,001+ devices',     price: '$4' },
+            ].map(g => (
+              <div class="flex items-baseline justify-between">
+                <span class="text-xs text-white/40">{g.range}</span>
+                <span class="text-sm font-semibold text-white">{g.price}<span class="text-xs font-normal text-white/40">/dev</span></span>
+              </div>
+            ))}
+            <p class="text-[11px] text-white/30 pt-1">Per device per month · across all client orgs</p>
+          </div>
+          <a href="mailto:hello@mngd.app" class="text-center text-sm font-medium py-2 rounded-lg border border-white/10 hover:border-white/20 text-white/70 hover:text-white transition-colors">
+            Contact us
+          </a>
+          <ul class="space-y-2.5">
+            {[
+              'Multi-org partner dashboard',
+              'Consolidated billing',
+              'Volume device pricing',
+              'Per-client org isolation',
+              'Patch management + CVE tracking',
+              'Slack & Teams notifications',
+              'Dedicated support',
+            ].map(f => (
+              <li class="flex items-start gap-2 text-sm text-white/55">
+                <svg class="w-4 h-4 mt-0.5 shrink-0 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- MSP Managed -->
+        <div class="card p-6 flex flex-col gap-5">
+          <div>
+            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3 bg-violet-500/10 text-violet-400">MSP Managed</div>
+            <p class="text-xs text-white/40">Full MDM across all your clients</p>
+          </div>
+          <div class="space-y-1.5">
+            {[
+              { range: '1–250 devices',      price: '$9' },
+              { range: '251–1,000 devices',  price: '$7.50' },
+              { range: '1,001+ devices',     price: '$6' },
+            ].map(g => (
+              <div class="flex items-baseline justify-between">
+                <span class="text-xs text-white/40">{g.range}</span>
+                <span class="text-sm font-semibold text-white">{g.price}<span class="text-xs font-normal text-white/40">/dev</span></span>
+              </div>
+            ))}
+            <p class="text-[11px] text-white/30 pt-1">Per device per month · across all client orgs</p>
+          </div>
+          <a href="mailto:hello@mngd.app" class="text-center text-sm font-medium py-2 rounded-lg border border-white/10 hover:border-white/20 text-white/70 hover:text-white transition-colors">
+            Contact us
+          </a>
+          <ul class="space-y-2.5">
+            {[
+              'Everything in MSP Patch',
+              'Full Apple MDM (DDM-native)',
+              'SCEP device certificates',
+              'Apple Business Manager',
+              'FileVault + key escrow',
+              'Profiles & declarations',
+              'SCIM 2.0 provisioning',
+              'Dedicated support',
+            ].map(f => (
+              <li class="flex items-start gap-2 text-sm text-white/55">
+                <svg class="w-4 h-4 mt-0.5 shrink-0 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Free tier note -->
       <div class="mt-6 text-center">
         <p class="text-sm text-white/35">
           All plans include a <span class="text-white/60">free tier for up to 5 devices</span> — no credit card required.
         </p>
       </div>
 
-      <!-- FAQ -->
+      <!-- ── FAQ ────────────────────────────────────────────────────────── -->
       <div class="mt-24 max-w-2xl mx-auto">
         <h2 class="text-2xl font-semibold text-white tracking-tight mb-8 text-center">Common questions</h2>
         <div class="space-y-4">
           {[
             {
               q: 'What counts as a device?',
-              a: 'Any Mac, iPhone, iPad, or AppleTV enrolled in mngd. Devices are counted per org. Deleted or unenrolled devices stop counting immediately.',
+              a: 'Any Mac, iPhone, iPad, or Apple TV enrolled in mngd. For MSP plans, devices are counted across all your client orgs. Deleted or unenrolled devices stop counting immediately.',
             },
             {
               q: 'Can I switch plans?',
@@ -235,12 +267,12 @@ const colorMap: Record<string, { border: string; badge: string; check: string }>
               a: 'No minimum. MSP plans are billed monthly based on actual device count across all your client orgs. Scale up or down freely.',
             },
             {
-              q: 'What happens to existing Patchable customers?',
-              a: 'If you\'re running Patchable today, your agent is already an mngd agent. Upgrading to a Managed plan adds full MDM — no re-enrollment, no migration.',
+              q: 'How does the Managed plan overage work?',
+              a: 'The base $59/mo covers up to 25 devices. Each additional device is $4.50/month, billed based on your peak device count for the period.',
             },
             {
               q: 'Is there an annual discount?',
-              a: 'Yes — annual plans on Patchable and Managed are 20% less than paying monthly. MSP plans are currently monthly-only.',
+              a: 'Yes — annual billing on the Managed plan is 20% less than paying monthly. MSP plans are currently monthly-only.',
             },
           ].map(faq => (
             <details class="card p-5 group">
@@ -262,34 +294,94 @@ const colorMap: Record<string, { border: string; badge: string; check: string }>
 </Layout>
 
 <script>
-  function setBilling(mode: 'monthly' | 'annual') {
-    const isAnnual = mode === 'annual';
+  type BillingMode = 'monthly' | 'annual';
+  let billing: BillingMode = 'monthly';
 
-    document.querySelectorAll('.monthly-price').forEach(el => {
-      (el as HTMLElement).classList.toggle('hidden', isAnnual);
-    });
-    document.querySelectorAll('.annual-price').forEach(el => {
-      (el as HTMLElement).classList.toggle('hidden', !isAnnual);
-    });
-    document.querySelectorAll('.monthly-overage').forEach(el => {
-      (el as HTMLElement).classList.toggle('hidden', isAnnual);
-    });
-    document.querySelectorAll('.annual-overage').forEach(el => {
-      (el as HTMLElement).classList.toggle('hidden', !isAnnual);
-    });
+  // Pricing constants
+  const MANAGED_BASE_MONTHLY = 59;
+  const MANAGED_BASE_ANNUAL  = 47;   // ~20% off
+  const MANAGED_DEVICES_INCLUDED = 25;
+  const MANAGED_OVERAGE = 4.50;
 
-    const btnMonthly = document.getElementById('btn-monthly')!;
-    const btnAnnual  = document.getElementById('btn-annual')!;
+  const MSP_PATCH_TIERS  = [{ max: 250, rate: 6 }, { max: 1000, rate: 5 }, { max: Infinity, rate: 4 }];
+  const MSP_MANAGED_TIERS = [{ max: 250, rate: 9 }, { max: 1000, rate: 7.50 }, { max: Infinity, rate: 6 }];
 
-    btnMonthly.classList.toggle('bg-white/10', !isAnnual);
-    btnMonthly.classList.toggle('text-white',  !isAnnual);
-    btnMonthly.classList.toggle('text-white/50', isAnnual);
-
-    btnAnnual.classList.toggle('bg-white/10', isAnnual);
-    btnAnnual.classList.toggle('text-white',  isAnnual);
-    btnAnnual.classList.toggle('text-white/50', !isAnnual);
+  function graduatedCost(devices: number, tiers: {max: number; rate: number}[]): number {
+    let cost = 0;
+    let remaining = devices;
+    let prev = 0;
+    for (const tier of tiers) {
+      const inTier = Math.min(remaining, tier.max - prev);
+      if (inTier <= 0) break;
+      cost += inTier * tier.rate;
+      remaining -= inTier;
+      prev = tier.max;
+      if (remaining <= 0) break;
+    }
+    return cost;
   }
 
-  // Expose globally for onclick attributes
+  function fmt(n: number): string {
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function recalculate() {
+    const devices = Math.max(1, parseInt((document.getElementById('device-input') as HTMLInputElement).value) || 1);
+    const isAnnual = billing === 'annual';
+
+    // Managed
+    const managedBase = isAnnual ? MANAGED_BASE_ANNUAL : MANAGED_BASE_MONTHLY;
+    const managedOverage = Math.max(0, devices - MANAGED_DEVICES_INCLUDED) * MANAGED_OVERAGE;
+    const managedTotal = managedBase + managedOverage;
+
+    // MSP
+    const mspPatchTotal   = graduatedCost(devices, MSP_PATCH_TIERS);
+    const mspManagedTotal = graduatedCost(devices, MSP_MANAGED_TIERS);
+
+    document.getElementById('managed-price')!.textContent    = fmt(managedTotal);
+    document.getElementById('msp-patch-price')!.textContent  = fmt(mspPatchTotal);
+    document.getElementById('msp-managed-price')!.textContent = fmt(mspManagedTotal);
+
+    // Note for annual
+    const note = document.getElementById('calc-note')!;
+    note.textContent = isAnnual ? 'Managed shown at annual rate (20% off)' : '';
+
+    // Highlight the best MSP value
+    const patchCard   = document.getElementById('calc-msp-patch')!;
+    const managedCard = document.getElementById('calc-msp-managed')!;
+    // Reset
+    [patchCard, managedCard].forEach(el => {
+      el.className = 'flex items-center justify-between px-4 py-3 rounded-xl border border-white/8 bg-white/3';
+    });
+  }
+
+  function setBilling(mode: BillingMode) {
+    billing = mode;
+    const btnMonthly = document.getElementById('btn-monthly')!;
+    const btnAnnual  = document.getElementById('btn-annual')!;
+    btnMonthly.className = `px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${mode === 'monthly' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`;
+    btnAnnual.className  = `px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${mode === 'annual'  ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`;
+    recalculate();
+  }
+
+  // Sync slider ↔ input
+  const slider = document.getElementById('device-count') as HTMLInputElement;
+  const input  = document.getElementById('device-input') as HTMLInputElement;
+
+  slider.addEventListener('input', () => {
+    input.value = slider.value;
+    recalculate();
+  });
+
+  input.addEventListener('input', () => {
+    const v = Math.min(9999, Math.max(1, parseInt(input.value) || 1));
+    slider.value = String(Math.min(v, 2000));
+    recalculate();
+  });
+
+  // Expose for onclick
   (window as any).setBilling = setBilling;
+
+  // Init
+  recalculate();
 </script>

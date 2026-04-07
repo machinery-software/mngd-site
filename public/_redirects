@@ -1,7 +1,2 @@
-# SPA fallback — Astro handles this natively, but belt-and-suspenders for CF Pages
+# Docs redirect — handled at edge
 /docs   https://docs.mngd.app   301
-
-# Redirect getmngd.app to canonical domain
-https://getmngd.app/*   https://mngd.app/:splat   301
-https://www.getmngd.app/*   https://mngd.app/:splat   301
-https://www.mngd.app/*   https://mngd.app/:splat   301

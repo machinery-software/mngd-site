@@ -1,0 +1,614 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="mngd Patch — Mac app and OS patching, free up to 25 devices"
+  description="mngd Patch keeps every Mac patched. Lightweight agent, 3,000+ apps covered, CVE scoring, free forever up to 25 devices."
+  canonical="https://mngd.app/patch"
+  productColor="#0F6E56"
+  productName="mngd Patch"
+>
+
+<style>
+  /* ── Override body bg to pure black, matching machinery.software ── */
+  body { background: #000 !important; }
+
+  /* ── Patch-specific tokens ──────────────────────────────────────── */
+  .patch-page {
+    --pa: #3B82F6;
+    --pa-dim: rgba(59,130,246,0.15);
+    --pa-brd: rgba(59,130,246,0.28);
+    --green: #22C55E;
+    --green-dim: rgba(34,197,94,0.12);
+    --green-brd: rgba(34,197,94,0.25);
+    --border: rgba(255,255,255,0.08);
+    --border-med: rgba(255,255,255,0.12);
+    --muted: rgba(255,255,255,0.38);
+    --muted-med: rgba(255,255,255,0.55);
+    --bg-1: #0a0a0a;
+    --bg-2: #111;
+    --bg-3: #161616;
+  }
+
+  /* ── Circuit canvas ─────────────────────────────────────────────── */
+  .hero-bg { position: relative; overflow: hidden; }
+  #circuit-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .hero-bg > *:not(#circuit-canvas) { position: relative; z-index: 1; }
+
+  /* ── Hero badge ─────────────────────────────────────────────────── */
+  .free-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.05em;
+    color: var(--green);
+    background: var(--green-dim);
+    border: 1px solid var(--green-brd);
+    padding: 4px 14px; border-radius: 99px;
+    margin-bottom: 28px;
+  }
+  .free-badge::before {
+    content: ''; display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%; background: var(--green);
+  }
+
+  /* ── Eyebrow label ──────────────────────────────────────────────── */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.08em;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 40px;
+  }
+  .eyebrow::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--border); max-width: 80px;
+  }
+
+  /* ── Divider ────────────────────────────────────────────────────── */
+  .patch-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ── Stat strip ─────────────────────────────────────────────────── */
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    max-width: 1080px; margin: 0 auto; padding: 36px 32px;
+  }
+  .stat-item {
+    padding: 12px 24px; border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat-item:first-child { padding-left: 0; }
+  .stat-item:last-child { border-right: none; padding-right: 0; }
+  .stat-num { font-size: 24px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; margin-bottom: 5px; }
+  .stat-label { font-size: 12px; color: var(--muted); }
+
+  /* ── Pillars ────────────────────────────────────────────────────── */
+  .pillars {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  }
+  .pillar {
+    background: var(--bg-1); padding: 36px 32px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .pillar-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--pa-dim); border: 1px solid var(--pa-brd);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--pa); flex-shrink: 0;
+  }
+  .pillar h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; }
+  .pillar p  { font-size: 14px; color: var(--muted-med); line-height: 1.65; }
+  .pillar-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    margin-top: auto; padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  /* ── How it works ───────────────────────────────────────────────── */
+  .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .how-step {
+    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    padding: 24px 0; border-bottom: 1px solid var(--border);
+  }
+  .how-step:last-child { border-bottom: none; }
+  .step-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); padding-top: 3px; }
+  .step-content h4 { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .step-content p  { font-size: 13px; color: var(--muted-med); line-height: 1.6; }
+
+  /* ── Not included ───────────────────────────────────────────────── */
+  .not-box {
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 32px 36px; background: var(--bg-1);
+  }
+  .not-box h3 { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .not-box p  { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+  .not-tags   { display: flex; flex-wrap: wrap; gap: 8px; }
+  .not-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--muted); background: var(--bg-2);
+    border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px;
+  }
+  .upgrade-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; color: var(--pa); margin-top: 20px; transition: color 0.15s;
+  }
+  .upgrade-link:hover { color: #60A5FA; }
+
+  /* ── Pricing ────────────────────────────────────────────────────── */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  }
+  .plan-card {
+    background: var(--bg-1); padding: 32px 28px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .plan-card.featured { background: var(--bg-2); position: relative; }
+  .plan-card.featured::before {
+    content: 'Most popular'; position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.06em;
+    color: var(--pa); background: var(--pa-dim);
+    border: 1px solid var(--pa-brd); border-top: none;
+    padding: 3px 12px; border-radius: 0 0 6px 6px;
+  }
+  .plan-name { font-size: 13px; font-weight: 500; color: var(--muted-med); letter-spacing: 0.02em; }
+  .plan-amount { font-size: 32px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+  .plan-amount span { font-size: 16px; font-weight: 400; color: var(--muted-med); }
+  .plan-billing { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .plan-desc {
+    font-size: 13px; color: var(--muted-med); line-height: 1.6;
+    padding-bottom: 20px; border-bottom: 1px solid var(--border);
+  }
+  .plan-features { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .plan-feature  { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted-med); line-height: 1.4; }
+  .plan-feature .check { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+  .plan-cta {
+    display: block; text-align: center;
+    font-size: 14px; font-weight: 500;
+    padding: 10px; border-radius: 6px; transition: background 0.15s, border-color 0.15s;
+    margin-top: auto;
+  }
+  .plan-cta-primary { background: var(--pa); color: #fff; }
+  .plan-cta-primary:hover { background: #2563EB; }
+  .plan-cta-outline { border: 1px solid var(--border-med); color: #fff; }
+  .plan-cta-outline:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+  /* ── Upgrade band ───────────────────────────────────────────────── */
+  .upgrade-band {
+    background: var(--bg-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 40px 48px; display: flex; align-items: center;
+    justify-content: space-between; gap: 32px; flex-wrap: wrap;
+  }
+  .upgrade-band h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .upgrade-band p  { font-size: 14px; color: var(--muted-med); max-width: 480px; line-height: 1.65; }
+
+  /* ── Buttons ────────────────────────────────────────────────────── */
+  .patch-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 500; color: #fff;
+    background: var(--pa); padding: 12px 24px; border-radius: 7px;
+    transition: background 0.15s, transform 0.1s; letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .patch-btn-primary:hover { background: #2563EB; transform: translateY(-1px); }
+  .patch-btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 500; color: #fff;
+    background: transparent; padding: 11px 24px; border-radius: 7px;
+    border: 1px solid var(--border-med);
+    transition: border-color 0.15s, background 0.15s; letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .patch-btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+  /* ── Responsive ─────────────────────────────────────────────────── */
+  @media (max-width: 860px) {
+    .pillars { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .plan-card.featured::before { display: none; }
+    .upgrade-band { flex-direction: column; padding: 32px 24px; }
+    .stat-strip { grid-template-columns: 1fr 1fr; padding: 28px 20px; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 12px 0; text-align: left; }
+    .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+  }
+  @media (max-width: 540px) {
+    .stat-strip { grid-template-columns: 1fr; }
+    .stat-item { border-bottom: 1px solid var(--border); }
+    .stat-item:last-child { border-bottom: none; }
+    .pillar { padding: 28px 20px; }
+    .not-box { padding: 24px 20px; }
+    .upgrade-band { padding: 28px 20px; }
+  }
+</style>
+
+<div class="patch-page" style="background:#000; color:#fff; font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased;">
+
+  <!-- ── Hero with circuit background ──────────────────────────────── -->
+  <div class="hero-bg">
+    <canvas id="circuit-canvas" aria-hidden="true"></canvas>
+    <div style="max-width:1080px; margin:0 auto; padding:96px 32px 80px; text-align:center;">
+      <div class="free-badge">Free up to 25 devices — no card required</div>
+      <h1 style="font-size:clamp(40px,6vw,68px); font-weight:600; letter-spacing:-0.04em; line-height:1.05; max-width:760px; margin:0 auto 24px;">
+        Keep every Mac patched.<br>
+        <span style="color:rgba(255,255,255,0.55);">Without the MDM cost.</span>
+      </h1>
+      <p style="font-size:18px; font-weight:300; color:rgba(255,255,255,0.55); max-width:520px; margin:0 auto 40px; line-height:1.65; letter-spacing:-0.01em;">
+        mngd Patch runs a lightweight agent on each Mac, tracks every third-party app and the OS, and remediates what's out of date. Start here — add full MDM when you need it.
+      </p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:20px;">
+        <a href="https://app.mngd.app/register" class="patch-btn-primary">
+          Get started
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
+        </a>
+        <a href="#pricing" class="patch-btn-secondary">See pricing</a>
+      </div>
+      <p style="font-size:13px; color:rgba(255,255,255,0.38);">
+        <strong style="color:rgba(255,255,255,0.55); font-weight:500;">1–25 devices free, forever.</strong> No trial clock. No credit card.
+      </p>
+    </div>
+  </div>
+
+  <hr class="patch-divider" />
+
+  <!-- ── Stats ─────────────────────────────────────────────────────── -->
+  <div class="stat-strip">
+    <div class="stat-item">
+      <div class="stat-num">3,000+</div>
+      <div class="stat-label">Apps covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">macOS</div>
+      <div class="stat-label">OS update tracking</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">CVE</div>
+      <div class="stat-label">Priority scoring</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">MSP</div>
+      <div class="stat-label">Multi-tenant ready</div>
+    </div>
+  </div>
+
+  <hr class="patch-divider" />
+
+  <!-- ── Three pillars ─────────────────────────────────────────────── -->
+  <section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
+    <p class="eyebrow">what it does</p>
+    <div class="pillars">
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        </div>
+        <h3>Apps you already have installed are the attack surface.</h3>
+        <p>The agent inventories every app on every Mac and scores each one against known CVEs. Out-of-date apps get patched silently — no user interaction required when the app isn't running.</p>
+        <div class="pillar-detail">
+          <span>3,000+ apps covered</span>
+          <span>CVE scoring via OSV.dev</span>
+          <span>Silent install when app is closed</span>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+        </div>
+        <h3>macOS updates without the MDM fight.</h3>
+        <p>Tracks available and installed macOS versions across your fleet. Nudge users to update, defer updates by policy, or enforce a deadline. No MDM enrollment required.</p>
+        <div class="pillar-detail">
+          <span>SOFA-backed version tracking</span>
+          <span>Nudge, defer, or enforce by policy</span>
+          <span>Works on non-enrolled Macs</span>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 2v8M5 7l3 3 3-3"/><path d="M3 13h10"/></svg>
+        </div>
+        <h3>One agent, same dashboard as mngd.</h3>
+        <p>When you outgrow Patch — enrollment, profiles, Santa, SCIM — flip a flag. No rip and replace, no re-enrollment, no migration. Your fleet stays in place.</p>
+        <div class="pillar-detail">
+          <span>Same agent binary</span>
+          <span>Same fleet inventory</span>
+          <span>One-flag upgrade to full MDM</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="patch-divider" />
+
+  <!-- ── How it works ──────────────────────────────────────────────── -->
+  <section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
+    <div class="how-grid">
+      <div>
+        <h2 style="font-size:clamp(28px,4vw,40px); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:16px;">How it works.</h2>
+        <p style="font-size:15px; color:rgba(255,255,255,0.55); line-height:1.7; max-width:380px;">A lightweight agent runs on each Mac. It phones home on a schedule, gets its instructions, and does its job quietly. You watch a dashboard. Your users don't notice.</p>
+      </div>
+      <div>
+        <div class="how-step">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <h4>Install the agent</h4>
+            <p>One pkg, deployed however you already deploy software — Munki, Jamf, manual, MDM, whatever. The agent enrolls itself and appears in your dashboard within seconds.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <h4>Agent inventories the Mac</h4>
+            <p>On first run and on a schedule, the agent reports every installed app, its version, and the current macOS version. CVE scores are applied server-side.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <h4>You set policy, we remediate</h4>
+            <p>Define patch windows, deferral rules, and notification preferences. The agent checks in and acts — silently patching closed apps, nudging users for open ones.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="step-num">04</span>
+          <div class="step-content">
+            <h4>Slack and email alerts</h4>
+            <p>Get notified when a high-severity CVE lands in your fleet, when a patch fails, or when a Mac falls behind your compliance threshold.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="patch-divider" />
+
+  <!-- ── What's not included ───────────────────────────────────────── -->
+  <section style="max-width:1080px; margin:0 auto; padding:0 32px 80px;">
+    <div class="not-box">
+      <h3>What mngd Patch doesn't include — intentionally.</h3>
+      <p>Patch is the entry point. It doesn't try to be everything. These capabilities live in mngd.</p>
+      <div class="not-tags">
+        <span class="not-tag">MDM profile deployment</span>
+        <span class="not-tag">ADE / DEP enrollment</span>
+        <span class="not-tag">Apple Business Manager</span>
+        <span class="not-tag">VPP app distribution</span>
+        <span class="not-tag">Santa allow/deny listing</span>
+        <span class="not-tag">DDM declarations</span>
+        <span class="not-tag">mSCP compliance baselines</span>
+        <span class="not-tag">SCEP certificates</span>
+        <span class="not-tag">Bootstrap Token escrow</span>
+      </div>
+      <a href="/pricing" class="upgrade-link">
+        Compare Patch vs mngd →
+      </a>
+    </div>
+  </section>
+
+  <hr class="patch-divider" />
+
+  <!-- ── Pricing ───────────────────────────────────────────────────── -->
+  <section style="max-width:1080px; margin:0 auto; padding:80px 32px;" id="pricing">
+    <p class="eyebrow">pricing</p>
+    <div class="pricing-grid">
+
+      <!-- Free -->
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div>
+          <!-- PRICE -->
+          <div class="plan-amount">$0</div>
+          <div class="plan-billing">1–25 devices, forever</div>
+        </div>
+        <p class="plan-desc">Full access to every Patch feature. No credit card, no expiry. Real work, not a teaser.</p>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="check">✓</span><span>App patching, all features</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>macOS update tracking</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>CVE scoring</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>Slack + email alerts</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>Up to 25 devices</span></div>
+        </div>
+        <a href="https://app.mngd.app/register" class="plan-cta plan-cta-outline">Get started</a>
+      </div>
+
+      <!-- Flat -->
+      <div class="plan-card featured">
+        <div class="plan-name">Flat</div>
+        <div>
+          <!-- PRICE -->
+          <div class="plan-amount">$99<span>/mo</span></div>
+          <div class="plan-billing">26–100 devices · +20% monthly billing</div>
+        </div>
+        <p class="plan-desc">One number, easy to expense. Up to 100 devices, no per-device math.</p>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="check">✓</span><span>Everything in Free</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>Up to 100 devices</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>Priority support</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>Annual billing available</span></div>
+        </div>
+        <a href="https://app.mngd.app/register" class="plan-cta plan-cta-primary">Get started</a>
+      </div>
+
+      <!-- Usage -->
+      <div class="plan-card">
+        <div class="plan-name">Usage</div>
+        <div>
+          <!-- PRICE -->
+          <div class="plan-amount">$0.99<span>/device/mo</span></div>
+          <div class="plan-billing">101+ devices · annual billing</div>
+        </div>
+        <p class="plan-desc">Per-device for larger fleets. Annual default, monthly at +20%. No setup fees.</p>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="check">✓</span><span>Everything in Flat</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>Unlimited devices</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>MSP multi-tenant dashboard</span></div>
+          <div class="plan-feature"><span class="check">✓</span><span>Volume discounts available</span></div>
+        </div>
+        <a href="https://app.mngd.app/register" class="plan-cta plan-cta-outline">Get started</a>
+      </div>
+
+    </div>
+    <p style="font-size:13px; color:rgba(255,255,255,0.38); margin-top:20px; text-align:center;">
+      Managing multiple customers? <a href="/for-msps" style="color:#3B82F6;">See MSP pricing →</a>
+    </p>
+  </section>
+
+  <hr class="patch-divider" />
+
+  <!-- ── Upgrade band ───────────────────────────────────────────────── -->
+  <section style="max-width:1080px; margin:0 auto; padding:80px 32px 0;">
+    <div class="upgrade-band">
+      <div>
+        <h2>Ready for full MDM?</h2>
+        <p>When you need device enrollment, configuration profiles, Apple Business Manager, Santa, or mSCP compliance — upgrade to mngd. Same agent, same fleet. One flag flipped.</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
+        <a href="/pricing" class="patch-btn-secondary">Compare plans</a>
+        <a href="https://app.mngd.app/register" class="patch-btn-primary">
+          Start with Patch
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Final CTA ──────────────────────────────────────────────────── -->
+  <div style="text-align:center; padding:96px 32px;">
+    <h2 style="font-size:clamp(32px,5vw,52px); font-weight:600; letter-spacing:-0.04em; line-height:1.1; margin-bottom:16px;">
+      Start patching today.<br>It's free.
+    </h2>
+    <p style="font-size:16px; color:rgba(255,255,255,0.55); margin-bottom:36px;">
+      Up to 25 devices, every feature, no card required.
+    </p>
+    <div style="display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap;">
+      <a href="https://app.mngd.app/register" class="patch-btn-primary">
+        Create your account
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
+      </a>
+      <a href="https://docs.mngd.app" class="patch-btn-secondary">Read the docs</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Circuit trace animation ───────────────────────────────────── -->
+<script>
+  (function() {
+    const canvas = document.getElementById('circuit-canvas') as HTMLCanvasElement;
+    const parent = canvas.parentElement!;
+    const ctx = canvas.getContext('2d')!;
+    const GRID = 36, LINE_W = 1, DOT_R = 2.5;
+    const TRACE_ALPHA = 0.13, DOT_ALPHA = 0.22, PULSE_SPEED = 0.4;
+    let W: number, H: number, traces: any[], pulses: any[], raf: number;
+    const dotSet = new Set<string>(), dots: {x:number,y:number}[] = [];
+
+    function resize() {
+      W = parent.offsetWidth; H = parent.offsetHeight;
+      canvas.width = W; canvas.height = H;
+      dotSet.clear(); dots.length = 0; build();
+    }
+
+    function build() {
+      traces = []; pulses = [];
+      const cols = Math.ceil(W / GRID) + 1;
+      const rows = Math.ceil(H / GRID) + 1;
+      for (let r = 0; r < rows; r++) {
+        const y = r * GRID, fade = Math.max(0, 1 - (y / H) * 1.4);
+        for (let c = 0; c < cols - 1; c++) {
+          if (Math.random() < 0.38 * fade + 0.04) {
+            const x1 = c * GRID, x2 = (c + 1) * GRID;
+            traces.push({ x1, y1: y, x2, y2: y, len: GRID });
+            dot(x1, y); dot(x2, y);
+          }
+        }
+      }
+      for (let c = 0; c < Math.ceil(W / GRID) + 1; c++) {
+        const x = c * GRID;
+        for (let r = 0; r < Math.ceil(H / GRID); r++) {
+          const y1 = r * GRID, y2 = (r + 1) * GRID;
+          const fade = Math.max(0, 1 - (y1 / H) * 1.4);
+          if (Math.random() < 0.28 * fade + 0.03) {
+            traces.push({ x1: x, y1, x2: x, y2, len: GRID });
+            dot(x, y1); dot(x, y2);
+          }
+        }
+      }
+      const el = traces.filter(t => Math.min(t.y1, t.y2) < H * 0.75);
+      for (let i = 0; i < Math.min(8, Math.floor(el.length * 0.06)); i++) {
+        spawn(el[Math.floor(Math.random() * el.length)]);
+      }
+    }
+
+    function dot(x: number, y: number) {
+      const k = `${x},${y}`;
+      if (!dotSet.has(k)) { dotSet.add(k); dots.push({x, y}); }
+    }
+
+    function spawn(trace: any) {
+      pulses.push({ trace, t: 0, forward: Math.random() > 0.5, speed: PULSE_SPEED * (0.6 + Math.random() * 0.8) });
+    }
+
+    let last: number | null = null;
+    function draw(ts: number) {
+      if (!last) last = ts;
+      const dt = ts - last; last = ts;
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = LINE_W; ctx.lineCap = 'square';
+      for (const tr of traces) {
+        const topY = Math.min(tr.y1, tr.y2);
+        const alpha = TRACE_ALPHA * Math.max(0, 1 - (topY / H) * 1.6);
+        if (alpha < 0.004) continue;
+        ctx.strokeStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+        ctx.beginPath(); ctx.moveTo(tr.x1, tr.y1); ctx.lineTo(tr.x2, tr.y2); ctx.stroke();
+      }
+      for (const d of dots) {
+        const alpha = DOT_ALPHA * Math.max(0, 1 - (d.y / H) * 1.6);
+        if (alpha < 0.006) continue;
+        ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(d.x, d.y, DOT_R, 0, Math.PI * 2); ctx.fill();
+      }
+      const rem: number[] = [];
+      for (let i = 0; i < pulses.length; i++) {
+        const p = pulses[i]; p.t += (p.speed / p.trace.len) * dt;
+        if (p.t > 1.2) { rem.push(i); continue; }
+        const tC = Math.min(p.t, 1);
+        const px = p.trace.x1 + (p.trace.x2 - p.trace.x1) * (p.forward ? tC : 1 - tC);
+        const py = p.trace.y1 + (p.trace.y2 - p.trace.y1) * (p.forward ? tC : 1 - tC);
+        const pf = Math.max(0, 1 - (Math.min(p.trace.y1, p.trace.y2) / H) * 1.6);
+        if (pf < 0.01) continue;
+        const g = ctx.createRadialGradient(px, py, 0, px, py, 10);
+        g.addColorStop(0, `rgba(59,130,246,${(0.7*pf).toFixed(2)})`);
+        g.addColorStop(0.4, `rgba(59,130,246,${(0.2*pf).toFixed(2)})`);
+        g.addColorStop(1, 'rgba(59,130,246,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(px, py, 10, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = `rgba(147,197,253,${(0.9*pf).toFixed(2)})`;
+        ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI*2); ctx.fill();
+      }
+      for (let i = rem.length-1; i >= 0; i--) pulses.splice(rem[i], 1);
+      if (Math.random() < 0.012) {
+        const el = traces.filter(t => Math.min(t.y1, t.y2) < H * 0.75);
+        if (el.length) spawn(el[Math.floor(Math.random() * el.length)]);
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    resize();
+    window.addEventListener('resize', () => { cancelAnimationFrame(raf); last = null; resize(); raf = requestAnimationFrame(draw); });
+    raf = requestAnimationFrame(draw);
+  })();
+</script>
+
+</Layout>

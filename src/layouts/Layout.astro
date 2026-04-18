@@ -8,6 +8,8 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonical?: string;
+  productColor?: string;
+  productName?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   description = 'Apple MDM built for the DDM era. Device management that stays out of your way.',
   ogImage = 'https://mngd.app/og.png',
   canonical,
+  productColor = '#2D3A9E',
+  productName  = 'mngd',
 } = Astro.props;
 
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
@@ -42,10 +46,15 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toStri
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- JetBrains Mono for labels -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
     <title>{title}</title>
   </head>
-  <body>
-    <Nav />
+  <body class="bg-black">
+    <Nav productColor={productColor} productName={productName} />
     <main>
       <slot />
     </main>

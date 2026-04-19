@@ -3,8 +3,9 @@ const year = new Date().getFullYear();
 
 const links = {
   Product: [
-    { label: 'Features',  href: '/#features' },
+    { label: 'Patch',     href: '/patch' },
     { label: 'Pricing',   href: '/pricing' },
+    { label: 'For MSPs',  href: '/for-msps' },
     { label: 'Changelog', href: '/blog' },
   ],
   Docs: [
@@ -14,7 +15,7 @@ const links = {
     { label: 'Security',         href: 'https://docs.mngd.app/security' },
   ],
   Company: [
-    { label: 'Machinery Software', href: 'https://machinerysoftware.com' },
+    { label: 'Machinery Software', href: 'https://machinery.software' },
     { label: 'Privacy',            href: '/privacy' },
     { label: 'Terms',              href: '/terms' },
   ],
@@ -50,9 +51,8 @@ const links = {
       ))}
     </div>
 
-    <div class="border-t border-white/[0.06] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="border-t border-white/[0.06] pt-8">
       <p class="text-xs text-white/30">© {year} Machinery Software LLC. All rights reserved.</p>
-      <p class="text-xs text-white/20">Built in Vancouver.</p>
     </div>
   </div>
 </footer>

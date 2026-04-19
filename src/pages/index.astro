@@ -7,9 +7,9 @@ import Layout from '../layouts/Layout.astro';
   <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
   <section class="section pt-32 pb-28 text-center relative overflow-hidden">
 
-    <!-- Subtle radial glow -->
+    <!-- Subtle radial glow — navy -->
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue/[0.07] rounded-full blur-3xl"></div>
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-3xl" style="background:rgba(45,58,158,0.12);"></div>
     </div>
 
     <div class="container relative">
@@ -91,8 +91,8 @@ import Layout from '../layouts/Layout.astro';
           },
           {
             icon: '⊜',
-            title: 'Patchable integration',
-            body: 'Already running Patchable? Your agents become mngd agents. One installer, one management plane. Upgrading adds MDM capabilities — no migration, no re-enrollment.',
+            title: 'mngd Patch',
+            body: 'Start with patch management before committing to full MDM. The mngd Patch agent becomes a full MDM agent — no re-enrollment, no migration, no rip and replace.',
           },
           {
             icon: '⊝',
@@ -121,7 +121,7 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- ── How it works ───────────────────────────────────────────────────── -->
-  <section class="section bg-dim/50">
+  <section class="section">
     <div class="container">
       <div class="text-center mb-16">
         <div class="label mb-4">Enrollment</div>
@@ -148,14 +148,17 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- ── Pricing teaser ─────────────────────────────────────────────────── -->
-  <section class="section bg-dim/50">
+  <section class="section">
     <div class="container text-center">
       <div class="label mb-4">Pricing</div>
       <h2 class="text-3xl font-semibold text-white tracking-tight mb-4">Simple, honest pricing.</h2>
       <p class="text-white/50 mb-8 max-w-md mx-auto">
-        One plan for your own fleet. MSP plans that scale linearly with your devices under management.
+        Start free with mngd Patch. Add full MDM when you need it. MSP plans scale linearly with devices under management.
       </p>
-      <a href="/pricing" class="btn-primary">See pricing & calculator</a>
+      <div class="flex items-center justify-center gap-3 flex-wrap">
+        <a href="/patch" class="btn-primary">Start free with Patch</a>
+        <a href="/pricing" class="btn-secondary">See all pricing</a>
+      </div>
     </div>
   </section>
 

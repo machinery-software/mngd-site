@@ -4,180 +4,377 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="mngd — Apple MDM for the DDM era">
 
-  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-  <section class="section pt-32 pb-28 text-center relative overflow-hidden">
+<style>
+  body { background: #000 !important; }
 
-    <!-- Subtle radial glow — navy -->
-    <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-3xl" style="background:rgba(45,58,158,0.12);"></div>
+  .hero-bg { position: relative; overflow: hidden; }
+  #circuit-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .hero-bg > *:not(#circuit-canvas) { position: relative; z-index: 1; }
+
+  .mono-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    display: flex; align-items: center; gap: 12px;
+    text-transform: uppercase;
+  }
+  .mono-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(255,255,255,0.08); max-width: 60px;
+  }
+
+  .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 0; }
+
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; overflow: hidden;
+  }
+  .feature-card {
+    background: #0a0a0a; padding: 32px 28px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .feature-icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px; color: #6B82F0; line-height: 1;
+  }
+  .feature-card h3 {
+    font-size: 15px; font-weight: 600;
+    letter-spacing: -0.01em; line-height: 1.3;
+  }
+  .feature-card p {
+    font-size: 13px; color: rgba(255,255,255,0.45);
+    line-height: 1.65;
+  }
+
+  .step-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; overflow: hidden;
+  }
+  .step-card {
+    background: #0a0a0a; padding: 28px 24px;
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: rgba(255,255,255,0.2);
+    margin-bottom: 16px;
+  }
+  .step-card h3 { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .step-card p  { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+  .cta-band {
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 64px 48px;
+    text-align: center;
+  }
+
+  .mngd-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 500; color: #fff;
+    background: #2D3A9E; padding: 12px 24px; border-radius: 7px;
+    transition: background 0.15s, transform 0.1s;
+    text-decoration: none;
+  }
+  .mngd-btn-primary:hover { background: #242f85; transform: translateY(-1px); }
+
+  .mngd-btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 500; color: #fff;
+    background: transparent; padding: 11px 24px; border-radius: 7px;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: border-color 0.15s, background 0.15s;
+    text-decoration: none;
+  }
+  .mngd-btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+  @media (max-width: 860px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .step-grid    { grid-template-columns: 1fr 1fr; }
+    .cta-band     { padding: 40px 24px; }
+  }
+  @media (max-width: 540px) {
+    .step-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<div class="hero-bg">
+  <canvas id="circuit-canvas" aria-hidden="true"></canvas>
+  <div style="max-width:1080px; margin:0 auto; padding:112px 32px 96px; text-align:center;">
+
+    <div style="display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:5px 14px; border-radius:99px; margin-bottom:32px; text-transform:uppercase;">
+      Apple MDM · DDM-native · macOS 26 ready
     </div>
 
-    <div class="container relative">
-      <div class="label mb-6">Apple MDM · DDM-native · macOS 26 ready</div>
+    <h1 style="font-size:clamp(40px,6vw,72px); font-weight:600; letter-spacing:-0.04em; line-height:1.05; max-width:800px; margin:0 auto 24px;">
+      Device management that<br>
+      <span style="color:rgba(255,255,255,0.45);">stays out of your way.</span>
+    </h1>
 
-      <h1 class="text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.1] mb-6 max-w-3xl mx-auto">
-        Device management that<br />stays out of your way.
-      </h1>
+    <p style="font-size:18px; font-weight:300; color:rgba(255,255,255,0.5); max-width:520px; margin:0 auto 40px; line-height:1.65; letter-spacing:-0.01em;">
+      mngd is a modern Apple MDM platform built on Declarative Device Management.
+      Less polling. Less noise. Devices do what you declare.
+    </p>
 
-      <p class="text-lg text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
-        mngd is a modern Apple MDM platform built on Declarative Device Management.
-        Less polling. Less noise. Devices do what you declare, not what you command.
+    <div style="display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:20px;">
+      <a href="https://app.mngd.app/register" class="mngd-btn-primary">
+        Get started
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
+      </a>
+      <a href="/pricing" class="mngd-btn-secondary">See pricing</a>
+    </div>
+    <p style="font-size:13px; color:rgba(255,255,255,0.3);">
+      Start free with <a href="/patch" style="color:rgba(255,255,255,0.5); text-decoration:underline; text-underline-offset:3px;">mngd Patch</a> — no card required up to 25 devices.
+    </p>
+
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- ── Social proof strip ─────────────────────────────────────────────────── -->
+<div style="max-width:1080px; margin:0 auto; padding:28px 32px; display:flex; align-items:center; justify-content:center; gap:40px; flex-wrap:wrap;">
+  {[
+    'DDM-native from day one',
+    'SCEP device certificates',
+    'Apple Business Manager',
+    'SCIM 2.0 provisioning',
+    'Declarative profiles',
+    'macOS · iOS · iPadOS',
+  ].map(item => (
+    <span style="font-size:12px; color:rgba(255,255,255,0.28); font-weight:500; letter-spacing:0.02em;">{item}</span>
+  ))}
+</div>
+
+<hr class="divider" />
+
+<!-- ── Features ───────────────────────────────────────────────────────────── -->
+<section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
+  <div class="mono-label" style="margin-bottom:40px;">Platform</div>
+  <h2 style="font-size:clamp(28px,4vw,42px); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:48px; max-width:600px;">
+    Built for where Apple MDM is going,<br>not where it's been.
+  </h2>
+
+  <div class="feature-grid">
+    {[
+      { icon: '◈', title: 'Declarative Device Management', body: 'DDM is Apple\'s replacement for the polling-based MDM protocol. mngd speaks DDM natively — declarations, not commands. Devices enforce their own configuration without waiting to be asked.' },
+      { icon: '⬡', title: 'SCEP enrollment', body: 'Devices receive a signed identity certificate at enrollment via SCEP. mngd includes a built-in SCEP CA with a persistent cert/key so devices aren\'t orphaned by server restarts.' },
+      { icon: '⊕', title: 'Apple Business Manager', body: 'Zero-touch deployment. Devices come out of the box enrolled, supervised, and configured — no imaging, no manual steps. ABM tokens are managed per-org.' },
+      { icon: '⊞', title: 'MSP multi-tenancy', body: 'Manage multiple client orgs from a single MSP account. Consolidated billing, per-org feature flags, and a partner dashboard that gives you the full picture at a glance.' },
+      { icon: '⊛', title: 'Smart groups & policies', body: 'Dynamic device groups built from live inventory data. Assign declarations and profiles to groups — mngd handles delivery, retry, and status tracking per device.' },
+      { icon: '⊜', title: 'mngd Patch', body: 'Start with patch management before committing to full MDM. The mngd Patch agent becomes a full MDM agent — no re-enrollment, no migration, no rip and replace.' },
+      { icon: '⊝', title: 'SCIM 2.0 provisioning', body: 'Sync users and groups from Okta, Azure AD, or any SCIM-compatible IdP. Users are provisioned and deprovisioned automatically. SSO enrollment supported.' },
+      { icon: '⊡', title: 'FileVault & escrow', body: 'Enable FileVault via DDM declaration. Personal recovery keys are escrowed automatically at enrollment and rotated on schedule — no scripts required.' },
+      { icon: '⊟', title: 'Automation engine', body: 'Event-driven automations triggered by device check-ins, CVE alerts, patch status, or custom webhooks. Route notifications to Slack, Teams, or any endpoint.' },
+    ].map(f => (
+      <div class="feature-card">
+        <div class="feature-icon">{f.icon}</div>
+        <h3>{f.title}</h3>
+        <p>{f.body}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── How it works ───────────────────────────────────────────────────────── -->
+<section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
+  <div class="mono-label" style="margin-bottom:40px;">Enrollment</div>
+  <h2 style="font-size:clamp(26px,3.5vw,38px); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:48px;">
+    From box to enrolled in under two minutes.
+  </h2>
+
+  <div class="step-grid">
+    {[
+      { step: '01', title: 'ABM assignment', body: 'Device ships from Apple already assigned to your org in Apple Business Manager.' },
+      { step: '02', title: 'Zero-touch boot', body: 'Device boots, hits Apple\'s activation server, gets redirected to mngd enrollment.' },
+      { step: '03', title: 'SCEP cert', body: 'Device generates a key pair, mngd issues a signed identity certificate via SCEP.' },
+      { step: '04', title: 'DDM declarations', body: 'mngd pushes the device\'s full configuration as DDM declarations. Done.' },
+    ].map(s => (
+      <div class="step-card">
+        <div class="step-num">{s.step}</div>
+        <h3>{s.title}</h3>
+        <p>{s.body}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── Pricing teaser ─────────────────────────────────────────────────────── -->
+<section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;">
+    <div>
+      <div class="mono-label" style="margin-bottom:24px;">Pricing</div>
+      <h2 style="font-size:clamp(26px,3.5vw,38px); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:16px;">
+        Simple, honest pricing.
+      </h2>
+      <p style="font-size:15px; color:rgba(255,255,255,0.5); line-height:1.7; margin-bottom:32px;">
+        Start free with mngd Patch — up to 25 devices, no card. Full MDM at $8/device/month. MSP plans available.
       </p>
-
-      <div class="flex items-center justify-center gap-3 flex-wrap">
-        <a href="https://app.mngd.app/register" class="btn-primary">
-          Get started
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="/pricing" class="btn-secondary">See pricing</a>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <a href="/patch" class="mngd-btn-primary">Start free with Patch</a>
+        <a href="/pricing" class="mngd-btn-secondary">See all pricing</a>
       </div>
     </div>
-  </section>
-
-  <!-- ── Social proof strip ─────────────────────────────────────────────── -->
-  <div class="border-y border-white/[0.06] py-5 px-6">
-    <div class="max-w-6xl mx-auto flex items-center justify-center gap-10 flex-wrap">
+    <div style="display:flex; flex-direction:column; gap:1px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden;">
       {[
-        'DDM-native from day one',
-        'SCEP device certificates',
-        'Apple Business Manager',
-        'SCIM 2.0 provisioning',
-        'Declarative profiles',
-        'macOS · iOS · iPadOS',
-      ].map(item => (
-        <span class="text-xs text-white/30 font-medium tracking-wide">{item}</span>
+        { product: 'mngd Patch', price: 'Free', sub: '1–25 devices, forever', color: '#0F6E56' },
+        { product: 'mngd Patch', price: '$99/mo', sub: '26–100 devices flat', color: '#0F6E56' },
+        { product: 'mngd Patch', price: '$0.99/dev/mo', sub: '101+ devices', color: '#0F6E56' },
+        { product: 'mngd', price: '$8/dev/mo', sub: 'Full MDM · annual', color: '#2D3A9E' },
+        { product: 'Enterprise', price: '$12/dev/mo', sub: 'MSA · SLA · TAM', color: 'rgba(255,255,255,0.2)' },
+      ].map(row => (
+        <div style="background:#0a0a0a; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style={`width:6px; height:6px; border-radius:50%; background:${row.color}; flex-shrink:0;`}></span>
+            <span style="font-size:13px; color:rgba(255,255,255,0.6);">{row.product}</span>
+            <span style="font-size:12px; color:rgba(255,255,255,0.3);">— {row.sub}</span>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; color:#fff; white-space:nowrap;">{row.price}</span>
+        </div>
       ))}
     </div>
   </div>
+</section>
 
-  <!-- ── Features ──────────────────────────────────────────────────────── -->
-  <section id="features" class="section">
-    <div class="container">
-      <div class="text-center mb-16">
-        <div class="label mb-4">Platform</div>
-        <h2 class="text-3xl md:text-4xl font-semibold text-white tracking-tight">
-          Built for where Apple MDM is going,<br class="hidden md:block" /> not where it's been.
-        </h2>
-      </div>
+<hr class="divider" />
 
-      <div class="grid md:grid-cols-3 gap-4">
-        {[
-          {
-            icon: '◈',
-            title: 'Declarative Device Management',
-            body: 'DDM is Apple\'s replacement for the polling-based MDM protocol. mngd speaks DDM natively — declarations, not commands. Devices enforce their own configuration without waiting to be asked.',
-          },
-          {
-            icon: '⬡',
-            title: 'SCEP enrollment',
-            body: 'Devices receive a signed identity certificate at enrollment via SCEP. mngd includes a built-in SCEP CA with a persistent cert/key so devices aren\'t orphaned by server restarts.',
-          },
-          {
-            icon: '⊕',
-            title: 'Apple Business Manager',
-            body: 'Zero-touch deployment. Devices come out of the box enrolled, supervised, and configured — no imaging, no manual steps. ABM tokens are managed per-org.',
-          },
-          {
-            icon: '⊞',
-            title: 'MSP multi-tenancy',
-            body: 'Manage multiple client orgs from a single MSP account. Consolidated billing, per-org feature flags, and a partner dashboard that gives you the full picture at a glance.',
-          },
-          {
-            icon: '⊛',
-            title: 'Smart groups & policies',
-            body: 'Dynamic device groups built from live inventory data. Assign declarations and profiles to groups — mngd handles delivery, retry, and status tracking per device.',
-          },
-          {
-            icon: '⊜',
-            title: 'mngd Patch',
-            body: 'Start with patch management before committing to full MDM. The mngd Patch agent becomes a full MDM agent — no re-enrollment, no migration, no rip and replace.',
-          },
-          {
-            icon: '⊝',
-            title: 'SCIM 2.0 provisioning',
-            body: 'Sync users and groups from Okta, Azure AD, or any SCIM-compatible IdP. Users are provisioned and deprovisioned automatically. SSO enrollment supported.',
-          },
-          {
-            icon: '⊡',
-            title: 'FileVault & escrow',
-            body: 'Enable FileVault via DDM declaration. Personal recovery keys are escrowed automatically at enrollment and rotated on schedule — no scripts required.',
-          },
-          {
-            icon: '⊟',
-            title: 'Automation engine',
-            body: 'Event-driven automations triggered by device check-ins, CVE alerts, patch status, or custom webhooks. Route notifications to Slack, Teams, or any endpoint.',
-          },
-        ].map(f => (
-          <div class="card p-6">
-            <div class="text-blue text-xl mb-3 font-mono">{f.icon}</div>
-            <h3 class="text-white font-semibold text-[15px] mb-2">{f.title}</h3>
-            <p class="text-sm text-white/45 leading-relaxed">{f.body}</p>
-          </div>
-        ))}
-      </div>
+<!-- ── Bottom CTA ─────────────────────────────────────────────────────────── -->
+<section style="max-width:1080px; margin:0 auto; padding:80px 32px 96px;">
+  <div class="cta-band">
+    <h2 style="font-size:clamp(28px,4vw,48px); font-weight:600; letter-spacing:-0.04em; line-height:1.1; margin-bottom:16px;">
+      Ready to enroll your first device?
+    </h2>
+    <p style="font-size:16px; color:rgba(255,255,255,0.5); margin-bottom:36px; max-width:440px; margin-left:auto; margin-right:auto; line-height:1.65;">
+      Sign up and enroll your first device in minutes.
+    </p>
+    <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;">
+      <a href="https://app.mngd.app/register" class="mngd-btn-primary">
+        Create an account
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
+      </a>
+      <a href="https://docs.mngd.app/getting-started" class="mngd-btn-secondary">Read the docs</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ── How it works ───────────────────────────────────────────────────── -->
-  <section class="section">
-    <div class="container">
-      <div class="text-center mb-16">
-        <div class="label mb-4">Enrollment</div>
-        <h2 class="text-3xl font-semibold text-white tracking-tight">
-          From box to enrolled in under two minutes.
-        </h2>
-      </div>
+<!-- ── Circuit trace animation ────────────────────────────────────────────── -->
+<script>
+  (function() {
+    const canvas = document.getElementById('circuit-canvas') as HTMLCanvasElement;
+    const parent = canvas.parentElement!;
+    const ctx = canvas.getContext('2d')!;
+    const GRID = 36, LINE_W = 1, DOT_R = 2.5;
+    const TRACE_ALPHA = 0.10, DOT_ALPHA = 0.18, PULSE_SPEED = 0.35;
+    let W: number, H: number, traces: any[], pulses: any[], raf: number;
+    const dotSet = new Set<string>(), dots: {x:number,y:number}[] = [];
 
-      <div class="grid md:grid-cols-4 gap-4">
-        {[
-          { step: '01', title: 'ABM assignment', body: 'Device ships from Apple already assigned to your org in Apple Business Manager.' },
-          { step: '02', title: 'Zero-touch boot', body: 'Device boots, hits Apple\'s activation server, gets redirected to mngd enrollment.' },
-          { step: '03', title: 'SCEP cert', body: 'Device generates a key pair, mngd issues a signed identity certificate via SCEP.' },
-          { step: '04', title: 'DDM declarations', body: 'mngd pushes the device\'s full configuration as DDM declarations. Done.' },
-        ].map(s => (
-          <div class="card p-6">
-            <div class="text-xs font-mono text-white/20 mb-4">{s.step}</div>
-            <h3 class="text-white font-semibold text-[15px] mb-2">{s.title}</h3>
-            <p class="text-sm text-white/45 leading-relaxed">{s.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+    function resize() {
+      W = parent.offsetWidth; H = parent.offsetHeight;
+      canvas.width = W; canvas.height = H;
+      dotSet.clear(); dots.length = 0; build();
+    }
 
-  <!-- ── Pricing teaser ─────────────────────────────────────────────────── -->
-  <section class="section">
-    <div class="container text-center">
-      <div class="label mb-4">Pricing</div>
-      <h2 class="text-3xl font-semibold text-white tracking-tight mb-4">Simple, honest pricing.</h2>
-      <p class="text-white/50 mb-8 max-w-md mx-auto">
-        Start free with mngd Patch. Add full MDM when you need it. MSP plans scale linearly with devices under management.
-      </p>
-      <div class="flex items-center justify-center gap-3 flex-wrap">
-        <a href="/patch" class="btn-primary">Start free with Patch</a>
-        <a href="/pricing" class="btn-secondary">See all pricing</a>
-      </div>
-    </div>
-  </section>
+    function build() {
+      traces = []; pulses = [];
+      const cols = Math.ceil(W / GRID) + 1;
+      const rows = Math.ceil(H / GRID) + 1;
+      for (let r = 0; r < rows; r++) {
+        const y = r * GRID, fade = Math.max(0, 1 - (y / H) * 1.4);
+        for (let c = 0; c < cols - 1; c++) {
+          if (Math.random() < 0.35 * fade + 0.04) {
+            const x1 = c * GRID, x2 = (c + 1) * GRID;
+            traces.push({ x1, y1: y, x2, y2: y, len: GRID });
+            dot(x1, y); dot(x2, y);
+          }
+        }
+      }
+      for (let c = 0; c < Math.ceil(W / GRID) + 1; c++) {
+        const x = c * GRID;
+        for (let r = 0; r < Math.ceil(H / GRID); r++) {
+          const y1 = r * GRID, y2 = (r + 1) * GRID;
+          const fade = Math.max(0, 1 - (y1 / H) * 1.4);
+          if (Math.random() < 0.25 * fade + 0.03) {
+            traces.push({ x1: x, y1, x2: x, y2, len: GRID });
+            dot(x, y1); dot(x, y2);
+          }
+        }
+      }
+      const el = traces.filter(t => Math.min(t.y1, t.y2) < H * 0.75);
+      for (let i = 0; i < Math.min(6, Math.floor(el.length * 0.05)); i++) {
+        spawn(el[Math.floor(Math.random() * el.length)]);
+      }
+    }
 
-  <!-- ── Bottom CTA ─────────────────────────────────────────────────────── -->
-  <section class="section">
-    <div class="container">
-      <div class="text-center max-w-xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-semibold text-white tracking-tight mb-4">
-          Ready to enroll your first device?
-        </h2>
-        <p class="text-white/50 mb-8">
-          Sign up and enroll your first device in minutes.
-        </p>
-        <div class="flex items-center justify-center gap-3 flex-wrap">
-          <a href="https://app.mngd.app/register" class="btn-primary">Create an account</a>
-          <a href="https://docs.mngd.app/getting-started" class="btn-secondary">Read the docs</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    function dot(x: number, y: number) {
+      const k = `${x},${y}`;
+      if (!dotSet.has(k)) { dotSet.add(k); dots.push({x, y}); }
+    }
+
+    function spawn(trace: any) {
+      pulses.push({ trace, t: 0, forward: Math.random() > 0.5, speed: PULSE_SPEED * (0.6 + Math.random() * 0.8) });
+    }
+
+    let last: number | null = null;
+    function draw(ts: number) {
+      if (!last) last = ts;
+      const dt = ts - last; last = ts;
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = LINE_W; ctx.lineCap = 'square';
+      for (const tr of traces) {
+        const topY = Math.min(tr.y1, tr.y2);
+        const alpha = TRACE_ALPHA * Math.max(0, 1 - (topY / H) * 1.6);
+        if (alpha < 0.004) continue;
+        ctx.strokeStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+        ctx.beginPath(); ctx.moveTo(tr.x1, tr.y1); ctx.lineTo(tr.x2, tr.y2); ctx.stroke();
+      }
+      for (const d of dots) {
+        const alpha = DOT_ALPHA * Math.max(0, 1 - (d.y / H) * 1.6);
+        if (alpha < 0.006) continue;
+        ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(d.x, d.y, DOT_R, 0, Math.PI * 2); ctx.fill();
+      }
+      const rem: number[] = [];
+      for (let i = 0; i < pulses.length; i++) {
+        const p = pulses[i]; p.t += (p.speed / p.trace.len) * dt;
+        if (p.t > 1.2) { rem.push(i); continue; }
+        const tC = Math.min(p.t, 1);
+        const px = p.trace.x1 + (p.trace.x2 - p.trace.x1) * (p.forward ? tC : 1 - tC);
+        const py = p.trace.y1 + (p.trace.y2 - p.trace.y1) * (p.forward ? tC : 1 - tC);
+        const pf = Math.max(0, 1 - (Math.min(p.trace.y1, p.trace.y2) / H) * 1.6);
+        if (pf < 0.01) continue;
+        const g = ctx.createRadialGradient(px, py, 0, px, py, 10);
+        g.addColorStop(0, `rgba(107,130,240,${(0.7*pf).toFixed(2)})`);
+        g.addColorStop(0.4, `rgba(107,130,240,${(0.2*pf).toFixed(2)})`);
+        g.addColorStop(1, 'rgba(107,130,240,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(px, py, 10, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = `rgba(180,190,255,${(0.9*pf).toFixed(2)})`;
+        ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI*2); ctx.fill();
+      }
+      for (let i = rem.length-1; i >= 0; i--) pulses.splice(rem[i], 1);
+      if (Math.random() < 0.01) {
+        const el = traces.filter(t => Math.min(t.y1, t.y2) < H * 0.75);
+        if (el.length) spawn(el[Math.floor(Math.random() * el.length)]);
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    resize();
+    window.addEventListener('resize', () => { cancelAnimationFrame(raf); last = null; resize(); raf = requestAnimationFrame(draw); });
+    raf = requestAnimationFrame(draw);
+  })();
+</script>
 
 </Layout>

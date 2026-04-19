@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Privacy Policy — mngd"
+  description="Privacy policy for mngd and Machinery Software LLC."
+>
+
+  <section class="section pt-28">
+    <div class="container max-w-2xl">
+
+      <div class="mb-12">
+        <div class="label mb-4">Legal</div>
+        <h1 class="text-4xl font-semibold text-white tracking-tight mb-4">Privacy Policy</h1>
+        <p class="text-sm text-white/30 font-mono">Last updated: April 2026</p>
+      </div>
+
+      <div class="space-y-10 text-[15px] text-white/60 leading-relaxed">
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">Who we are</h2>
+          <p>mngd is a product of Machinery Software LLC, based in Michigan. We build Apple MDM and device management tools for IT teams and MSPs. Questions about this policy can be directed to <a href="mailto:hello@mngd.app" class="text-white/80 hover:text-white transition-colors underline underline-offset-2">hello@mngd.app</a>.</p>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">What we collect</h2>
+          <p class="mb-3">To provide the mngd service, we collect:</p>
+          <ul class="space-y-2 pl-4 border-l border-white/[0.08]">
+            <li><strong class="text-white/80 font-medium">Account data</strong> — name, email address, and billing information provided at signup.</li>
+            <li><strong class="text-white/80 font-medium">Device inventory data</strong> — hardware identifiers, installed applications, OS versions, and configuration state reported by the mngd agent.</li>
+            <li><strong class="text-white/80 font-medium">Usage data</strong> — dashboard activity, API calls, and feature usage to improve the product.</li>
+            <li><strong class="text-white/80 font-medium">Log data</strong> — IP addresses, browser type, and access timestamps for security and debugging.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">How we use it</h2>
+          <p>We use collected data to operate and improve mngd, communicate with you about your account, process billing, and comply with legal obligations. We do not sell your data to third parties.</p>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">Data storage</h2>
+          <p>Account and device data is stored in Neon Postgres databases hosted in the United States. Device inventory data is logically isolated per organization and is not accessible across tenant boundaries.</p>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">Data retention</h2>
+          <p>We retain account data for as long as your account is active. Device inventory data is deleted within 30 days of device unenrollment. On account cancellation, all data is deleted within 90 days unless retention is required by law.</p>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">Third-party services</h2>
+          <p>We use a small number of third-party services to operate mngd, including payment processing (Stripe) and transactional email. These services receive only the data necessary to perform their functions and are bound by their own privacy policies.</p>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">Your rights</h2>
+          <p>You may request access to, correction of, or deletion of your personal data at any time by contacting <a href="mailto:hello@mngd.app" class="text-white/80 hover:text-white transition-colors underline underline-offset-2">hello@mngd.app</a>. We will respond within 30 days.</p>
+        </div>
+
+        <div>
+          <h2 class="text-white font-semibold text-lg mb-3">Changes to this policy</h2>
+          <p>We may update this policy from time to time. Material changes will be communicated via email to account holders. Continued use of mngd after changes take effect constitutes acceptance of the updated policy.</p>
+        </div>
+
+        <div class="pt-6 border-t border-white/[0.06]">
+          <p class="text-sm text-white/30">Questions? Email <a href="mailto:hello@mngd.app" class="hover:text-white/50 transition-colors">hello@mngd.app</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</Layout>

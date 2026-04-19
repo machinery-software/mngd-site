@@ -1,9 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// Posts live here as static data for now.
-// When there's content to publish, switch to Astro content collections:
-//   https://docs.astro.build/en/guides/content-collections/
 const posts: {
   slug: string;
   title: string;
@@ -11,7 +8,6 @@ const posts: {
   category: string;
   excerpt: string;
 }[] = [
-  // Add posts here as:
   // {
   //   slug: 'introducing-mngd',
   //   title: 'Introducing mngd',
@@ -39,11 +35,12 @@ const posts: {
 
       {posts.length === 0 ? (
         <div class="card p-12 text-center">
-          <div class="text-3xl mb-4">✦</div>
-          <h2 class="text-white font-semibold mb-2">Coming soon.</h2>
-          <p class="text-sm text-white/40">
-            First post incoming. Follow along at{' '}
-            <a href="https://x.com/mngdapp" class="text-blue hover:underline">@mngdapp</a>.
+          <div class="text-xs font-mono text-white/20 mb-6 tracking-widest">COMING SOON</div>
+          <h2 class="text-white font-semibold text-lg mb-3">First post incoming.</h2>
+          <p class="text-sm text-white/40 leading-relaxed">
+            Product updates, MDM deep-dives, and engineering notes from Machinery Software.
+            Follow along at{' '}
+            <a href="https://x.com/mngdapp" class="text-white/60 hover:text-white transition-colors underline underline-offset-2">@mngdapp</a>.
           </p>
         </div>
       ) : (
@@ -54,7 +51,7 @@ const posts: {
                 {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </div>
               <div>
-                <div class="text-[11px] font-semibold text-blue uppercase tracking-widest mb-1">{post.category}</div>
+                <div class="text-[11px] font-semibold uppercase tracking-widest mb-1" style="color:#6B82F0;">{post.category}</div>
                 <h2 class="text-white font-semibold text-[15px] mb-1">{post.title}</h2>
                 <p class="text-sm text-white/45 leading-relaxed">{post.excerpt}</p>
               </div>

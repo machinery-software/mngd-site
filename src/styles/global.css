@@ -40,4 +40,73 @@
     @apply text-xs font-semibold tracking-widest uppercase;
     color: #6B82F0;
   }
+
+  /* JetBrains Mono pill/eyebrow label — used across pages */
+  .mono-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+  }
+  .mono-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    max-width: 60px;
+  }
+
+  /* Hairline divider */
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 0;
+  }
+
+  /* Product-colored primary button (navy default) */
+  .mngd-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    background: #2D3A9E;
+    padding: 12px 24px;
+    border-radius: 7px;
+    transition: background 0.15s, transform 0.1s;
+    text-decoration: none;
+  }
+  .mngd-btn-primary:hover { background: #242f85; transform: translateY(-1px); }
+
+  .mngd-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    background: transparent;
+    padding: 11px 24px;
+    border-radius: 7px;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: border-color 0.15s, background 0.15s;
+    text-decoration: none;
+  }
+  .mngd-btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+  /* Equal-height pricing card pattern — content fills, CTA sticks to bottom */
+  .price-card {
+    @apply card p-6 flex flex-col h-full;
+  }
+  .price-card-body {
+    @apply flex flex-col gap-5 flex-1;
+  }
+  .price-card-cta {
+    @apply mt-5 text-center text-sm font-medium py-2 rounded-lg text-white transition-colors;
+  }
 }

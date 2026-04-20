@@ -1,0 +1,6 @@
+name = "waitlist-worker"
+main = "waitlist-worker.ts"
+compatibility_date = "2025-01-01"
+
+# Set via: npx wrangler secret put NOTION_TOKEN / NOTION_DATABASE / ALLOWED_ORIGIN
+# ALLOWED_ORIGIN example: https://mngd.app

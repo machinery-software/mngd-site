@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import CircuitHero from '../components/CircuitHero.astro';
 ---
 
 <Layout
@@ -8,23 +9,25 @@ import Layout from '../layouts/Layout.astro';
   canonical="https://mngd.app/pricing"
 >
 
-  <section class="section pt-28">
-    <div class="container">
-
-      <!-- ── Hero ───────────────────────────────────────────────────────── -->
-      <div class="text-center mb-12">
-        <div class="label mb-4">Pricing</div>
-        <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
-          Mac management, done right.
-        </h1>
-        <p class="text-white/55 max-w-xl mx-auto">
-          Launch pricing: $6/device/month. All features included — no gating, no add-ons.
-        </p>
-        <div class="inline-flex items-center gap-2 mt-6 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/60">
-          <span class="w-1.5 h-1.5 rounded-full" style="background:#F59E0B;"></span>
-          Launch pricing — locked in for 24 months at your signup rate.
-        </div>
+  <!-- ── Hero with circuit backdrop ─────────────────────────────────────── -->
+  <CircuitHero>
+    <div class="max-w-6xl mx-auto px-6 pt-28 pb-16 text-center">
+      <div class="label mb-4">Pricing</div>
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
+        Mac management, done right.
+      </h1>
+      <p class="text-white/55 max-w-xl mx-auto">
+        Launch pricing: $6/device/month. All features included — no gating, no add-ons.
+      </p>
+      <div class="inline-flex items-center gap-2 mt-6 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/60">
+        <span class="w-1.5 h-1.5 rounded-full" style="background:#F59E0B;"></span>
+        Launch pricing — locked in for 24 months at your signup rate.
       </div>
+    </div>
+  </CircuitHero>
+
+  <section class="section pt-0">
+    <div class="container">
 
       <!-- ── Pricing cards ──────────────────────────────────────────────── -->
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-20">

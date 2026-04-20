@@ -1,0 +1,129 @@
+---
+// Single-instance per page: uses a fixed canvas id.
+interface Props {
+  minHeight?: string;
+}
+const { minHeight } = Astro.props;
+---
+
+<div class="hero-bg" style={minHeight ? `min-height:${minHeight};` : undefined}>
+  <canvas id="circuit-canvas" aria-hidden="true"></canvas>
+  <slot />
+</div>
+
+<style>
+  .hero-bg { position: relative; overflow: hidden; }
+  #circuit-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .hero-bg > *:not(#circuit-canvas) { position: relative; z-index: 1; }
+</style>
+
+<script>
+  (function() {
+    const canvas = document.getElementById('circuit-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const parent = canvas.parentElement!;
+    const ctx = canvas.getContext('2d')!;
+    const GRID = 36, LINE_W = 1, DOT_R = 2.5;
+    const TRACE_ALPHA = 0.10, DOT_ALPHA = 0.18, PULSE_SPEED = 0.35;
+    let W: number, H: number, traces: any[], pulses: any[], raf: number;
+    const dotSet = new Set<string>(), dots: {x:number,y:number}[] = [];
+
+    function resize() {
+      W = parent.offsetWidth; H = parent.offsetHeight;
+      canvas.width = W; canvas.height = H;
+      dotSet.clear(); dots.length = 0; build();
+    }
+
+    function build() {
+      traces = []; pulses = [];
+      const cols = Math.ceil(W / GRID) + 1;
+      const rows = Math.ceil(H / GRID) + 1;
+      for (let r = 0; r < rows; r++) {
+        const y = r * GRID, fade = Math.max(0, 1 - (y / H) * 1.4);
+        for (let c = 0; c < cols - 1; c++) {
+          if (Math.random() < 0.35 * fade + 0.04) {
+            const x1 = c * GRID, x2 = (c + 1) * GRID;
+            traces.push({ x1, y1: y, x2, y2: y, len: GRID });
+            dot(x1, y); dot(x2, y);
+          }
+        }
+      }
+      for (let c = 0; c < Math.ceil(W / GRID) + 1; c++) {
+        const x = c * GRID;
+        for (let r = 0; r < Math.ceil(H / GRID); r++) {
+          const y1 = r * GRID, y2 = (r + 1) * GRID;
+          const fade = Math.max(0, 1 - (y1 / H) * 1.4);
+          if (Math.random() < 0.25 * fade + 0.03) {
+            traces.push({ x1: x, y1, x2: x, y2, len: GRID });
+            dot(x, y1); dot(x, y2);
+          }
+        }
+      }
+      const el = traces.filter(t => Math.min(t.y1, t.y2) < H * 0.75);
+      for (let i = 0; i < Math.min(6, Math.floor(el.length * 0.05)); i++) {
+        spawn(el[Math.floor(Math.random() * el.length)]);
+      }
+    }
+
+    function dot(x: number, y: number) {
+      const k = `${x},${y}`;
+      if (!dotSet.has(k)) { dotSet.add(k); dots.push({x, y}); }
+    }
+
+    function spawn(trace: any) {
+      pulses.push({ trace, t: 0, forward: Math.random() > 0.5, speed: PULSE_SPEED * (0.6 + Math.random() * 0.8) });
+    }
+
+    let last: number | null = null;
+    function draw(ts: number) {
+      if (!last) last = ts;
+      const dt = ts - last; last = ts;
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = LINE_W; ctx.lineCap = 'square';
+      for (const tr of traces) {
+        const topY = Math.min(tr.y1, tr.y2);
+        const alpha = TRACE_ALPHA * Math.max(0, 1 - (topY / H) * 1.6);
+        if (alpha < 0.004) continue;
+        ctx.strokeStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+        ctx.beginPath(); ctx.moveTo(tr.x1, tr.y1); ctx.lineTo(tr.x2, tr.y2); ctx.stroke();
+      }
+      for (const d of dots) {
+        const alpha = DOT_ALPHA * Math.max(0, 1 - (d.y / H) * 1.6);
+        if (alpha < 0.006) continue;
+        ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(d.x, d.y, DOT_R, 0, Math.PI * 2); ctx.fill();
+      }
+      const rem: number[] = [];
+      for (let i = 0; i < pulses.length; i++) {
+        const p = pulses[i]; p.t += (p.speed / p.trace.len) * dt;
+        if (p.t > 1.2) { rem.push(i); continue; }
+        const tC = Math.min(p.t, 1);
+        const px = p.trace.x1 + (p.trace.x2 - p.trace.x1) * (p.forward ? tC : 1 - tC);
+        const py = p.trace.y1 + (p.trace.y2 - p.trace.y1) * (p.forward ? tC : 1 - tC);
+        const pf = Math.max(0, 1 - (Math.min(p.trace.y1, p.trace.y2) / H) * 1.6);
+        if (pf < 0.01) continue;
+        const g = ctx.createRadialGradient(px, py, 0, px, py, 10);
+        g.addColorStop(0, `rgba(107,130,240,${(0.7*pf).toFixed(2)})`);
+        g.addColorStop(0.4, `rgba(107,130,240,${(0.2*pf).toFixed(2)})`);
+        g.addColorStop(1, 'rgba(107,130,240,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(px, py, 10, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = `rgba(180,190,255,${(0.9*pf).toFixed(2)})`;
+        ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI*2); ctx.fill();
+      }
+      for (let i = rem.length-1; i >= 0; i--) pulses.splice(rem[i], 1);
+      if (Math.random() < 0.01) {
+        const el = traces.filter(t => Math.min(t.y1, t.y2) < H * 0.75);
+        if (el.length) spawn(el[Math.floor(Math.random() * el.length)]);
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    resize();
+    window.addEventListener('resize', () => { cancelAnimationFrame(raf); last = null; resize(); raf = requestAnimationFrame(draw); });
+    raf = requestAnimationFrame(draw);
+  })();
+</script>

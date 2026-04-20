@@ -4,121 +4,129 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout
   title="Pricing — mngd"
-  description="Simple, transparent pricing for Apple MDM. Free up to 25 devices with mngd Patch. Full MDM at $8/device/month."
+  description="Launch pricing: $6/device/month. Full Apple MDM, patch management, compliance, CVE tracking, MCP server scanning — all bundled, no feature gating. mngd patch free up to 25 devices."
+  canonical="https://mngd.app/pricing"
 >
 
   <section class="section pt-28">
     <div class="container">
 
-      <div class="text-center mb-16">
+      <!-- ── Hero ───────────────────────────────────────────────────────── -->
+      <div class="text-center mb-12">
         <div class="label mb-4">Pricing</div>
         <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
-          Start free. Scale when you're ready.
+          Mac management, done right.
         </h1>
-        <p class="text-white/50 max-w-lg mx-auto">
-          mngd Patch is free up to 25 devices. Full MDM is $8/device/month. MSP pricing available. No hidden fees.
+        <p class="text-white/55 max-w-xl mx-auto">
+          Launch pricing: $6/device/month. All features included — no gating, no add-ons.
         </p>
+        <div class="inline-flex items-center gap-2 mt-6 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/60">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:#F59E0B;"></span>
+          Launch pricing — locked in for 24 months at your signup rate.
+        </div>
       </div>
 
-      <!-- ── Plan cards ─────────────────────────────────────────────────── -->
-      <div class="grid md:grid-cols-3 gap-4 items-start mb-24">
+      <!-- ── mngd pricing cards ─────────────────────────────────────────── -->
+      <div class="grid md:grid-cols-3 gap-4 items-start mb-20">
 
-        <!-- mngd Patch -->
-        <div class="card p-6 flex flex-col gap-5">
-          <div>
-            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3" style="background:rgba(15,110,86,0.15); color:#0F6E56;">mngd Patch</div>
-            <p class="text-xs text-white/40">App and OS patching — no MDM required</p>
-          </div>
-          <div>
-            <!-- PRICE -->
-            <div class="flex items-end gap-1 mb-1">
-              <span class="text-4xl font-semibold text-white">Free</span>
-            </div>
-            <p class="text-xs text-white/35">1–25 devices, forever. No card required.</p>
-            <div class="mt-3 space-y-1">
-              <!-- PRICE -->
-              <div class="flex justify-between text-xs">
-                <span class="text-white/40">26–100 devices</span>
-                <span class="text-white font-medium">$99/mo flat</span>
-              </div>
-              <!-- PRICE -->
-              <div class="flex justify-between text-xs">
-                <span class="text-white/40">101+ devices</span>
-                <span class="text-white font-medium">$0.99/device/mo</span>
-              </div>
-              <div class="flex justify-between text-xs">
-                <span class="text-white/40">Monthly billing</span>
-                <span class="text-white/50">+20% on paid tiers</span>
-              </div>
-            </div>
-          </div>
-          <a href="https://app.mngd.app/register" class="text-center text-sm font-medium py-2 rounded-lg border border-white/10 hover:border-white/20 text-white transition-colors">
-            Start free
-          </a>
-          <ul class="space-y-2.5">
-            {[
-              '3,000+ apps covered',
-              'macOS update tracking',
-              'CVE priority scoring',
-              'Slack + email alerts',
-              'Silent auto-remediation',
-              'Policy-based deferral',
-              'MSP multi-tenant dashboard',
-              'One-flag upgrade to full MDM',
-            ].map(f => (
-              <li class="flex items-start gap-2 text-sm text-white/55">
-                <svg class="w-4 h-4 mt-0.5 shrink-0" style="color:#0F6E56;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- mngd (full MDM) — featured -->
+        <!-- Standard (featured) -->
         <div class="card p-6 flex flex-col gap-5 border border-white/[0.12] ring-1 ring-inset ring-white/[0.06]" style="background:rgba(45,58,158,0.08);">
           <div>
-            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3" style="background:rgba(45,58,158,0.2); color:#6B82F0;">mngd</div>
-            <p class="text-xs text-white/40">Full Apple MDM for your fleet</p>
+            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3" style="background:rgba(45,58,158,0.2); color:#6B82F0;">Standard</div>
+            <p class="text-xs text-white/45">Full platform. Launch pricing.</p>
           </div>
           <div>
-            <!-- PRICE -->
             <div class="flex items-end gap-1 mb-1">
-              <span class="text-4xl font-semibold text-white">$8</span>
-              <span class="text-sm text-white/40 mb-1">/device/mo</span>
+              <span class="text-4xl font-semibold text-white">$6</span>
+              <span class="text-sm text-white/45 mb-1">/device/month</span>
             </div>
-            <p class="text-xs text-white/35">Annual billing · $9.50/device/mo monthly · $80/mo minimum</p>
+            <p class="text-xs text-white/40">Annual billing · 10-device minimum</p>
             <div class="mt-3 space-y-1">
               <div class="flex justify-between text-xs">
-                <span class="text-white/40">Annual discount</span>
-                <span class="text-white/50">16% vs monthly</span>
+                <span class="text-white/45">Monthly billing</span>
+                <span class="text-white/55">$7.25/device/month</span>
               </div>
               <div class="flex justify-between text-xs">
-                <span class="text-white/40">Minimum</span>
-                <span class="text-white/50">10 devices / $80/mo</span>
+                <span class="text-white/45">mngd patch</span>
+                <span class="text-white/55">Bundled · no extra charge</span>
               </div>
             </div>
           </div>
-          <a href="https://app.mngd.app/register" class="text-center text-sm font-medium py-2 rounded-lg text-white transition-colors" style="background:#2D3A9E;">
-            Get started
+          <a href="/early-access" class="text-center text-sm font-medium py-2 rounded-lg text-white transition-colors" style="background:#2D3A9E;">
+            Join early access
           </a>
-          <ul class="space-y-2.5">
+        </div>
+
+        <!-- MSP -->
+        <div class="card p-6 flex flex-col gap-5">
+          <div>
+            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3" style="background:rgba(124,58,237,0.18); color:#A78BFA;">For MSPs</div>
+            <p class="text-xs text-white/45">Managing Mac fleets across clients.</p>
+          </div>
+          <div>
+            <div class="flex items-end gap-1 mb-1">
+              <span class="text-4xl font-semibold text-white">$4.50</span>
+              <span class="text-sm text-white/45 mb-1">/device/month</span>
+            </div>
+            <p class="text-xs text-white/40">Annual billing · $150/month account minimum</p>
+            <div class="mt-3 space-y-1">
+              <div class="flex justify-between text-xs">
+                <span class="text-white/45">Monthly billing</span>
+                <span class="text-white/55">$5.40/device/month</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <span class="text-white/45">Multi-tenant</span>
+                <span class="text-white/55">Consolidated billing · deal reg</span>
+              </div>
+            </div>
+          </div>
+          <a href="/early-access" class="text-center text-sm font-medium py-2 rounded-lg border border-white/10 hover:border-white/20 text-white transition-colors">
+            Apply for MSP access
+          </a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="card p-6 flex flex-col gap-5">
+          <div>
+            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3 bg-white/5 text-white/55">Enterprise</div>
+            <p class="text-xs text-white/45">Large fleets, compliance, custom terms.</p>
+          </div>
+          <div>
+            <div class="flex items-end gap-1 mb-1">
+              <span class="text-xs text-white/45 mb-2">Starting</span>
+              <span class="text-4xl font-semibold text-white">$9</span>
+              <span class="text-sm text-white/45 mb-1">/device/month</span>
+            </div>
+            <p class="text-xs text-white/40">Contact sales for custom terms</p>
+          </div>
+          <a href="mailto:hello@mngd.app" class="text-center text-sm font-medium py-2 rounded-lg border border-white/10 hover:border-white/20 text-white/70 hover:text-white transition-colors">
+            Contact sales
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ── What's included ────────────────────────────────────────────── -->
+      <div class="max-w-3xl mx-auto mb-20">
+        <h2 class="text-xl font-semibold text-white tracking-tight mb-2 text-center">What's included — in every tier</h2>
+        <p class="text-xs text-white/40 text-center mb-6">No feature gating. One platform, one feature set, every plan.</p>
+        <div class="card p-6">
+          <ul class="grid md:grid-cols-2 gap-x-6 gap-y-3">
             {[
-              'Everything in mngd Patch',
-              'DDM-native Apple MDM',
-              'SCEP device certificates',
-              'Apple Business Manager / ADE',
-              'VPP app distribution',
-              'FileVault + key escrow',
-              'Santa allow/deny listing',
-              'mSCP compliance baselines',
-              'osquery device checks',
-              'SAML / OIDC / SCIM',
-              'Rules engine + automations',
-              'AI-assisted IT queries',
+              'Full Mac MDM (macOS and iOS/iPadOS)',
+              'Declarative Device Management (DDM)',
+              'osquery-backed compliance checks',
+              'mSCP baselines',
+              'CVE tracking with live intelligence',
+              'Package inventory (Homebrew, npm, pip)',
+              'MCP server scanning (AI tool governance)',
+              'Rules engine with Slack / PagerDuty / email / webhook',
+              'SAML, OIDC, SCIM',
+              'Apple Business Manager + ADE',
+              'mngd patch fully bundled',
+              'All future platform features',
             ].map(f => (
-              <li class="flex items-start gap-2 text-sm text-white/55">
+              <li class="flex items-start gap-2 text-sm text-white/65">
                 <svg class="w-4 h-4 mt-0.5 shrink-0 text-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
@@ -127,122 +135,108 @@ import Layout from '../layouts/Layout.astro';
             ))}
           </ul>
         </div>
-
-        <!-- Enterprise -->
-        <div class="card p-6 flex flex-col gap-5">
-          <div>
-            <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3 bg-white/5 text-white/50">Enterprise</div>
-            <p class="text-xs text-white/40">For large fleets and compliance-heavy orgs</p>
-          </div>
-          <div>
-            <!-- PRICE -->
-            <div class="flex items-end gap-1 mb-1">
-              <span class="text-4xl font-semibold text-white">$12</span>
-              <span class="text-sm text-white/40 mb-1">/device/mo</span>
-            </div>
-            <p class="text-xs text-white/35">Starting price · contact sales for custom terms</p>
-          </div>
-          <a href="mailto:hello@mngd.app" class="text-center text-sm font-medium py-2 rounded-lg border border-white/10 hover:border-white/20 text-white/70 hover:text-white transition-colors">
-            Contact sales
-          </a>
-          <ul class="space-y-2.5">
-            {[
-              'Everything in mngd',
-              'Signed MSA with custom DPA',
-              '99.9% SLA with credits',
-              'Named TAM',
-              'HIPAA BAA on request',
-              'Priority roadmap input',
-              'Custom contract terms',
-            ].map(f => (
-              <li class="flex items-start gap-2 text-sm text-white/55">
-                <svg class="w-4 h-4 mt-0.5 shrink-0 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-
       </div>
 
-      <!-- ── MSP band ────────────────────────────────────────────────────── -->
-      <div class="card p-8 mb-24 flex flex-col md:flex-row md:items-center gap-8">
-        <div class="flex-1">
-          <div class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold mb-3 bg-white/5 text-white/50">MSP</div>
-          <h2 class="text-xl font-semibold text-white tracking-tight mb-2">Managing multiple customers?</h2>
-          <p class="text-sm text-white/50 leading-relaxed max-w-xl">
-            MSP pricing is 25% off list — <strong class="text-white/70">$6/device/month</strong> for mngd, monthly billing available, $150/month account minimum.
-            Includes multi-tenant dashboard, per-customer isolation, consolidated billing, and deal registration.
+      <!-- ── Honest scope ───────────────────────────────────────────────── -->
+      <div class="max-w-3xl mx-auto mb-20">
+        <h2 class="text-xl font-semibold text-white tracking-tight mb-6 text-center">What mngd does not include today</h2>
+        <div class="card p-6 space-y-5">
+          {[
+            { k: 'EDR',                 v: 'Integrate with your existing endpoint detection. We ship MDM, not endpoint security.' },
+            { k: 'Identity / ZTNA',     v: 'Shipping later as mngd Network. Continue using Okta, Entra, or Google for now.' },
+            { k: 'Cross-platform UEM',  v: 'macOS and iOS/iPadOS only. No Android, no Windows.' },
+          ].map(row => (
+            <div class="flex flex-col sm:flex-row sm:gap-4">
+              <div class="w-40 shrink-0 text-sm text-white font-medium mb-1 sm:mb-0">{row.k}</div>
+              <div class="text-sm text-white/55 leading-relaxed">{row.v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── mngd patch standalone ──────────────────────────────────────── -->
+      <div class="max-w-3xl mx-auto mb-20" id="patch">
+        <div class="text-center mb-8">
+          <div class="label mb-3" style="color:#0F6E56;">mngd patch · standalone</div>
+          <h2 class="text-2xl font-semibold text-white tracking-tight mb-3">Just need patch management? Start free.</h2>
+          <p class="text-sm text-white/55 max-w-xl mx-auto">
+            mngd patch also ships as its own product — app and OS patching, no MDM required.
+            <span class="text-white/35">Formerly Patchable.</span>
           </p>
         </div>
-        <div class="flex-shrink-0">
-          <a href="/for-msps" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 hover:border-white/20 text-white text-sm font-medium transition-colors">
-            See MSP pricing
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
 
-      <!-- ── Volume discounts ────────────────────────────────────────────── -->
-      <div class="mb-24 max-w-2xl mx-auto">
-        <h2 class="text-xl font-semibold text-white tracking-tight mb-6 text-center">Volume discounts</h2>
-        <div class="card overflow-hidden">
+        <div class="card overflow-hidden mb-6">
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-white/[0.06]">
                 <th class="text-left px-5 py-3 text-xs font-medium text-white/40 uppercase tracking-wider">Devices</th>
-                <th class="text-right px-5 py-3 text-xs font-medium text-white/40 uppercase tracking-wider">Discount</th>
-                <th class="text-right px-5 py-3 text-xs font-medium text-white/40 uppercase tracking-wider">Effective rate</th>
+                <th class="text-right px-5 py-3 text-xs font-medium text-white/40 uppercase tracking-wider">Monthly</th>
+                <th class="text-right px-5 py-3 text-xs font-medium text-white/40 uppercase tracking-wider">Annual (17% off)</th>
               </tr>
             </thead>
             <tbody>
               {[
-                { range: 'Under 250',    discount: 'List price', rate: '$8.00/device/mo' },
-                { range: '250–999',      discount: '10% off',    rate: '$7.20/device/mo' },
-                { range: '1,000–4,999',  discount: '20% off',    rate: '$6.40/device/mo' },
-                { range: '5,000+',       discount: '30% off',    rate: '$5.60/device/mo' },
+                { range: '1–25',  monthly: '$0',                                    annual: '$0 · free forever' },
+                { range: '26–50', monthly: '$49 flat',                               annual: '$489 / year' },
+                { range: '51+',   monthly: '$49 + $1.25 per device above 50',       annual: '$489 + $12.45 per device above 50' },
               ].map((row, i) => (
-                <tr class={i < 3 ? 'border-b border-white/[0.04]' : ''}>
+                <tr class={i < 2 ? 'border-b border-white/[0.04]' : ''}>
                   <td class="px-5 py-3 text-white/70">{row.range}</td>
-                  <td class="px-5 py-3 text-right text-white/50">{row.discount}</td>
-                  <td class="px-5 py-3 text-right text-white font-medium">{row.rate}</td>
+                  <td class="px-5 py-3 text-right text-white font-medium">{row.monthly}</td>
+                  <td class="px-5 py-3 text-right text-white/55">{row.annual}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p class="text-xs text-white/30 text-center mt-3">Annual billing · applied automatically · contact sales to confirm</p>
+
+        <div class="mb-6">
+          <h3 class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3 text-center">Worked examples · monthly billing</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+            {[
+              { n: '25',  p: '$0'       },
+              { n: '50',  p: '$49'      },
+              { n: '75',  p: '$80.25'   },
+              { n: '100', p: '$111.50'  },
+              { n: '250', p: '$299'     },
+              { n: '500', p: '$611.50'  },
+            ].map(e => (
+              <div class="card px-4 py-3 flex justify-between text-sm">
+                <span class="text-white/50">{e.n} devices</span>
+                <span class="text-white font-medium">{e.p}/mo</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a href="https://app.mngd.app/register" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white text-sm font-medium transition-colors" style="background:#0F6E56;">
+            Start free with mngd patch
+          </a>
+        </div>
       </div>
 
       <!-- ── FAQ ────────────────────────────────────────────────────────── -->
-      <div class="max-w-2xl mx-auto">
+      <div class="max-w-2xl mx-auto mb-20">
         <h2 class="text-2xl font-semibold text-white tracking-tight mb-8 text-center">Common questions</h2>
         <div class="space-y-4">
           {[
-            {
-              q: 'Can I upgrade from Patch to mngd mid-trial?',
-              a: 'Yes. The Patch agent is the same binary as the mngd agent. Upgrading flips a flag server-side — no re-enrollment, no new pkg to deploy, no migration. Your fleet stays in place.',
-            },
-            {
-              q: 'What happens when my trial ends?',
-              a: 'mngd Patch has no trial — it\'s free up to 25 devices forever. If you\'re evaluating mngd full MDM, contact us for a trial period.',
-            },
-            {
-              q: 'How is MSP pricing different?',
-              a: 'MSP accounts get 25% off list price ($6/device/month for mngd) with a $150/month account minimum. Monthly billing is available. Devices are counted across all customer orgs under your account.',
-            },
-            {
-              q: 'Do you offer annual contracts?',
-              a: 'Yes. Annual billing is the default and saves 16% vs monthly on mngd. mngd Patch annual billing saves 20% on paid tiers vs monthly. No minimum contract length required.',
-            },
-            {
-              q: 'How do I cancel?',
-              a: 'Cancel any time from your account settings. No cancellation fees, no lock-in. Paid plans downgrade at the end of the current billing period.',
-            },
+            { q: "What's bundled in mngd?",
+              a: "Everything. MDM, DDM, patch management, compliance checks, CVE tracking, MCP scanning, notifications, identity integration — one price, no feature gates." },
+            { q: "Why is launch pricing lower than the eventual price?",
+              a: "We're launching with MDM, patch, and AI-assisted management. Identity/ZTNA and additional capabilities are on the roadmap. When those ship, pricing will reflect the expanded platform. Customers who sign up at launch pricing lock their rate for 24 months." },
+            { q: "How does the MSP tier work?",
+              a: "If you manage Mac fleets across multiple client organizations, you qualify for the MSP tier at $4.50/device/month. Includes multi-tenant admin, consolidated billing across your clients, and deal registration. $150/month account minimum." },
+            { q: "Is there a free trial?",
+              a: "mngd patch has a permanent free tier — up to 25 devices, all features, no credit card. The mngd full platform has a 14-day free trial, no credit card required." },
+            { q: "What happens if my fleet grows mid-cycle?",
+              a: "Monthly billing auto-adjusts at the next cycle. Annual billing has a 10% grace period — if you exceed your licensed count by more than 10%, we'll work with you to true-up at renewal. No surprise mid-year invoices." },
+            { q: "Do you do EDR / endpoint detection?",
+              a: "Not today. mngd is Mac MDM + patch + compliance + CVE + AI-assisted management. We integrate with your existing EDR stack. If you need EDR bundled with MDM, check Jamf Protect or Mosyle's bundled options." },
+            { q: "Can I cancel?",
+              a: "Yes, anytime. Monthly subscriptions end at the current billing cycle. Annual subscriptions run to their paid-through date. No long-term lock-in." },
+            { q: "Is mngd patch really free forever for up to 25 devices?",
+              a: "Yes. No credit card, no time limit. We want MacAdmins with small fleets to use mngd patch and tell their peers. When your fleet grows past 25, you start paying — but the first 25 always stay free within your pricing." },
           ].map(faq => (
             <details class="card p-5 group">
               <summary class="text-[15px] font-medium text-white cursor-pointer list-none flex items-center justify-between gap-4">
@@ -251,9 +245,27 @@ import Layout from '../layouts/Layout.astro';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </summary>
-              <p class="mt-3 text-sm text-white/50 leading-relaxed">{faq.a}</p>
+              <p class="mt-3 text-sm text-white/55 leading-relaxed">{faq.a}</p>
             </details>
           ))}
+        </div>
+      </div>
+
+      <!-- ── Waitlist CTA ───────────────────────────────────────────────── -->
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="card p-10">
+          <h2 class="text-2xl font-semibold text-white tracking-tight mb-3">Lock in launch pricing.</h2>
+          <p class="text-sm text-white/55 max-w-md mx-auto mb-6">
+            The $6/device/month rate is available to early-access customers only — and stays locked for 24 months.
+          </p>
+          <div class="flex items-center justify-center gap-3 flex-wrap">
+            <a href="/early-access" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white text-sm font-medium transition-colors" style="background:#2D3A9E;">
+              Join early access
+            </a>
+            <a href="https://app.mngd.app/register" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 hover:border-white/20 text-white/70 hover:text-white text-sm font-medium transition-colors">
+              Start free with mngd patch
+            </a>
+          </div>
         </div>
       </div>
 

@@ -2,7 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="mngd — Apple MDM for the DDM era">
+<Layout
+  title="mngd — Apple MDM for the DDM era"
+  description="Modern Apple MDM built on Declarative Device Management. Launch pricing: $6/device/month, all features included. Free up to 25 devices with mngd patch."
+>
 
 <style>
   body { background: #000 !important; }
@@ -133,7 +136,7 @@ import Layout from '../layouts/Layout.astro';
       <a href="/pricing" class="mngd-btn-secondary">See pricing</a>
     </div>
     <p style="font-size:13px; color:rgba(255,255,255,0.3);">
-      Start free with <a href="/patch" style="color:rgba(255,255,255,0.5); text-decoration:underline; text-underline-offset:3px;">mngd Patch</a> — no card required up to 25 devices.
+      Start free with <a href="/patch" style="color:rgba(255,255,255,0.5); text-decoration:underline; text-underline-offset:3px;">mngd patch</a> — no card required up to 25 devices.
     </p>
 
   </div>
@@ -171,7 +174,7 @@ import Layout from '../layouts/Layout.astro';
       { icon: '⊕', title: 'Apple Business Manager', body: 'Zero-touch deployment. Devices come out of the box enrolled, supervised, and configured — no imaging, no manual steps. ABM tokens are managed per-org.' },
       { icon: '⊞', title: 'MSP multi-tenancy', body: 'Manage multiple client orgs from a single MSP account. Consolidated billing, per-org feature flags, and a partner dashboard that gives you the full picture at a glance.' },
       { icon: '⊛', title: 'Smart groups & policies', body: 'Dynamic device groups built from live inventory data. Assign declarations and profiles to groups — mngd handles delivery, retry, and status tracking per device.' },
-      { icon: '⊜', title: 'mngd Patch', body: 'Start with patch management before committing to full MDM. The mngd Patch agent becomes a full MDM agent — no re-enrollment, no migration, no rip and replace.' },
+      { icon: '⊜', title: 'mngd patch', body: 'Start with patch management before committing to full MDM. The mngd patch agent becomes a full MDM agent — no re-enrollment, no migration, no rip and replace.' },
       { icon: '⊝', title: 'SCIM 2.0 provisioning', body: 'Sync users and groups from Okta, Azure AD, or any SCIM-compatible IdP. Users are provisioned and deprovisioned automatically. SSO enrollment supported.' },
       { icon: '⊡', title: 'FileVault & escrow', body: 'Enable FileVault via DDM declaration. Personal recovery keys are escrowed automatically at enrollment and rotated on schedule — no scripts required.' },
       { icon: '⊟', title: 'Automation engine', body: 'Event-driven automations triggered by device check-ins, CVE alerts, patch status, or custom webhooks. Route notifications to Slack, Teams, or any endpoint.' },
@@ -221,20 +224,20 @@ import Layout from '../layouts/Layout.astro';
         Simple, honest pricing.
       </h2>
       <p style="font-size:15px; color:rgba(255,255,255,0.5); line-height:1.7; margin-bottom:32px;">
-        Start free with mngd Patch — up to 25 devices, no card. Full MDM at $8/device/month. MSP plans available.
+        Launch pricing: $6/device/month. All features included, mngd patch bundled. Free up to 25 devices with mngd patch standalone.
       </p>
       <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-        <a href="/patch" class="mngd-btn-primary">Start free with Patch</a>
+        <a href="/early-access" class="mngd-btn-primary">Join early access</a>
         <a href="/pricing" class="mngd-btn-secondary">See all pricing</a>
       </div>
     </div>
     <div style="display:flex; flex-direction:column; gap:1px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden;">
       {[
-        { product: 'mngd Patch', price: 'Free', sub: '1–25 devices, forever', color: '#0F6E56' },
-        { product: 'mngd Patch', price: '$99/mo', sub: '26–100 devices flat', color: '#0F6E56' },
-        { product: 'mngd Patch', price: '$0.99/dev/mo', sub: '101+ devices', color: '#0F6E56' },
-        { product: 'mngd', price: '$8/dev/mo', sub: 'Full MDM · annual', color: '#2D3A9E' },
-        { product: 'Enterprise', price: '$12/dev/mo', sub: 'MSA · SLA · TAM', color: 'rgba(255,255,255,0.2)' },
+        { product: 'mngd · Standard',    price: '$6/dev/mo',    sub: 'Annual · 10-device min',           color: '#2D3A9E' },
+        { product: 'mngd · MSP',         price: '$4.50/dev/mo', sub: 'Annual · $150/mo account min',     color: '#7C3AED' },
+        { product: 'mngd · Enterprise',  price: 'from $9/dev/mo', sub: 'Contact sales',                  color: 'rgba(255,255,255,0.2)' },
+        { product: 'mngd patch',         price: 'Free',         sub: '1–25 devices, forever',            color: '#0F6E56' },
+        { product: 'mngd patch',         price: '$49/mo',       sub: '26–50 devices flat',               color: '#0F6E56' },
       ].map(row => (
         <div style="background:#0a0a0a; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
           <div style="display:flex; align-items:center; gap:8px;">

@@ -1,0 +1,227 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CircuitHero from '../components/CircuitHero.astro';
+
+const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
+---
+
+<Layout
+  title="Join the waitlist — mngd"
+  description="Early access to mngd, the modern Apple MDM built on Declarative Device Management. Launch pricing locked in at $6/device/month for 24 months."
+  canonical="https://mngd.app/early-access"
+>
+
+  <CircuitHero>
+    <div class="max-w-6xl mx-auto px-6 pt-28 pb-16 text-center">
+      <div class="label mb-4">Early access</div>
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
+        Join the waitlist.
+      </h1>
+      <p class="text-white/55 max-w-xl mx-auto">
+        Tell us about your fleet. We'll get back to you within 2 business days with early-access details and your locked-in launch rate.
+      </p>
+      <div class="inline-flex items-center gap-2 mt-6 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/60">
+        <span class="w-1.5 h-1.5 rounded-full" style="background:#F59E0B;"></span>
+        $6/device/month — locked for 24 months at signup.
+      </div>
+    </div>
+  </CircuitHero>
+
+  <section class="section pt-0">
+    <div class="max-w-2xl mx-auto px-6">
+
+      <form id="waitlist-form" class="card p-8 flex flex-col gap-5" novalidate>
+
+        <div class="flex flex-col gap-2">
+          <label for="name" class="text-xs font-medium text-white/70 uppercase tracking-wider">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            maxlength="200"
+            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
+            placeholder="Avery Chen"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="email" class="text-xs font-medium text-white/70 uppercase tracking-wider">Work email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            maxlength="200"
+            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
+            placeholder="avery@company.com"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="fleet_size" class="text-xs font-medium text-white/70 uppercase tracking-wider">Fleet size</label>
+          <select
+            id="fleet_size"
+            name="fleet_size"
+            required
+            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white outline-none transition-colors"
+          >
+            <option value="" disabled selected>Select a range</option>
+            <option value="1–25">1–25 devices</option>
+            <option value="26–100">26–100 devices</option>
+            <option value="101–500">101–500 devices</option>
+            <option value="501–2,000">501–2,000 devices</option>
+            <option value="2,000+">2,000+ devices</option>
+            <option value="MSP">MSP — multiple client orgs</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="current_mdm" class="text-xs font-medium text-white/70 uppercase tracking-wider">Current MDM</label>
+          <input
+            id="current_mdm"
+            name="current_mdm"
+            type="text"
+            maxlength="100"
+            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
+            placeholder="Jamf, Kandji, Intune, none, etc."
+          />
+          <p class="text-xs text-white/35">What you're using today — or "none" if you're starting fresh.</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="use_case" class="text-xs font-medium text-white/70 uppercase tracking-wider">What's broken about your current setup?</label>
+          <textarea
+            id="use_case"
+            name="use_case"
+            rows="4"
+            maxlength="2000"
+            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors resize-none"
+            placeholder="Polling delays, profile drift, MSP multi-tenancy, DDM gaps — whatever's pushing you to look."
+          ></textarea>
+        </div>
+
+        <!-- Honeypot — visually and assistive-tech hidden, real bots fill it. -->
+        <div aria-hidden="true" style="position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden;">
+          <label for="company">Company (leave blank)</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-2">
+          <button
+            type="submit"
+            id="submit-btn"
+            class="mngd-btn-primary justify-center"
+          >
+            <span id="submit-label">Join the waitlist</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
+          </button>
+          <p class="text-xs text-white/40">No tracking. We email you, and that's it.</p>
+        </div>
+
+        <div id="form-error" class="hidden text-sm text-red-300/90 bg-red-900/20 border border-red-500/20 rounded-lg px-4 py-3" role="alert"></div>
+      </form>
+
+      <div id="form-success" class="hidden card p-8 text-center" role="status" aria-live="polite">
+        <div class="text-2xl font-semibold text-white tracking-tight mb-2">You're on the list.</div>
+        <p class="text-white/55 max-w-md mx-auto">
+          We'll be in touch within 2 business days with early-access details. In the meantime, your launch rate is locked at <span class="text-white">$6/device/month for 24 months</span>.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<script is:inline define:vars={{ WAITLIST_ENDPOINT }}>
+  (() => {
+    const form = document.getElementById('waitlist-form');
+    if (!form) return;
+
+    const errorBox = document.getElementById('form-error');
+    const successBox = document.getElementById('form-success');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitLabel = document.getElementById('submit-label');
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const MAILTO = 'mailto:david@machinery.software';
+
+    function showError(msg, includeMailto) {
+      errorBox.innerHTML = msg + (includeMailto
+        ? ` Or email <a class="underline" href="${MAILTO}">david@machinery.software</a>.`
+        : '');
+      errorBox.classList.remove('hidden');
+    }
+    function clearError() {
+      errorBox.classList.add('hidden');
+      errorBox.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const fd = new FormData(form);
+
+      // Honeypot — silently swallow.
+      if ((fd.get('company') || '').toString().trim() !== '') {
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+        return;
+      }
+
+      const name = (fd.get('name') || '').toString().trim();
+      const email = (fd.get('email') || '').toString().trim();
+      const fleet_size = (fd.get('fleet_size') || '').toString().trim();
+      const current_mdm = (fd.get('current_mdm') || '').toString().trim();
+      const use_case = (fd.get('use_case') || '').toString().trim();
+
+      if (!name || !email || !fleet_size) {
+        showError('Name, email, and fleet size are required.', false);
+        return;
+      }
+      if (!EMAIL_RE.test(email)) {
+        showError('That email address looks off — double-check it?', false);
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.6';
+      submitLabel.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(WAITLIST_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, fleet_size, current_mdm, use_case }),
+        });
+
+        if (res.ok) {
+          form.classList.add('hidden');
+          successBox.classList.remove('hidden');
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        let detail = '';
+        try { const j = await res.json(); detail = j.error || ''; } catch {}
+        showError(
+          detail
+            ? `We couldn't record your submission: ${detail}.`
+            : "We couldn't record your submission right now.",
+          true,
+        );
+      } catch {
+        showError("Network error — your submission didn't go through.", true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '';
+        submitLabel.textContent = 'Join the waitlist';
+      }
+    });
+  })();
+</script>
+</content>
+</invoke>

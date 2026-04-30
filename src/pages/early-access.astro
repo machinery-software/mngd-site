@@ -61,6 +61,19 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
         </div>
 
         <div class="flex flex-col gap-2">
+          <label for="company" class="text-xs font-medium text-white/70 uppercase tracking-wider">Company</label>
+          <input
+            id="company"
+            name="company"
+            type="text"
+            autocomplete="organization"
+            maxlength="200"
+            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
+            placeholder="Acme MSP"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
           <label for="fleet_size" class="text-xs font-medium text-white/70 uppercase tracking-wider">Fleet size</label>
           <select
             id="fleet_size"
@@ -104,9 +117,9 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
         </div>
 
         <!-- Honeypot — visually and assistive-tech hidden, real bots fill it. -->
-        <div aria-hidden="true" style="position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden;">
-          <label for="company">Company (leave blank)</label>
-          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        <div aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
+          <label for="website_url">Website URL (leave blank)</label>
+          <input id="website_url" name="website_url" type="text" tabindex="-1" autocomplete="off" />
         </div>
 
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-2">
@@ -166,7 +179,7 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
       const fd = new FormData(form);
 
       // Honeypot — silently swallow.
-      if ((fd.get('company') || '').toString().trim() !== '') {
+      if ((fd.get('website_url') || '').toString().trim() !== '') {
         form.classList.add('hidden');
         successBox.classList.remove('hidden');
         return;
@@ -174,6 +187,7 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
 
       const name = (fd.get('name') || '').toString().trim();
       const email = (fd.get('email') || '').toString().trim();
+      const company = (fd.get('company') || '').toString().trim();
       const fleet_size = (fd.get('fleet_size') || '').toString().trim();
       const current_mdm = (fd.get('current_mdm') || '').toString().trim();
       const use_case = (fd.get('use_case') || '').toString().trim();
@@ -195,7 +209,7 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
         const res = await fetch(WAITLIST_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, fleet_size, current_mdm, use_case }),
+          body: JSON.stringify({ name, email, company, fleet_size, current_mdm, use_case }),
         });
 
         if (res.ok) {

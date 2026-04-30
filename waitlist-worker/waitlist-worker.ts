@@ -11,6 +11,7 @@ interface SubmitBody {
   fleet_size?: unknown;
   current_mdm?: unknown;
   use_case?: unknown;
+  website_url?: unknown;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,6 +58,11 @@ export default {
       body = await request.json();
     } catch {
       return json({ error: "Invalid JSON" }, 400, origin);
+    }
+
+    // Honeypot — silent 204 so bots can't probe for the field name.
+    if (typeof body.website_url === "string" && body.website_url.trim() !== "") {
+      return new Response(null, { status: 204 });
     }
 
     const name = typeof body.name === "string" ? body.name.trim() : "";

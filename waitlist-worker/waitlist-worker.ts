@@ -7,6 +7,7 @@ export interface Env {
 interface SubmitBody {
   name?: unknown;
   email?: unknown;
+  company?: unknown;
   fleet_size?: unknown;
   current_mdm?: unknown;
   use_case?: unknown;
@@ -60,6 +61,7 @@ export default {
 
     const name = typeof body.name === "string" ? body.name.trim() : "";
     const email = typeof body.email === "string" ? body.email.trim() : "";
+    const company = typeof body.company === "string" ? body.company.trim().slice(0, 200) : "";
     const fleet_size = typeof body.fleet_size === "string" ? body.fleet_size.trim() : "";
     const current_mdm = typeof body.current_mdm === "string" ? body.current_mdm.trim() : "";
     const use_case = typeof body.use_case === "string" ? body.use_case.trim() : "";
@@ -78,6 +80,7 @@ export default {
       Status: { select: { name: "New" } },
       "Submitted At": rt(new Date().toISOString()),
     };
+    if (company) properties["Company"] = rt(company);
     if (current_mdm) properties["Current MDM"] = { select: { name: current_mdm } };
     if (use_case) properties["Use Case"] = rt(use_case);
 

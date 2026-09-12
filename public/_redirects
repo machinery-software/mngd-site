@@ -1,2 +1,10 @@
 # Docs redirect — handled at edge
 /docs   https://docs.mngd.app   301
+
+# Pages retired with the Preline rebuild (MAC-588). Both marketed capabilities
+# that are not shipping — a free tier that was never built, an app-coverage count
+# that is not defensible, and pricing for a product with no launch date — which
+# CLAIMS.md forbids. They 301 rather than 404 so anything already linking to them
+# lands somewhere true.
+/pricing   /   301
+/patch     /   301

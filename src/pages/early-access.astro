@@ -1,86 +1,64 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import CircuitHero from '../components/CircuitHero.astro';
 
+/**
+ * The waitlist. The form, its field names, its validation and its endpoint are
+ * unchanged — the Worker at waitlist.mngd.app/submit already reads exactly these
+ * keys, and the honeypot pair (client swallow + server 204) stays as built.
+ *
+ * What changed is the copy. The old page promised a launch rate of $6/device/month
+ * locked for 24 months and a reply within 2 business days. CLAIMS.md forbids the
+ * first (pricing for a product that is not shipping) and a one-person company
+ * should not print the second. This page now promises a list and a Field Note,
+ * which are the two things that actually exist.
+ */
 const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
+
+const field =
+  'rounded-lg border border-line bg-ground px-3 py-2.5 text-[14.5px] text-ink outline-none transition-colors placeholder:text-faint focus:border-accent';
+const labelCls = 'font-mono text-[11px] tracking-[0.08em] text-faint uppercase';
 ---
 
 <Layout
   title="Join the waitlist — mngd"
-  description="Early access to mngd, the modern Apple MDM built on Declarative Device Management. Launch pricing locked in at $6/device/month for 24 months."
+  description="Tell me about your fleet. The waitlist gets the Field Notes: what ran, what refused, and what the device said."
   canonical="https://mngd.app/early-access"
 >
-
-  <CircuitHero>
-    <div class="max-w-6xl mx-auto px-6 pt-28 pb-16 text-center">
-      <div class="label mb-4">Early access</div>
-      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
-        Join the waitlist.
-      </h1>
-      <p class="text-white/55 max-w-xl mx-auto">
-        Tell us about your fleet. We'll get back to you within 2 business days with early-access details and your locked-in launch rate.
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) pt-16 pb-10 max-sm:px-5">
+    <div class="mx-auto max-w-[62ch]">
+      <div class="eyebrow mb-6">Waitlist</div>
+      <h1 class="text-[clamp(30px,5vw,44px)] text-ink">Join the waitlist</h1>
+      <p class="mt-5 text-[16.5px] leading-relaxed text-muted">
+        mngd is early and not generally available. There is no trial, no pricing page
+        and no launch date — this list is how you hear what happened, and how I find
+        out whose fleet is worth building for next.
       </p>
-      <div class="inline-flex items-center gap-2 mt-6 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/60">
-        <span class="w-1.5 h-1.5 rounded-full" style="background:#F59E0B;"></span>
-        $6/device/month — locked for 24 months at signup.
-      </div>
+      <p class="mt-3 text-[14.5px] leading-relaxed text-faint">
+        What you get: the Field Notes, with the evidence ID attached to every claim.
+        I read every submission myself.
+      </p>
     </div>
-  </CircuitHero>
 
-  <section class="section pt-0">
-    <div class="max-w-2xl mx-auto px-6">
-
-      <form id="waitlist-form" class="card p-8 flex flex-col gap-5" novalidate>
-
+    <div class="mx-auto mt-10 max-w-[62ch]">
+      <form id="waitlist-form" class="flex flex-col gap-5 rounded-xl border border-line bg-surface p-6 sm:p-8" novalidate>
         <div class="flex flex-col gap-2">
-          <label for="name" class="text-xs font-medium text-white/70 uppercase tracking-wider">Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            autocomplete="name"
-            required
-            maxlength="200"
-            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
-            placeholder="Avery Chen"
-          />
+          <label for="name" class={labelCls}>Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required maxlength="200" class={field} placeholder="Avery Chen" />
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="email" class="text-xs font-medium text-white/70 uppercase tracking-wider">Work email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            required
-            maxlength="200"
-            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
-            placeholder="avery@company.com"
-          />
+          <label for="email" class={labelCls}>Work email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="200" class={field} placeholder="avery@company.com" />
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="company" class="text-xs font-medium text-white/70 uppercase tracking-wider">Company</label>
-          <input
-            id="company"
-            name="company"
-            type="text"
-            autocomplete="organization"
-            maxlength="200"
-            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
-            placeholder="Acme MSP"
-          />
+          <label for="company" class={labelCls}>Company</label>
+          <input id="company" name="company" type="text" autocomplete="organization" maxlength="200" class={field} placeholder="Acme MSP" />
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="fleet_size" class="text-xs font-medium text-white/70 uppercase tracking-wider">Fleet size</label>
-          <select
-            id="fleet_size"
-            name="fleet_size"
-            required
-            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white outline-none transition-colors"
-          >
+          <label for="fleet_size" class={labelCls}>Fleet size</label>
+          <select id="fleet_size" name="fleet_size" required class={field}>
             <option value="" disabled selected>Select a range</option>
             <option value="1–25">1–25 devices</option>
             <option value="26–100">26–100 devices</option>
@@ -92,61 +70,57 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="current_mdm" class="text-xs font-medium text-white/70 uppercase tracking-wider">Current MDM</label>
-          <input
-            id="current_mdm"
-            name="current_mdm"
-            type="text"
-            maxlength="100"
-            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
-            placeholder="Jamf, Kandji, Intune, none, etc."
-          />
-          <p class="text-xs text-white/35">What you're using today — or "none" if you're starting fresh.</p>
+          <label for="current_mdm" class={labelCls}>Current MDM</label>
+          <input id="current_mdm" name="current_mdm" type="text" maxlength="100" class={field} placeholder="Jamf, Kandji, Intune, none, etc." />
+          <p class="text-[12.5px] text-faint">What you're using today — or "none" if you're starting fresh.</p>
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="use_case" class="text-xs font-medium text-white/70 uppercase tracking-wider">What's broken about your current setup?</label>
-          <textarea
-            id="use_case"
-            name="use_case"
-            rows="4"
-            maxlength="2000"
-            class="bg-black/40 border border-white/10 focus:border-white/30 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors resize-none"
-            placeholder="Polling delays, profile drift, MSP multi-tenancy, DDM gaps — whatever's pushing you to look."
-          ></textarea>
+          <label for="use_case" class={labelCls}>What's broken about your current setup?</label>
+          <textarea id="use_case" name="use_case" rows="4" maxlength="2000" class={`${field} resize-none`} placeholder="Polling delays, profile drift, MSP multi-tenancy, DDM gaps — whatever's pushing you to look."></textarea>
         </div>
 
-        <!-- Honeypot — visually and assistive-tech hidden, real bots fill it. -->
+        <!-- Honeypot — visually and assistive-tech hidden, real bots fill it. The
+             Worker checks the same field server-side and answers 204, because a
+             client-side check alone is theatre: bots POST to the Worker directly. -->
         <div aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
           <label for="website_url">Website URL (leave blank)</label>
           <input id="website_url" name="website_url" type="text" tabindex="-1" autocomplete="off" />
         </div>
 
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-2">
+        <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
           <button
             type="submit"
             id="submit-btn"
-            class="mngd-btn-primary justify-center"
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[15px] font-medium text-accent-contrast transition-colors hover:bg-accent-strong disabled:opacity-60"
           >
             <span id="submit-label">Join the waitlist</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5" /></svg>
           </button>
-          <p class="text-xs text-white/40">No tracking. We email you, and that's it.</p>
+          <p class="text-[12.5px] text-faint">No tracking. I email you, and that's it.</p>
         </div>
 
-        <div id="form-error" class="hidden text-sm text-red-300/90 bg-red-900/20 border border-red-500/20 rounded-lg px-4 py-3" role="alert"></div>
+        <div
+          id="form-error"
+          class="hidden rounded-lg border border-bad-line bg-bad-bg px-4 py-3 text-[14px] text-bad-ink"
+          role="alert"
+        ></div>
       </form>
 
-      <div id="form-success" class="hidden card p-8 text-center" role="status" aria-live="polite">
-        <div class="text-2xl font-semibold text-white tracking-tight mb-2">You're on the list.</div>
-        <p class="text-white/55 max-w-md mx-auto">
-          We'll be in touch within 2 business days with early-access details. In the meantime, your launch rate is locked at <span class="text-white">$6/device/month for 24 months</span>.
+      <div
+        id="form-success"
+        class="hidden rounded-xl border border-line bg-surface p-8 text-center"
+        role="status"
+        aria-live="polite"
+      >
+        <div class="text-[22px] font-semibold tracking-tight text-ink">You're on the list.</div>
+        <p class="mx-auto mt-2 max-w-[44ch] text-[15px] leading-relaxed text-muted">
+          Nothing else happens until there is something true to send you. The next
+          thing you hear from me will be a Field Note.
         </p>
       </div>
-
     </div>
   </section>
-
 </Layout>
 
 <script is:inline define:vars={{ WAITLIST_ENDPOINT }}>
@@ -202,7 +176,6 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
       }
 
       submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.6';
       submitLabel.textContent = 'Sending…';
 
       try {
@@ -231,11 +204,8 @@ const WAITLIST_ENDPOINT = 'https://waitlist.mngd.app/submit';
         showError("Network error — your submission didn't go through.", true);
       } finally {
         submitBtn.disabled = false;
-        submitBtn.style.opacity = '';
         submitLabel.textContent = 'Join the waitlist';
       }
     });
   })();
 </script>
-</content>
-</invoke>

@@ -71,7 +71,14 @@ const fmt = (d: Date) =>
       </div>
 
       <footer class="mt-16">
-        <BuiltOn variant="post" />
+        {post.data.creditsInBody ? (
+          <p class="receipt-cite border-t border-line pt-5">
+            This note carries its own built-on section. The full list, with links, is
+            on the <a href="/credits" class="text-accent not-italic no-underline hover:underline">built-on page</a>.
+          </p>
+        ) : (
+          <BuiltOn variant="post" />
+        )}
       </footer>
     </div>
   </article>

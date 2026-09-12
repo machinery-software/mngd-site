@@ -1,112 +1,217 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* The site's one stylesheet entry point.
+ *
+ * Order matters. Tailwind first, then Preline's variant registrations (the
+ * hs-* state variants its plugins toggle), then the brand v2 tokens, then the
+ * @theme mapping that turns those tokens into Tailwind utilities.
+ */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+/* Path-relative rather than a bare specifier: preline 4.2.0's exports map does
+   not list variants.css, so `@import "preline/variants.css"` fails to resolve.
+   This is the form its own README documents. */
+@import "../../node_modules/preline/variants.css";
+
+/* Self-hosted IBM Plex — no request on any page leaves this origin. The weights
+ * are the four the site actually sets: 400 and 600 sans, 400 sans italic (the
+ * console's "faint" treatment recedes through italics rather than contrast, and
+ * this site quotes its panels), and 400/500 mono for receipts and eyebrows. */
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/400-italic.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@import "./tokens.css";
+
+/* Preline's plugins toggle `dark:` via a class on <html>. Our themes are driven
+ * by the tokens above — [data-theme] and prefers-color-scheme — so the variant
+ * is pointed at the same two facts. Anything written with `dark:` therefore
+ * agrees with the tokens instead of forming a second, competing theme. */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *, :root:not([data-theme="light"])) {
+      @slot;
+    }
+  }
+  &:where(:root[data-theme="dark"] *, :root[data-theme="dark"]) {
+    @slot;
+  }
+}
+
+/* `inline` is the load-bearing word: it makes `bg-surface` compile to
+ * `background-color: var(--surface)` rather than to the hex that --surface
+ * happens to hold in light mode. Without it every utility would bake a
+ * light-mode colour and the themes would stop working. */
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-footer: var(--footer);
+  --color-hover: var(--hover);
+
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint-text);
+  --color-faint-line: var(--faint-line);
+
+  --color-line: var(--border);
+  --color-rowline: var(--rowline);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-soft: var(--accent-soft);
+  --color-logo-ground: var(--logo-ground);
+
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--ok-bg);
+  --color-ok-ink: var(--ok-ink);
+  --color-ok-line: var(--ok-line);
+
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-ink: var(--warn-ink);
+  --color-warn-line: var(--warn-line);
+
+  --color-bad: var(--bad);
+  --color-bad-bg: var(--bad-bg);
+  --color-bad-ink: var(--bad-ink);
+  --color-bad-line: var(--bad-line);
+
+  --color-idle: var(--idle);
+  --color-idle-bg: var(--idle-bg);
+  --color-idle-ink: var(--idle-ink);
+  --color-idle-line: var(--idle-line);
+
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+
+  --container-reading: var(--container-reading);
+  --container-wide: var(--container-wide);
+}
 
 @layer base {
   html {
-    @apply bg-black text-white antialiased scroll-smooth;
-    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--ground);
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* One focus treatment for the whole site, in the brand colour — the console's
+   * rule, for the console's reason: a keyboard reader must be able to see where
+   * they are. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 3px;
   }
 
   ::selection {
-    background: #2D3A9E;
-    color: #fff;
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-weight: 600;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white text-sm font-medium transition-colors;
-    background-color: #2D3A9E;
-  }
-  .btn-primary:hover {
-    background-color: #242f85;
-  }
-  .btn-secondary {
-    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 hover:border-white/20 text-white/80 hover:text-white text-sm font-medium transition-colors;
-  }
-  .card {
-    @apply bg-white/[0.03] border border-white/[0.06] rounded-xl;
-  }
-  .section {
-    @apply py-24 px-6;
-  }
-  .container {
-    @apply max-w-6xl mx-auto;
-  }
-  .label {
-    @apply text-xs font-semibold tracking-widest uppercase;
-    color: #6B82F0;
-  }
-
-  /* JetBrains Mono pill/eyebrow label — used across pages */
-  .mono-label {
-    font-family: 'JetBrains Mono', monospace;
+  /* The eyebrow: mono, tracked, faint, with a short rule after it. Used once
+   * per section to name the section. */
+  .eyebrow {
+    font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    color: var(--faint-text);
     display: flex;
     align-items: center;
     gap: 12px;
-    text-transform: uppercase;
   }
-  .mono-label::after {
-    content: '';
+  .eyebrow::after {
+    content: "";
     flex: 1;
     height: 1px;
-    background: rgba(255,255,255,0.08);
-    max-width: 60px;
+    max-width: 56px;
+    background: var(--faint-line);
   }
 
-  /* Hairline divider */
-  .divider {
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    margin: 0;
+  /* The receipt block. Everything quoted out of EVIDENCE.md renders in this,
+   * and nothing that is not quoted may use it: the dashed rule and the mono
+   * face are the site's signal that a reader is looking at a device's own words
+   * rather than ours. */
+  .receipt {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px dashed var(--faint-line);
+    border-radius: 8px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .receipt-cite {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint-text);
+    font-style: italic;
   }
 
-  /* Product-colored primary button (navy default) */
-  .mngd-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #fff;
-    background: #2D3A9E;
-    padding: 12px 24px;
-    border-radius: 7px;
-    transition: background 0.15s, transform 0.1s;
-    text-decoration: none;
+  .prose-mngd :where(p, ul, ol) {
+    color: var(--muted);
+    font-size: 15.5px;
+    line-height: 1.75;
   }
-  .mngd-btn-primary:hover { background: #242f85; transform: translateY(-1px); }
-
-  .mngd-btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #fff;
-    background: transparent;
-    padding: 11px 24px;
-    border-radius: 7px;
-    border: 1px solid rgba(255,255,255,0.12);
-    transition: border-color 0.15s, background 0.15s;
-    text-decoration: none;
+  .prose-mngd :where(h2) { font-size: 24px; margin: 2.25em 0 0.6em; color: var(--ink); }
+  .prose-mngd :where(h3) { font-size: 18px; margin: 1.75em 0 0.5em; color: var(--ink); }
+  .prose-mngd :where(p, ul, ol) + :where(p, ul, ol) { margin-top: 1.1em; }
+  .prose-mngd :where(ul, ol) { padding-left: 1.3em; }
+  .prose-mngd :where(li) + :where(li) { margin-top: 0.4em; }
+  .prose-mngd :where(a) { color: var(--accent); text-underline-offset: 3px; text-decoration: underline; }
+  .prose-mngd :where(a:hover) { color: var(--accent-strong); }
+  .prose-mngd :where(strong) { color: var(--ink); font-weight: 600; }
+  .prose-mngd :where(code) {
+    font-family: var(--mono);
+    font-size: 0.875em;
+    background: var(--accent-soft);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
   }
-  .mngd-btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
-
-  /* Equal-height pricing card pattern — content fills, CTA sticks to bottom */
-  .price-card {
-    @apply card p-6 flex flex-col h-full;
+  .prose-mngd :where(pre) {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    overflow-x: auto;
   }
-  .price-card-body {
-    @apply flex flex-col gap-5 flex-1;
+  .prose-mngd :where(pre code) { background: none; padding: 0; }
+  .prose-mngd :where(blockquote) {
+    border-left: 2px solid var(--faint-line);
+    padding-left: 1em;
+    font-style: italic;
+    color: var(--faint-text);
   }
-  .price-card-cta {
-    @apply mt-5 text-center text-sm font-medium py-2 rounded-lg text-white transition-colors;
-  }
+  .prose-mngd :where(hr) { border: none; border-top: 1px solid var(--border); margin: 2.5em 0; }
 }

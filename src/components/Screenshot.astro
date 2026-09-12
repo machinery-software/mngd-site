@@ -1,0 +1,38 @@
+---
+/**
+ * A screenshot, or the honest shape of one that does not exist yet.
+ *
+ * Field Note 001's four receipts are captured from the mini AFTER the console
+ * redress lands, so the post is written with the frames in place and `pending`
+ * set. A pending frame says what it will show and what file it is waiting for —
+ * it never renders a fake screenshot, a mockup, or a stock image standing in for
+ * a device's real answer.
+ */
+interface Props {
+  /** Path under /public once captured, e.g. /field-notes/001/queue.png */
+  src?: string;
+  alt: string;
+  caption?: string;
+  pending?: boolean;
+}
+const { src, alt, caption, pending = false } = Astro.props;
+---
+
+<figure class="my-8">
+  {pending || !src ? (
+    <div
+      class="flex min-h-[180px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-faint-line bg-surface px-6 py-10 text-center"
+      role="img"
+      aria-label={`Screenshot pending: ${alt}`}
+    >
+      <div class="font-mono text-[11px] tracking-[0.08em] text-faint uppercase">Screenshot pending</div>
+      <p class="max-w-[52ch] text-[13.5px] leading-relaxed text-muted">{alt}</p>
+      {src && <code class="font-mono text-[11.5px] text-faint">{src}</code>}
+    </div>
+  ) : (
+    <img src={src} alt={alt} class="w-full rounded-xl border border-line bg-surface" loading="lazy" decoding="async" />
+  )}
+  {caption && (
+    <figcaption class="mt-2.5 text-[13px] leading-relaxed text-faint italic">{caption}</figcaption>
+  )}
+</figure>

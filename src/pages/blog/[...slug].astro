@@ -1,0 +1,77 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BuiltOn from '../../components/BuiltOn.astro';
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+/**
+ * A Field Note. Drafts are built (so they can be read at a URL before they are
+ * announced) but stay off the index; the dateline, the evidence IDs and the
+ * built-on section are printed by this layout rather than typed into each post,
+ * which is what keeps CLAIMS.md's "every post carries the credits" rule from
+ * depending on anyone remembering it.
+ */
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({ params: { slug: post.id }, props: { post } }));
+}
+
+type Props = { post: CollectionEntry<'blog'> };
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// UTC, deliberately: a frontmatter date of 2026-09-11 is UTC midnight, and
+// formatting it in the build machine's timezone prints the 10th west of
+// Greenwich. The date a note carries should not depend on where it was built.
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+
+<Layout
+  title={`${post.data.title} — mngd Field Notes`}
+  description={post.data.description}
+  articleDate={post.data.date}
+>
+  <article class="mx-auto max-w-(--container-wide) px-(--gutter) pt-16 pb-10 max-sm:px-5">
+    <div class="mx-auto max-w-[70ch]">
+      <a href="/blog" class="font-mono text-[11.5px] text-accent no-underline hover:underline">
+        &larr; Field Notes
+      </a>
+
+      <header class="mt-6">
+        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          {post.data.number !== undefined && (
+            <span class="font-mono text-[11px] tracking-[0.08em] text-faint uppercase">
+              Field Note {String(post.data.number).padStart(3, '0')}
+            </span>
+          )}
+          <time datetime={post.data.date.toISOString()} class="font-mono text-[11px] text-faint">
+            {fmt(post.data.date)}
+          </time>
+          {post.data.draft && (
+            <span class="rounded border border-warn-line bg-warn-bg px-1.5 py-0.5 font-mono text-[10px] tracking-wide text-warn-ink uppercase">
+              draft
+            </span>
+          )}
+        </div>
+
+        <h1 class="mt-3 text-[clamp(28px,4.6vw,40px)] text-ink">{post.data.title}</h1>
+        <p class="mt-4 text-[17px] leading-relaxed text-muted">{post.data.description}</p>
+
+        {post.data.evidence.length > 0 && (
+          <p class="receipt-cite mt-5 border-t border-line pt-4">
+            Rests on {post.data.evidence.join(', ')} in the mngd repository's EVIDENCE.md.
+          </p>
+        )}
+      </header>
+
+      <div class="prose-mngd mt-10">
+        <Content />
+      </div>
+
+      <footer class="mt-16">
+        <BuiltOn variant="post" />
+      </footer>
+    </div>
+  </article>
+</Layout>

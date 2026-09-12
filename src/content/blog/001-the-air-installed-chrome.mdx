@@ -1,0 +1,89 @@
+---
+title: "The Air installed Chrome, and named the declaration that told it to"
+description: "Rung 5 closed on hardware: a MacBook Air installed Google Chrome from a declaration this repository holds, and said so in its own report."
+date: 2026-09-11
+number: 1
+draft: true
+evidence: ["E-130"]
+---
+
+import Screenshot from '../../components/Screenshot.astro';
+import Receipt from '../../components/Receipt.astro';
+
+{/*
+  ============================================================================
+  FIELD NOTE 001 — SCAFFOLD ONLY. THE BODY IS DAVID'S DRAFT AND IS NOT HERE.
+  ============================================================================
+
+  This file exists so the pipeline it will travel through is real and tested:
+  frontmatter schema, dateline, evidence IDs, the built-on section every post
+  carries, and the four pending screenshot frames. It is `draft: true`, so it
+  does NOT appear on /blog — it is reachable only at its own URL.
+
+  TO PUBLISH:
+    1. Paste the rewritten-around-Chrome draft below, keeping its [DAVID] and
+       [RECEIPT] marks until each is resolved.
+    2. Capture the four screenshots per docs/field-note-001-screenshots.md and
+       drop them in public/field-notes/001/ — then remove `pending` from the
+       frame and give each one its real caption.
+    3. Check every technical sentence against CLAIMS.md. Anything not receipted
+       in the mngd repo's EVIDENCE.md comes out.
+    4. Set `draft: false`.
+
+  The only prose below the marks is the E-130 quotation, which is the device's
+  own words rather than anybody's writing.
+*/}
+
+{/* [DAVID] — the opening. What you were doing at 12:30 UTC, and why this one mattered. */}
+
+{/* [RECEIPT] — E-130, the panel as the device rendered it. Quoted, not paraphrased. */}
+
+<Receipt
+  label="Reported — what the Mac says"
+  text={`Reported
+what the Mac says          installed
+                           installed
+                           version on the device: 153.0.8010.37
+                           name: Google Chrome
+
+Because git said so        the device names this declaration
+                           com.mngd.package.google-chrome
+
+Verdict                    installed`}
+  cite="E-130 — the mini serving, the Air reporting. Panel timestamped 2026-09-11 12:30 UTC."
+/>
+
+{/* [DAVID] — the attribution paragraph: why `declaration-identifier` is the load-bearing part. */}
+
+<Screenshot
+  pending
+  src="/field-notes/001/change-queue.png"
+  alt="The Changes queue with the Chrome change in it — Open, Applied, Dismissed."
+/>
+
+{/* [DAVID] — proposing the change. A branch, not a row in a table. */}
+
+<Screenshot
+  pending
+  src="/field-notes/001/gates-refusing.png"
+  alt="A gate refusing in plain English, with the recovery command it recommends."
+/>
+
+{/* [DAVID] — the gates. What refused, and what the refusal told you to run. [RECEIPT] E-112, E-125. */}
+
+<Screenshot
+  pending
+  src="/field-notes/001/apply-confirm.png"
+  alt="Apply's confirmation carrying the exact commit it showed — the fast-forward law, visible."
+/>
+
+{/* [DAVID] — apply, and the commit the confirmation carried. [RECEIPT] E-116, E-119. */}
+
+<Screenshot
+  pending
+  src="/field-notes/001/declared-reported.png"
+  alt="The device page's Declared, Reported and Verdict panels for Chrome 153.0.8010.37."
+/>
+
+{/* [DAVID] — what is NOT established: the state walk was not observed here (E-130's own
+    caveat), and one Air on a staging instance is one Air on a staging instance. */}

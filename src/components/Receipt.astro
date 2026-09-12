@@ -1,0 +1,28 @@
+---
+/**
+ * A quotation from a device, or from an EVIDENCE.md entry. One component so the
+ * same panel cannot be copy-pasted onto two pages and drift apart.
+ *
+ * `text` is passed as a prop rather than a slot because MDX ends a JSX element
+ * at the first blank line, and a receipt is mostly blank lines. Whitespace is
+ * preserved exactly; nothing here reflows or re-indents a device's own words.
+ *
+ * The dashed rule and the mono face are reserved for text that was actually
+ * quoted. Prose does not get to wear this.
+ */
+interface Props {
+  text: string;
+  /** Evidence ID and the boundary of the reading, e.g. "E-130 — one Air, 12:30 UTC". */
+  cite?: string;
+  label?: string;
+}
+const { text, cite, label } = Astro.props;
+---
+
+<figure class="my-6">
+  {label && (
+    <figcaption class="mb-2 font-mono text-[11px] tracking-[0.08em] text-faint uppercase">{label}</figcaption>
+  )}
+  <div class="receipt">{text}</div>
+  {cite && <p class="receipt-cite mt-2.5">{cite}</p>}
+</figure>

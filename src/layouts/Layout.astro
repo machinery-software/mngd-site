@@ -8,20 +8,20 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonical?: string;
-  productColor?: string;
-  productName?: string;
+  /** Set on Field Notes so the OG type and the article dateline are right. */
+  articleDate?: Date;
 }
 
 const {
   title,
-  description = 'Apple MDM built for the DDM era. Device management that stays out of your way.',
+  description = 'Apple device management where the fleet repository lives inside the product: propose a change, read the gates, apply the commit you were shown.',
   ogImage = 'https://mngd.app/og.png',
   canonical,
-  productColor = '#2D3A9E',
-  productName  = 'mngd',
+  articleDate,
 } = Astro.props;
 
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const isoDate = articleDate ? articleDate.toISOString() : undefined;
 ---
 
 <!doctype html>
@@ -37,27 +37,113 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toStri
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={articleDate ? 'article' : 'website'} />
+    <meta property="og:site_name" content="mngd" />
+    {isoDate && <meta property="article:published_time" content={isoDate} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- JetBrains Mono for labels -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- The theme's colour bar matches whichever ground is about to paint. -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f4f8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#12151b" />
 
     <title>{title}</title>
+
+    <!--
+      The theme preference, ported from the console's static/theme.js, which is
+      the console's only JavaScript. Three states, and "system" is the ABSENCE of
+      the attribute rather than a value of it — so following the OS costs no
+      script at all and keeps working if this block is ever blocked.
+
+      Inline in <head> rather than a linked file for the reason the console gives:
+      a linked script runs after first paint, which is the whole failure this
+      exists to avoid — a light flash on a dark-themed machine before the stored
+      choice is applied.
+
+      It reads one localStorage key and sets one attribute. No network call, no
+      fetch, no src, no eval.
+    -->
+    <script is:inline>
+      (function () {
+        "use strict";
+        var KEY = "mngd.theme";
+        var root = document.documentElement;
+
+        function apply(choice) {
+          if (choice === "light" || choice === "dark") {
+            root.setAttribute("data-theme", choice);
+          } else {
+            root.removeAttribute("data-theme");
+            choice = "system";
+          }
+          var buttons = document.querySelectorAll("[data-theme-set]");
+          for (var i = 0; i < buttons.length; i++) {
+            buttons[i].setAttribute(
+              "aria-pressed",
+              buttons[i].getAttribute("data-theme-set") === choice ? "true" : "false"
+            );
+          }
+        }
+
+        // localStorage throws rather than returning null in a browser configured
+        // to refuse site data. Failure here means "system".
+        var current = "system";
+        try {
+          var stored = window.localStorage.getItem(KEY);
+          if (stored === "light" || stored === "dark") current = stored;
+        } catch (e) {
+          current = "system";
+        }
+
+        apply(current);
+
+        document.addEventListener("click", function (event) {
+          var target = event.target;
+          if (!target || typeof target.closest !== "function") return;
+          var button = target.closest("[data-theme-set]");
+          if (!button) return;
+          current = button.getAttribute("data-theme-set");
+          try {
+            if (current === "system") window.localStorage.removeItem(KEY);
+            else window.localStorage.setItem(KEY, current);
+          } catch (e) {
+            // Unwritable storage means the choice lasts for this page only. The
+            // theme still changes, which is the visible half of what was asked.
+          }
+          apply(current);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+          apply(current);
+        });
+      })();
+    </script>
   </head>
-  <body class="bg-black">
-    <Nav productColor={productColor} productName={productName} />
-    <main>
+  <body class="bg-ground text-ink font-sans">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-surface focus:px-4 focus:py-2 focus:text-sm focus:text-ink focus:shadow-sm"
+    >
+      Skip to content
+    </a>
+    <Nav />
+    <main id="main">
       <slot />
     </main>
     <Footer />
+
+    <!--
+      Preline's plugin runtime. The only thing it drives on this site is the
+      mobile nav collapse; everything else here is static HTML, which is why it
+      loads at the end of the body rather than blocking the head.
+    -->
+    <script>
+      import 'preline';
+    </script>
   </body>
 </html>

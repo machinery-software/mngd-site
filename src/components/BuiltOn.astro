@@ -1,0 +1,107 @@
+---
+/**
+ * The built-on section. CLAIMS.md requires this to be visible, linked from the
+ * footer, and carried by every post — so it is a component rather than a page
+ * section, and /credits and every Field Note both render this same file.
+ *
+ * Everything here is a debt, not a badge. Nothing in this list is a customer, a
+ * partner, or an endorsement, and it must never be dressed as one.
+ */
+interface Props {
+  /** Headed as a page section (/credits) or as a post footer (Field Notes). */
+  variant?: 'page' | 'post';
+}
+const { variant = 'page' } = Astro.props;
+
+const credits = [
+  {
+    name: 'Declarative Device Management',
+    by: 'Apple',
+    href: 'https://developer.apple.com/documentation/devicemanagement',
+    body:
+      'DDM is Apple’s, not ours. mngd speaks it because Apple defined it, and vendors Apple’s own schema rather than paraphrasing it.',
+    extra: { label: 'apple/device-management', href: 'https://github.com/apple/device-management' },
+  },
+  {
+    name: 'NanoMDM, NanoCMD, KMFDDM, nanodep',
+    by: 'Jesse Peterson and the MicroMDM project',
+    href: 'https://github.com/micromdm',
+    body:
+      'The MDM machinery underneath. Years of somebody else’s careful work on the protocol, the command queue, the declaration store and DEP, given away for free.',
+    extra: { label: 'jessepeterson', href: 'https://github.com/jessepeterson' },
+  },
+  {
+    name: 'go-git',
+    by: 'the go-git authors',
+    href: 'https://github.com/go-git/go-git',
+    body:
+      'Git in pure Go. It is why the fleet repository can live inside the product with no git binary, no working tree on disk, and no shell.',
+  },
+  {
+    name: 'Installomator',
+    by: 'the MacAdmins community',
+    href: 'https://github.com/Installomator/Installomator',
+    body:
+      'The inspiration for the app-catalog direction — and prior art for installing apps from a vendor URL long before we looked at it.',
+  },
+  {
+    name: 'Preline UI',
+    by: 'Preline Labs Ltd. — MIT',
+    href: 'https://github.com/htmlstreamofficial/preline',
+    body:
+      'The component system this site is built from, and the one the admin console is being rebuilt on \u2014 so that the funnel and the product end up reading as one thing.',
+    extra: { label: 'MIT + Fair Use licence', href: 'https://github.com/htmlstreamofficial/preline/blob/main/LICENSE' },
+  },
+];
+---
+
+<section class={variant === 'post' ? 'border-t border-line pt-10' : ''} aria-labelledby="built-on">
+  <div class="eyebrow mb-5">Built on</div>
+  <h2
+    id="built-on"
+    class={variant === 'post' ? 'mb-3 text-[19px] text-ink' : 'mb-3 text-[26px] text-ink sm:text-[32px]'}
+  >
+    Standing on other people's work.
+  </h2>
+  <p class="mb-8 max-w-[62ch] text-[15px] leading-relaxed text-muted">
+    mngd is a thin layer over a great deal of work that other people did first and
+    gave away. Naming it is the least the layer can do.
+  </p>
+
+  <ul class="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
+    {credits.map(c => (
+      <li class="bg-surface p-5 last:sm:col-span-2">
+        <a
+          href={c.href}
+          rel="noopener noreferrer"
+          class="text-[15px] font-medium text-ink no-underline underline-offset-4 hover:underline"
+        >
+          {c.name}
+        </a>
+        <div class="mt-0.5 font-mono text-[11px] tracking-wide text-faint">{c.by}</div>
+        <p class="mt-2.5 text-[13.5px] leading-relaxed text-muted">{c.body}</p>
+        {c.extra && (
+          <a
+            href={c.extra.href}
+            rel="noopener noreferrer"
+            class="mt-2.5 inline-block font-mono text-[11.5px] text-accent no-underline hover:underline"
+          >
+            {c.extra.label} &rarr;
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <!-- Required by CLAIMS.md, and true: config-as-code device management was not
+       our idea, and the two projects that did it first should be named on the
+       same page that describes us doing it. -->
+  <p class="mt-6 max-w-[70ch] text-[14px] leading-relaxed text-muted">
+    <strong class="font-medium text-ink">Fellow travelers.</strong>
+    {' '}
+    <a href="https://fleetdm.com" rel="noopener noreferrer" class="text-accent no-underline hover:underline">Fleet</a>
+    {' keeps device configuration in git and reviews it by pull request before it reaches a device; '}
+    <a href="https://zentral.com" rel="noopener noreferrer" class="text-accent no-underline hover:underline">Zentral</a>
+    {' drives Apple MDM through Terraform against protected branches with mandatory review. Config-as-code for Apple fleets is a road with other people already on it, and both of them were there first.'}
+  </p>
+</section>

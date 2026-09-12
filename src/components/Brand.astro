@@ -1,0 +1,32 @@
+---
+/**
+ * The mark. The badge keeps the logo's own indigo in BOTH themes, app-icon
+ * style — the asset is a fixed file with its background baked in, and
+ * recolouring it per theme would be redrawing somebody else's artwork.
+ *
+ * The source is 488x501 — very slightly taller than square — so the badge is a
+ * square box with object-fit: cover. The crop removes a few pixels of flat
+ * indigo from each edge and the character is untouched. The file is
+ * byte-identical to the console's static/logo.png.
+ */
+interface Props {
+  size?: number;
+  class?: string;
+}
+const { size = 26, class: className = '' } = Astro.props;
+---
+
+<span
+  class={`inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-logo-ground ${className}`}
+  style={`width:${size}px;height:${size}px;`}
+>
+  <img
+    src="/logo.png"
+    alt=""
+    width={size}
+    height={size}
+    class="h-full w-full object-cover"
+    loading="eager"
+    decoding="async"
+  />
+</span>

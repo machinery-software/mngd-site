@@ -1,0 +1,88 @@
+---
+/**
+ * Three segments, one fact. The active segment is decided in CSS from the
+ * attribute the head script sets — not by script — so the control cannot come
+ * to disagree with the theme it is describing.
+ *
+ * aria-pressed is maintained by that same script. Before it runs (or if it is
+ * blocked) every segment reads unpressed and the page follows the OS, which is
+ * the honest default rather than a lie about which state is active.
+ */
+---
+
+<div
+  class="inline-flex items-center gap-0.5 rounded-lg border border-line bg-surface p-0.5"
+  role="group"
+  aria-label="Colour theme"
+>
+  <button
+    type="button"
+    data-theme-set="light"
+    aria-pressed="false"
+    class="theme-seg"
+    title="Light"
+  >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" />
+    </svg>
+    <span class="sr-only">Light</span>
+  </button>
+  <button
+    type="button"
+    data-theme-set="system"
+    aria-pressed="false"
+    class="theme-seg"
+    title="Match system"
+  >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" />
+    </svg>
+    <span class="sr-only">Match system</span>
+  </button>
+  <button
+    type="button"
+    data-theme-set="dark"
+    aria-pressed="false"
+    class="theme-seg"
+    title="Dark"
+  >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    </svg>
+    <span class="sr-only">Dark</span>
+  </button>
+</div>
+
+<style>
+  .theme-seg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 24px;
+    border-radius: 6px;
+    color: var(--faint-text);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.12s, background 0.12s;
+  }
+  .theme-seg:hover { color: var(--ink); background: var(--hover); }
+  .theme-seg[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); }
+
+  /* The CSS half of "one fact, two readings": with no stored choice the head
+   * script leaves the attribute off, and the system segment is the active one
+   * whether or not script ever ran. */
+  :global(:root:not([data-theme])) .theme-seg[data-theme-set="system"] {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+  :global(:root[data-theme="light"]) .theme-seg[data-theme-set="light"] {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+  :global(:root[data-theme="dark"]) .theme-seg[data-theme-set="dark"] {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+</style>

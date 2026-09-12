@@ -50,10 +50,29 @@ Order matters only where it says so.
 | `/pricing` | `/` | 301 | Page retired — priced a product that is not shipping |
 | `/patch` | `/` | 301 | Page retired — claims it made are not receipted |
 
-## 6. Before any of this is public
+## 6. The waitlist form must be shown to DELIVER — before launch
 
-- [ ] Decide public vs private for the repository (see the PR description — the
-      Cruip-derived `next/` tree is the open question, not Preline).
-- [ ] `public/og.png` does not exist. Every page references it in its OG tags, so
-      link previews are currently broken on every share. Either add the file or
-      remove the tag.
+A form that submits into a void is a dormant feature wearing an input field, and
+it is worse than no form: it collects addresses from people who then hear nothing.
+
+The endpoint `https://waitlist.mngd.app/submit` is kept in this build on the
+strength of it being wired, which is not the same as it being *received*. So:
+
+- [ ] **David submits a real test entry** through `/early-access` on the deployed
+      site — not a curl against the Worker, the actual form.
+- [ ] **David confirms the entry arrived** somewhere he actually reads (the Notion
+      waitlist database the Worker writes to, per its `wrangler.toml`).
+- [ ] Check that the honeypot still behaves: a submission with `website_url` set
+      returns 204 and writes nothing.
+
+**If the endpoint is dead or unowned, the fallback is a `mailto:hello@mngd.app`
+link** in place of the form, until a working form earns its place back. That is a
+one-component change to `/early-access`; do not ship the form on hope.
+
+## 7. Before launch
+
+- [x] Repository visibility: **private, and staying private** — the reason is in
+      the README. Not a Preline question; the Cruip source in branch history is
+      what settles it.
+- [x] `public/og.png` exists and is generated from the brand tokens
+      (`node scripts/build-og.mjs`). David approves the image itself before merge.

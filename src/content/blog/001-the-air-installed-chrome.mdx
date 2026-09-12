@@ -18,10 +18,30 @@ import Receipt from '../../components/Receipt.astro';
       after the console redress lands (docs/field-note-001-screenshots.md);
     - the opening quote is the <Receipt> component so it cannot drift from the
       copy on the home page;
-    - the [CHECK] on the component-package status sequence is RESOLVED from E-103
-      and the sequence is now in the prose;
-    - three new [CHECK] marks are added where a sentence outran its receipt. They
-      are the only things between this and draft: false.
+    - the [CHECK] on the component-package status sequence is RESOLVED from E-103,
+      and the prose now says what E-103 says: the walk REACHED installing and
+      failed there, seven milliseconds in — not "dies after the download".
+
+  MARKS, and what each one is waiting for:
+
+    [CAPTURE] x1 — the verdict-row quotation. Ruled: its source is a receipt, not
+      a worktree. It stays marked only until capture day, when it is set to the
+      string the redesigned console actually renders beside Receipt 1.
+
+    [DAVID] x3 — the macOS build number, the bench-truth paragraph, and the
+      optional beat. Your voice pass; nobody else's.
+
+    [CHECK] x3 — ALL THREE ARE NEW, found by reading the ledger rather than the
+      draft, and none of them is a wording quibble:
+        · the hero paragraph and the pipeline sentence narrate steps E-130 files
+          under "What is NOT established" — no log from that run was read;
+        · the deploy refusal is quoted from E-124's FIXTURE of the fix, and the
+          line after it ("refused before touching anything") is the opposite of
+          what E-124 records happening on 2026-09-04. Read that one first.
+
+    RESOLVED since the last pass: "and then sometimes not at all" is cut from the
+      SQL-error finding — and so is "in successful installs", which turned out to
+      have no receipt either. The note there explains the deviation.
 
   Every claim was checked against the mngd repository's EVIDENCE.md. The mapping:
     deploy refused while CI was behind ........ E-124
@@ -54,13 +74,43 @@ Verdict                            installed`}
   caption="Receipt 1 — the hero image."
 />
 
+{/* [CHECK — NEW, and not in the handover's list. Found by reading E-130 rather
+    than the draft.] This sentence narrates four steps; E-130 holds two of them.
+
+    What the record has: the TERMINAL state and the attribution — the device says
+    `installed`, reports version 153.0.8010.37, and names
+    `com.mngd.package.google-chrome` as the declaration that caused it — plus, read
+    from the laptop, the manifest route serving the chunked form and the pkg route
+    serving 263,986,305 bytes.
+
+    What E-130 puts under "What is NOT established", in its own words: "no log from
+    this run was read", and `1 → 3 → 4 → 5 installed` "was NOT observed here … 
+    Anything that cites a walk ending in 5 is citing something nobody watched."
+
+    So "pulled … verified it against the manifest, installed it" tells a story in
+    which the middle step exists only in a log nobody captured. Smallest honest
+    edit — three words out, nothing else: "… pulled the 264 MB package from my
+    server, installed it, and reported back through its own status channel."
+    "Verified it against the manifest" is the one clause that needs a log to be
+    sayable. Your sentence, your call. */}
 Nobody touched the MacBook Air. No agent runs on it. No script fired. A file in a git repository said Chrome should be there, and macOS itself — Apple's declarative device management engine, the one built into the OS — pulled the 264 MB package from my server, verified it against the manifest, installed it, and reported back through its own status channel.
 
-{/* [CHECK] This console row is quoted as product copy, and I could not find the
-    string in either console worktree (mngd-dress or mngd-evidence). Either paste
-    the row's literal text, or let it become your own sentence rather than a
-    quotation. It is the only quotation in the post without a source I could
-    confirm. */}
+{/* [CAPTURE] Ruled, and deliberately still marked. Its source is a RECEIPT, not
+    a worktree: the device page rendered this text on 2026-09-11 and David holds
+    the screenshot. Not finding the string in mngd-dress or mngd-evidence is
+    evidence about a template, not about a device.
+
+    Why it stays marked anyway: Receipt 1 below will be RE-captured from the
+    REDESIGNED console, and this quotation sits beside it. A post may not quote
+    words its own screenshot does not show.
+
+    So it is settled ON CAPTURE DAY, not before — at capture, this string and the
+    <Receipt> block above are both set to exactly what the live console renders.
+    Two quotations, one screenshot, one obligation; the rule is in
+    docs/field-note-001-screenshots.md so it cannot be forgotten at the moment the
+    frames are filled. The mngd-repo session is separately locating the template
+    source (grep a distinctive fragment — "never on its own" — allowing for line
+    breaks and entities) and reporting whether the wording survived the redress. */}
 The console row under the verdict is my favorite thing I've shipped, because it refuses to flatter me: *"a package on a Mac proves the Mac has it, never on its own that this declaration is why — the row above is where that is settled."* The row above is the device, in its own words, naming the file.
 
 That's the claim this project makes, so let me state it precisely: the software is on that Mac because a file in a repository said so, and the Mac is the one saying it.
@@ -73,6 +123,42 @@ That's the claim this project makes, so let me state it precisely: the software 
 
 Every day in between, the thing refusing me was my own product — and every refusal was correct.
 
+{/* [CHECK — NEW, and the most serious thing in this post. Please read this one
+    before the voice pass.] The quoted refusal is real text, but it is not text the
+    mini produced that week, and the sentence after it inverts what E-124 records.
+
+    That string appears exactly once in the whole ledger: inside E-124, as fixture
+    output (c) — "this is what a deploy will say NEXT TIME" — produced on the
+    LAPTOP with stubbed `docker` and `curl`, from the fix.
+
+    What E-124 records about the actual 2026-09-04 run is its title: "the deploy
+    resolved to the tag already running, and REFUSED AFTER IT HAD FLIPPED THE
+    CONTAINERS." `.env` was rewritten and both containers recreated; only then did
+    step 6 refuse — "the half-applied state the message itself warns about" — and
+    its recovery advice could not be followed (E-125). "It refused before touching
+    anything" is the behaviour of the fix, not of the deploy that bit you.
+
+    E-124 also ends: "This is not demonstrated on the mini … The rung is not
+    complete. Ask David." So the fixed behaviour has not been seen on the deploy
+    host either.
+
+    Two honest routes, both good paragraphs:
+
+      (1) Tell what happened. It is the better story and it is the post's own
+          thesis: the deploy flipped the containers and THEN refused, the refusal
+          was true about the future and false about the past, and the fix was
+          ordering — the preflight now runs before the first mutation. That is the
+          same lesson as the compile refusal three paragraphs down, arriving from
+          the other direction, which is exactly what E-122 and E-124 say to each
+          other.
+
+      (2) Keep the quotation and label it: say it is what the deploy says now,
+          shown from the fixture that proves the ordering, not what you were shown
+          that day.
+
+    What it cannot do is stay as a first-person account of a refusal that did not
+    happen. Everything else in this section checks out — E-122 backs the compile
+    paragraph almost verbatim, and E-121 backs Chrome 152.0.7977.83 on Sept 4. */}
 The deploy refused to move. I'd merged a fix and run the deploy, and it stopped cold: *"origin/main is AHEAD of the newest published image… Deploying now would put an image older than what you just pushed to main onto this host… Nothing has been changed here: .env is untouched and no container was recreated."* CI hadn't finished publishing. A deploy that proceeded would have silently shipped stale code while looking like it worked. It refused before touching anything, and told me exactly what to wait for.
 
 <Screenshot
@@ -93,6 +179,26 @@ The gates refused my own history. When I proposed the Chrome change, lint reject
 
 One refusal lied, and got caught by its own log. Early in the week a compile refused with "nothing was compiled" — after it had already written to the store devices are served from. Only luck (a no-op change) made the message true. The check now runs before anything is written, and the lesson went in the repo's ledger: a refusal is a receipt about the past — "nothing happened" must be true before it is said.
 
+{/* [CHECK — NEW, same receipt as the hero paragraph.] The digest and the byte
+    count are quoted from E-130's panel and are solid. The verbs around them are
+    not: E-130 lists "the pipeline internals for this artifact" under What is NOT
+    established — "the SSRF-guarded fetch, the streamed hash, the Distribution read
+    and compiled_from_commit are built and tested (E-120, E-121, D-074), but no log
+    from this run was read. They are machinery known to exist, not observations of
+    this install."
+
+    "Read its signing chain" is the sharpest edge: E-130 refuses to claim a Team ID
+    for these bytes at all, because E-121's `EQHXZ8M8AV` was measured on Chrome
+    152.0.7977.83 — different bytes — and a signature result is a fact about
+    specific named bytes (E-107).
+
+    Fix by tense, not by cutting: say what the record SHOWS rather than what the
+    machinery did. "…the pipeline fetched the current installer from Google's own
+    download server and wrote the record the declaration cites: digest 5b6419…12cb6,
+    263,986,305 bytes, admitted 2026-09-11, from Google's own URL — all four of them
+    quoted on the device page." The record is the observation; the streaming hash
+    and the signing chain are machinery you have tested elsewhere and did not watch
+    run here. */}
 And one small honest detail: the change I opened on September 4 named Chrome 152.0.7977.83. The one that installed names 153.0.8010.37 — Google shipped a new Chrome while my own gates were holding the door. When the path finally cleared, the pipeline fetched the current installer from Google's own download server, streamed it through a hash, read its distribution manifest and signing chain, recorded the digest (`5b6419…12cb6`, 263,986,305 bytes) in a record the declaration cites, and generated the files the gates then judged.
 
 <Screenshot
@@ -108,15 +214,24 @@ A week from asked to installed, for one browser, is slow. But every one of those
 
 These came out of the failed attempts that preceded the success, on real hardware:
 
-**Flat component packages die silently.** Serve a plain component pkg — the kind `pkgbuild` makes, the kind plenty of vendors ship — through the declarative package channel, and the device downloads it, then fails without any error naming the format. The status walk we recorded was `1 queued → 3 downloading → 4 installing → 8 failed`, with `reasons = [installFailed]` and nothing anywhere naming the package format as the cause. The distribution-package form is what the OS accepts through this channel — Chrome ships one, which is part of why it's the app in this story. If your declarative install dies after the download completes, check your package format before you check anything else.
+**Flat component packages die silently.** Serve a plain component pkg — the kind `pkgbuild` makes, the kind plenty of vendors ship — through the declarative package channel, and the device takes it all the way to *installing* before it fails, with no error anywhere naming the format. The status walk we recorded was `1 queued → 3 downloading → 4 installing → 8 failed`, with `reasons = [installFailed]` and nothing anywhere naming the package format as the cause. The download is not the problem — it finishes, and reports `Finished`; the install phase starts and is over seven milliseconds later. The distribution-package form is what the OS accepts through this channel — Chrome ships one, which is part of why it's the app in this story. If your declarative install reaches `installing` and then fails, check your package format before you check anything else. One caveat I owe you: Apple documents no such requirement. This is behaviour measured on a device, not a contract I can cite — if a future macOS accepts component packages, this finding is the thing that goes stale.
 
 **The manifest wants chunked digests in practice.** Apple's schema reads as though a single hash suffices. Installs proceeded reliably only with the chunked `sha256-size`/`sha256s` form. I can't tell you why from the docs; I can tell you what worked.
 
-{/* [CHECK] The evidence says this error is real, appears on EVERY attempt, and is
-    not fatal (E-088, and the correction table in E-093). "And then sometimes not
-    at all" is the half I could not find a receipt for — drop those four words, or
-    point me at the reading that shows it absent. */}
-**A scary-looking error that means nothing.** `managedappdistributiond` logs a SQL "provided identifier is invalid" error during this flow. I chased it for a day. It appears in failed installs and successful ones, and then sometimes not at all. It is noise. You're welcome.
+{/* [RESOLVED, with one deviation you should know about] "And then sometimes not
+    at all" is CUT: the record says this error appears on every attempt, and the
+    absence half had no reading behind it.
+
+    The deviation: the ruling's replacement said "appears in failed and successful
+    installs alike", and THAT half has no receipt either. Every capture holding
+    this error is a capture of a FAILED install (E-088, E-093, E-103 — three
+    distinct identifiers). The one successful install in the record is E-130, and
+    E-130 says plainly that no log from that run was read. So nobody has ever seen
+    this error during a successful install, and nobody has seen it absent from one.
+    Written below to what the record does hold: it fires, the install walks past
+    it, and it is not the error. Claims shrink to their receipts — including this
+    one. */}
+**A scary-looking error that means nothing.** `managedappdistributiond` logs a SQL "provided identifier is invalid" error during this flow. I chased it for a day. It fired on every attempt we captured, under three different declaration identifiers, and each time the install walked straight past it — queued, downloading, installing — and failed later for an unrelated reason. It is loud and it is not the error. You're welcome.
 
 {/* [DAVID] The earlier draft had a paragraph on notarization behavior. The record
     only supports an spctl result about specific, named bytes, so you cut it.

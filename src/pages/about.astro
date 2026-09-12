@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/**
+ * About. David's paragraph, verbatim — it is the only prose on this site written
+ * in the first person, and it is not paraphrased, expanded or "improved" here.
+ * Everything else on the page is contact detail and plain fact.
+ */
+---
+
+<Layout
+  title="About — mngd"
+  description="mngd is built by Machinery Software LLC, a one-person company in Michigan."
+>
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) pt-16 pb-10 max-sm:px-5">
+    <div class="max-w-[68ch]">
+      <div class="eyebrow mb-6">About</div>
+      <h1 class="text-[clamp(30px,5vw,44px)] text-ink">Who builds this</h1>
+
+      <p class="mt-7 text-[18px] leading-[1.75] text-muted">
+        mngd is built by Machinery Software LLC, a one-person company in Michigan. I'm
+        David Minnema — a Mac admin building the MDM I wanted to run. Reach me at
+        <a href="mailto:hello@mngd.app" class="text-accent no-underline underline-offset-4 hover:underline">hello@mngd.app</a>.
+      </p>
+
+      <hr class="my-10 border-0 border-t border-line" />
+
+      <dl class="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
+        <div class="bg-surface p-5">
+          <dt class="font-mono text-[11px] tracking-[0.08em] text-faint uppercase">Email</dt>
+          <dd class="mt-2 text-[15px]">
+            <a href="mailto:hello@mngd.app" class="text-accent no-underline underline-offset-4 hover:underline">hello@mngd.app</a>
+          </dd>
+        </div>
+        <div class="bg-surface p-5">
+          <dt class="font-mono text-[11px] tracking-[0.08em] text-faint uppercase">Company</dt>
+          <dd class="mt-2 text-[15px] text-muted">Machinery Software LLC · Michigan, USA</dd>
+        </div>
+      </dl>
+
+      <p class="mt-8 text-[14.5px] leading-relaxed text-faint">
+        What the site is allowed to say about the product is written down in the
+        <a href="/claims" class="text-accent no-underline hover:underline">claims charter</a>,
+        in the same repository as the site itself. If you find a page that breaks it,
+        that is a bug worth an email.
+      </p>
+    </div>
+  </section>
+</Layout>

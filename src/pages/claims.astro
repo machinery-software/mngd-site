@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+// The charter itself, read straight off CLAIMS.md at build time. Imported rather
+// than retyped so there is exactly one copy: a charter that exists twice is a
+// charter that will eventually disagree with itself, and the version on the
+// website would be the one nobody edits.
+import charter from '../../CLAIMS.md?raw';
+---
+
+<Layout
+  title="Claims charter — mngd"
+  description="What the mngd site and blog may and may not say. Every claim on the site must be true of the product as deployed today."
+>
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) pt-16 pb-10 max-sm:px-5">
+    <div class="max-w-[76ch]">
+      <div class="eyebrow mb-6">Charter</div>
+      <h1 class="text-[clamp(30px,5vw,44px)] text-ink">What this site may say</h1>
+      <p class="mt-5 max-w-[64ch] text-[16.5px] leading-relaxed text-muted">
+        This file governs every page here and every Field Note. It lives in the
+        site's own repository as <code class="font-mono text-[14px] text-ink">CLAIMS.md</code>
+        and is printed below exactly as it is written there — the page and the rule
+        are the same file, so they cannot drift apart. If you find a page that breaks
+        it, that is a bug:
+        <a href="mailto:hello@mngd.app" class="text-accent no-underline hover:underline">hello@mngd.app</a>.
+      </p>
+
+      <pre class="mt-10 overflow-x-auto rounded-xl border border-line bg-surface p-6 font-mono text-[12.5px] leading-[1.75] text-muted">{charter}</pre>
+    </div>
+  </section>
+</Layout>

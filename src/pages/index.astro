@@ -1,235 +1,243 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import CircuitHero from '../components/CircuitHero.astro';
+import Receipt from '../components/Receipt.astro';
+
+/**
+ * Home. Governed by CLAIMS.md — every technical sentence on this page traces to
+ * an EVIDENCE.md entry in the mngd repo, and the entry is named next to the
+ * claim rather than kept in a drawer:
+ *
+ *   the repository inside the product, clone-out, fast-forward law  E-116
+ *   the three gates, each seen to fail alone                        E-112
+ *   a refusal whose recovery advice can actually succeed            E-125
+ *   applying compiles desired state from the hosted repository      E-119
+ *   the Air installed Chrome and named the declaration              E-130
+ *
+ * No superlatives, no counts, no logos, no testimonials, and nothing about a
+ * capability that is not running. The ceiling on the whole page is the sentence
+ * in the "observation" note below, and it is deliberately the weakest form of
+ * the claim that is still true.
+ */
+
+const loop = [
+  {
+    step: '01',
+    title: 'Propose',
+    body:
+      'A change to the fleet is a branch in the repository, with its title, author and date read off the tip commit. Nothing about the proposal lives in a table that could disagree with git.',
+    cite: 'E-116',
+  },
+  {
+    step: '02',
+    title: 'Read the refusal',
+    body:
+      'Three gates run in-process and answer in plain English, each able to fail on its own. A refusal names what is wrong and what to run next — and the command it recommends has to be able to succeed against the state that produced it.',
+    cite: 'E-112 · E-125',
+  },
+  {
+    step: '03',
+    title: 'Apply the commit you were shown',
+    body:
+      'Fast-forward only, as a law rather than a limitation: the merged tree IS the reviewed tree. Applying compiles desired state out of the repository this instance hosts, not out of something baked into a release.',
+    cite: 'E-119',
+  },
+  {
+    step: '04',
+    title: 'Let the Mac answer',
+    body:
+      'Desired state and device-reported state sit side by side. When the console says an app is installed, that is the device attesting it — including the identifier of the declaration it says caused the install.',
+    cite: 'E-130',
+  },
+];
 ---
 
 <Layout
-  title="mngd — Apple MDM for the DDM era"
-  description="Modern Apple MDM built on Declarative Device Management. Launch pricing: $6/device/month, all features included. Free up to 25 devices with mngd patch."
+  title="mngd — the fleet repository lives inside the product"
+  description="Apple device management where the fleet repository lives inside the product: propose a change, read the gates' refusal in plain English, apply the commit you were shown, and let the Mac say what it did."
 >
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) pt-16 pb-14 max-sm:px-5 sm:pt-24">
+    <div class="max-w-[54rem]">
+      <div class="eyebrow mb-6">Machinery Software · Apple device management</div>
 
-<style>
-  body { background: #000 !important; }
+      <h1 class="text-[clamp(34px,6vw,60px)] text-ink">
+        The fleet repository lives<br class="max-sm:hidden" />
+        <span class="text-muted">inside the product.</span>
+      </h1>
 
-  .feature-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px; overflow: hidden;
-  }
-  .feature-card {
-    background: #0a0a0a; padding: 32px 28px;
-    display: flex; flex-direction: column; gap: 12px;
-  }
-  .feature-icon {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 18px; color: #6B82F0; line-height: 1;
-  }
-  .feature-card h3 {
-    font-size: 15px; font-weight: 600;
-    letter-spacing: -0.01em; line-height: 1.3;
-  }
-  .feature-card p {
-    font-size: 13px; color: rgba(255,255,255,0.45);
-    line-height: 1.65;
-  }
-
-  .step-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 1px; background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px; overflow: hidden;
-  }
-  .step-card {
-    background: #0a0a0a; padding: 28px 24px;
-  }
-  .step-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: rgba(255,255,255,0.2);
-    margin-bottom: 16px;
-  }
-  .step-card h3 { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
-  .step-card p  { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
-
-  .cta-band {
-    background: #0a0a0a;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px;
-    padding: 64px 48px;
-    text-align: center;
-  }
-
-  @media (max-width: 860px) {
-    .feature-grid { grid-template-columns: 1fr; }
-    .step-grid    { grid-template-columns: 1fr 1fr; }
-    .cta-band     { padding: 40px 24px; }
-  }
-  @media (max-width: 540px) {
-    .step-grid { grid-template-columns: 1fr; }
-  }
-</style>
-
-<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
-<CircuitHero>
-  <div style="max-width:1080px; margin:0 auto; padding:112px 32px 96px; text-align:center;">
-
-    <div style="display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:5px 14px; border-radius:99px; margin-bottom:32px; text-transform:uppercase;">
-      Apple MDM · DDM-native
-    </div>
-
-    <h1 style="font-size:clamp(40px,6vw,72px); font-weight:600; letter-spacing:-0.04em; line-height:1.05; max-width:800px; margin:0 auto 24px;">
-      Device management that<br>
-      <span style="color:rgba(255,255,255,0.45);">stays out of your way.</span>
-    </h1>
-
-    <p style="font-size:18px; font-weight:300; color:rgba(255,255,255,0.5); max-width:520px; margin:0 auto 40px; line-height:1.65; letter-spacing:-0.01em;">
-      mngd is a modern Apple MDM platform built on Declarative Device Management.
-      Less polling. Less noise. Devices do what you declare.
-    </p>
-
-    <div style="display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:20px;">
-      <a href="https://app.mngd.app/register" class="mngd-btn-primary">
-        Get started
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
-      </a>
-      <a href="/pricing" class="mngd-btn-secondary">See pricing</a>
-    </div>
-    <p style="font-size:13px; color:rgba(255,255,255,0.3);">
-      Start free with <a href="/patch" style="color:rgba(255,255,255,0.5); text-decoration:underline; text-underline-offset:3px;">mngd patch</a> — no card required up to 25 devices.
-    </p>
-
-  </div>
-</CircuitHero>
-
-<hr class="divider" />
-
-<!-- ── Social proof strip ─────────────────────────────────────────────────── -->
-<div style="max-width:1080px; margin:0 auto; padding:28px 32px; display:flex; align-items:center; justify-content:center; gap:40px; flex-wrap:wrap;">
-  {[
-    'DDM-native from day one',
-    'SCEP device certificates',
-    'Apple Business Manager',
-    'SCIM 2.0 provisioning',
-    'Declarative profiles',
-    'macOS · iOS · iPadOS',
-  ].map(item => (
-    <span style="font-size:12px; color:rgba(255,255,255,0.28); font-weight:500; letter-spacing:0.02em;">{item}</span>
-  ))}
-</div>
-
-<hr class="divider" />
-
-<!-- ── Features ───────────────────────────────────────────────────────────── -->
-<section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
-  <div class="mono-label" style="margin-bottom:40px;">Platform</div>
-  <h2 style="font-size:clamp(28px,4vw,42px); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:48px; max-width:600px;">
-    Built for where Apple MDM is going,<br>not where it's been.
-  </h2>
-
-  <div class="feature-grid">
-    {[
-      { icon: '◈', title: 'Declarative Device Management', body: 'DDM is Apple\'s replacement for the polling-based MDM protocol. mngd speaks DDM natively — declarations, not commands. Devices enforce their own configuration without waiting to be asked.' },
-      { icon: '⬡', title: 'SCEP enrollment', body: 'Devices receive a signed identity certificate at enrollment via SCEP. mngd includes a built-in SCEP CA with a persistent cert/key so devices aren\'t orphaned by server restarts.' },
-      { icon: '⊕', title: 'Apple Business Manager', body: 'Zero-touch deployment. Devices come out of the box enrolled, supervised, and configured — no imaging, no manual steps. ABM tokens are managed per-org.' },
-      { icon: '⊞', title: 'MSP multi-tenancy', body: 'Manage multiple client orgs from a single MSP account. Consolidated billing, per-org feature flags, and a partner dashboard that gives you the full picture at a glance.' },
-      { icon: '⊛', title: 'Smart groups & policies', body: 'Dynamic device groups built from live inventory data. Assign declarations and profiles to groups — mngd handles delivery, retry, and status tracking per device.' },
-      { icon: '⊜', title: 'mngd patch', body: 'Start with patch management before committing to full MDM. The mngd patch agent becomes a full MDM agent — no re-enrollment, no migration, no rip and replace.' },
-      { icon: '⊝', title: 'SCIM 2.0 provisioning', body: 'Sync users and groups from Okta, Azure AD, or any SCIM-compatible IdP. Users are provisioned and deprovisioned automatically. SSO enrollment supported.' },
-      { icon: '⊡', title: 'FileVault & escrow', body: 'Enable FileVault via DDM declaration. Personal recovery keys are escrowed automatically at enrollment and rotated on schedule — no scripts required.' },
-      { icon: '⊟', title: 'Automation engine', body: 'Event-driven automations triggered by device check-ins, CVE alerts, patch status, or custom webhooks. Route notifications to Slack, Teams, or any endpoint.' },
-    ].map(f => (
-      <div class="feature-card">
-        <div class="feature-icon">{f.icon}</div>
-        <h3>{f.title}</h3>
-        <p>{f.body}</p>
-      </div>
-    ))}
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── How it works ───────────────────────────────────────────────────────── -->
-<section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
-  <div class="mono-label" style="margin-bottom:40px;">Enrollment</div>
-  <h2 style="font-size:clamp(26px,3.5vw,38px); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:48px;">
-    From box to enrolled in under two minutes.
-  </h2>
-
-  <div class="step-grid">
-    {[
-      { step: '01', title: 'ABM assignment', body: 'Device ships from Apple already assigned to your org in Apple Business Manager.' },
-      { step: '02', title: 'Zero-touch boot', body: 'Device boots, hits Apple\'s activation server, gets redirected to mngd enrollment.' },
-      { step: '03', title: 'SCEP cert', body: 'Device generates a key pair, mngd issues a signed identity certificate via SCEP.' },
-      { step: '04', title: 'DDM declarations', body: 'mngd pushes the device\'s full configuration as DDM declarations. Done.' },
-    ].map(s => (
-      <div class="step-card">
-        <div class="step-num">{s.step}</div>
-        <h3>{s.title}</h3>
-        <p>{s.body}</p>
-      </div>
-    ))}
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── Pricing teaser ─────────────────────────────────────────────────────── -->
-<section style="max-width:1080px; margin:0 auto; padding:80px 32px;">
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;">
-    <div>
-      <div class="mono-label" style="margin-bottom:24px;">Pricing</div>
-      <h2 style="font-size:clamp(26px,3.5vw,38px); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:16px;">
-        Simple, honest pricing.
-      </h2>
-      <p style="font-size:15px; color:rgba(255,255,255,0.5); line-height:1.7; margin-bottom:32px;">
-        Launch pricing: $6/device/month. All features included, mngd patch bundled. Free up to 25 devices with mngd patch standalone.
+      <p class="mt-6 max-w-[56ch] text-[17px] leading-relaxed text-muted sm:text-[18px]">
+        mngd hosts your fleet repository itself. Propose a change, read the gates'
+        refusal in plain English, apply the exact commit you were shown — then read
+        what the Mac says it did, in its own words.
       </p>
-      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-        <a href="/early-access" class="mngd-btn-primary">Join the waitlist</a>
-        <a href="/pricing" class="mngd-btn-secondary">See all pricing</a>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a
+          href="/early-access"
+          class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[15px] font-medium text-accent-contrast no-underline transition-colors hover:bg-accent-strong"
+        >
+          Join the waitlist
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5" /></svg>
+        </a>
+        <a
+          href="#receipt"
+          class="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-5 py-2.5 text-[15px] font-medium text-ink no-underline transition-colors hover:bg-hover"
+        >
+          Read the receipt
+        </a>
+      </div>
+
+      <p class="mt-5 max-w-[56ch] text-[13.5px] leading-relaxed text-faint">
+        mngd is early and not generally available. There is no trial to start and no
+        account to create yet — the waitlist is the whole front door, and what is
+        below is what has actually run.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── The loop ───────────────────────────────────────────────────────── -->
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) py-14 max-sm:px-5">
+    <div class="eyebrow mb-6">The loop</div>
+    <h2 class="max-w-[30ch] text-[clamp(24px,3.4vw,34px)] text-ink">
+      Propose, refuse, apply, attest.
+    </h2>
+    <p class="mt-4 max-w-[60ch] text-[15.5px] leading-relaxed text-muted">
+      In the mode mngd hosts the repository, the whole loop runs on a directory: no
+      forge, no external CI service, no credential, no token, and nothing to
+      configure on somebody else's server.
+      <span class="text-faint">[E-116]</span>
+    </p>
+
+    <ol class="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+      {loop.map(s => (
+        <li class="flex flex-col bg-surface p-6">
+          <div class="font-mono text-[11px] text-faint">{s.step}</div>
+          <h3 class="mt-4 text-[15.5px] text-ink">{s.title}</h3>
+          <p class="mt-2.5 flex-1 text-[13.5px] leading-relaxed text-muted">{s.body}</p>
+          <div class="receipt-cite mt-4">{s.cite}</div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ── The receipt ────────────────────────────────────────────────────── -->
+  <section id="receipt" class="mx-auto max-w-(--container-wide) px-(--gutter) py-14 max-sm:px-5">
+    <div class="eyebrow mb-6">A receipt, quoted</div>
+    <h2 class="max-w-[34ch] text-[clamp(24px,3.4vw,34px)] text-ink">
+      When the console says installed, that is the Mac talking.
+    </h2>
+    <p class="mt-4 max-w-[62ch] text-[15.5px] leading-relaxed text-muted">
+      On 2026-09-11 a MacBook Air installed Google Chrome from a declaration this
+      repository holds, and reported back with the version on the device and the
+      identifier of the declaration it says caused it. Both panels below are quoted
+      out of the device page — the left is what git asked for, the right is what the
+      Mac answered.
+    </p>
+
+    <div class="mt-8 grid gap-4 lg:grid-cols-2">
+      <Receipt label="Declared — what git asks for" text={`Google Chrome 153.0.8010.37
+com.google.Chrome
+from roles/baseline/com.mngd.package.google-chrome.json
+role baseline
+declaration com.mngd.package.google-chrome
+
+Install behaviour          Required`} />
+      <Receipt label="Reported — what the Mac says" text={`installed
+version on the device: 153.0.8010.37
+name: Google Chrome
+
+Because git said so       the device names this declaration
+                          com.mngd.package.google-chrome
+
+Verdict                   installed`} />
+    </div>
+
+    <p class="receipt-cite mt-1">
+      E-130 — one MacBook Air against a staging instance, panel timestamped
+      2026-09-11 12:30 UTC. No agent was involved: macOS did the install because a
+      declaration told it to.
+    </p>
+  </section>
+
+  <!-- ── What is proven, and where ──────────────────────────────────────
+       The honest section. A marketing page that quotes a receipt owes the
+       reader the boundary of that receipt in the same breath, or the receipt is
+       doing a job it did not earn. -->
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) py-14 max-sm:px-5">
+    <div class="eyebrow mb-6">What is proven, and where</div>
+    <h2 class="max-w-[34ch] text-[clamp(24px,3.4vw,34px)] text-ink">
+      Two different words: on hardware, and in a container.
+    </h2>
+
+    <dl class="mt-8 divide-y divide-rowline overflow-hidden rounded-xl border border-line bg-surface">
+      <div class="grid gap-1 p-5 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6">
+        <div>
+          <dt class="text-[15px] text-ink">A Mac installed a package because a declaration said so</dt>
+          <dd class="mt-1 text-[13.5px] leading-relaxed text-muted">
+            One MacBook Air, watched on the device page, reported by the device. [E-130]
+          </dd>
+        </div>
+        <dd class="font-mono text-[11px] tracking-wide text-ok-ink">on hardware</dd>
+      </div>
+
+      <div class="grid gap-1 p-5 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6">
+        <div>
+          <dt class="text-[15px] text-ink">Propose, gate, apply, and compile from the hosted repository</dt>
+          <dd class="mt-1 text-[13.5px] leading-relaxed text-muted">
+            Run end to end in its own container with a generated admin token. No device
+            was involved in this one. [E-112, E-116, E-119]
+          </dd>
+        </div>
+        <dd class="font-mono text-[11px] tracking-wide text-warn-ink">in a container</dd>
+      </div>
+
+      <div class="grid gap-1 p-5 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6">
+        <div>
+          <dt class="text-[15px] text-ink">Everything else</dt>
+          <dd class="mt-1 text-[13.5px] leading-relaxed text-muted">
+            Not claimed here. When a thing has been watched working, it gets a Field Note
+            and an evidence ID; until then this page stays quiet about it.
+          </dd>
+        </div>
+        <dd class="font-mono text-[11px] tracking-wide text-faint">not yet</dd>
+      </div>
+    </dl>
+
+    <!-- The ceiling CLAIMS.md sets on this whole page, stated as the observation
+         it is. Not "the first", not "the only". -->
+    <p class="mt-6 max-w-[62ch] border-l-2 border-faint-line pl-4 text-[14.5px] leading-relaxed text-faint italic">
+      We haven't seen another MDM that hosts the repository itself. That is an
+      observation about what we have looked at, not a claim about what exists —
+      config-as-code for Apple fleets is a road with other people already on it, and
+      <a href="/credits" class="text-accent not-italic no-underline hover:underline">they are named here</a>.
+    </p>
+  </section>
+
+  <!-- ── Bottom CTA ─────────────────────────────────────────────────────── -->
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) pt-8 pb-4 max-sm:px-5">
+    <div class="rounded-xl border border-line bg-surface p-8 sm:p-12">
+      <h2 class="max-w-[26ch] text-[clamp(22px,3vw,30px)] text-ink">
+        Want to watch this get built?
+      </h2>
+      <p class="mt-3 max-w-[56ch] text-[15px] leading-relaxed text-muted">
+        The waitlist gets the Field Notes — what ran, what refused, and what the
+        device said, with the evidence ID attached. No launch dates, because there
+        aren't any.
+      </p>
+      <div class="mt-7 flex flex-wrap items-center gap-3">
+        <a
+          href="/early-access"
+          class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[15px] font-medium text-accent-contrast no-underline transition-colors hover:bg-accent-strong"
+        >
+          Join the waitlist
+        </a>
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-[15px] font-medium text-ink no-underline transition-colors hover:bg-hover"
+        >
+          Read the Field Notes
+        </a>
       </div>
     </div>
-    <div style="display:flex; flex-direction:column; gap:1px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden;">
-      {[
-        { product: 'mngd · Standard',    price: '$6/dev/mo',    sub: 'Annual · 10-device min',           color: '#2D3A9E' },
-        { product: 'mngd · MSP',         price: '$4.50/dev/mo', sub: 'Annual · $150/mo account min',     color: '#7C3AED' },
-        { product: 'mngd · Enterprise',  price: 'from $9/dev/mo', sub: 'Contact sales',                  color: 'rgba(255,255,255,0.2)' },
-        { product: 'mngd patch',         price: 'Free',         sub: '1–25 devices, forever',            color: '#0F6E56' },
-        { product: 'mngd patch',         price: '$49/mo',       sub: '26–50 devices flat',               color: '#0F6E56' },
-      ].map(row => (
-        <div style="background:#0a0a0a; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style={`width:6px; height:6px; border-radius:50%; background:${row.color}; flex-shrink:0;`}></span>
-            <span style="font-size:13px; color:rgba(255,255,255,0.6);">{row.product}</span>
-            <span style="font-size:12px; color:rgba(255,255,255,0.3);">— {row.sub}</span>
-          </div>
-          <span style="font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; color:#fff; white-space:nowrap;">{row.price}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── Bottom CTA ─────────────────────────────────────────────────────────── -->
-<section style="max-width:1080px; margin:0 auto; padding:80px 32px 96px;">
-  <div class="cta-band">
-    <h2 style="font-size:clamp(28px,4vw,48px); font-weight:600; letter-spacing:-0.04em; line-height:1.1; margin-bottom:16px;">
-      Ready to enroll your first device?
-    </h2>
-    <p style="font-size:16px; color:rgba(255,255,255,0.5); margin-bottom:36px; max-width:440px; margin-left:auto; margin-right:auto; line-height:1.65;">
-      Sign up and enroll your first device in minutes.
-    </p>
-    <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;">
-      <a href="https://app.mngd.app/register" class="mngd-btn-primary">
-        Create an account
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 11L11 3M6 3h5v5"/></svg>
-      </a>
-      <a href="https://docs.mngd.app/getting-started" class="mngd-btn-secondary">Read the docs</a>
-    </div>
-  </div>
-</section>
-
+  </section>
 </Layout>

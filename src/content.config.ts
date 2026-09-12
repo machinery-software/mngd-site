@@ -23,6 +23,14 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     /** EVIDENCE.md entry IDs this post rests on, e.g. ["E-130"]. */
     evidence: z.array(z.string()).default([]),
+    /**
+     * The post writes its own built-on section in its own voice, so the layout
+     * must not append a second one. CLAIMS.md's rule is that the credits are
+     * VISIBLE on every post, not that they are always the same component: a post
+     * setting this is promising to carry them itself, and the footer's Built on
+     * link is still on the page either way.
+     */
+    creditsInBody: z.boolean().default(false),
   }),
 });
 

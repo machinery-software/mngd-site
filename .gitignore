@@ -5,3 +5,15 @@ dist/
 .env.*
 !.env.example
 .wrangler/
+.DS_Store
+
+# Local scratch that has never belonged in the repository.
+.test-write
+*.bundle
+
+# The superseded Cruip-Simple build (MAC-244) and its raw vendor drop. The site
+# is the Astro tree at src/; next/ is left on the archive branch rather than
+# carried forward, because Cruip's licence does not permit redistributing its
+# source publicly and this repository may stay public (MAC-588).
+next/
+_vendor/

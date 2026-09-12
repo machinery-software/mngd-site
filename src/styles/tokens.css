@@ -1,0 +1,212 @@
+/* mngd marketing site — brand v2 tokens.
+ *
+ * PORTED, NOT REINVENTED. Every value below is copied from the admin console's
+ * stylesheet (mngd repo: internal/httpapi/static/console.css) so that the site
+ * and the product are one design system rather than two that resemble each
+ * other. When a token changes there, it changes here; the console's own tests
+ * (TestEveryThemeDefinesEveryToken, TestTheTwoDarkBlocksAgree) are the source of
+ * truth for the shape of this file.
+ *
+ * The three-block discipline is the console's, and the reasons are the console's:
+ *
+ *   :root                                       the COMPLETE light palette
+ *   @media (prefers-color-scheme: dark)
+ *     :root:not([data-theme="light"])           the OS asked for dark
+ *   :root[data-theme="dark"]                    the READER asked for dark
+ *
+ * Bare :root is complete on purpose. A token whose only definition lives in a
+ * dark block resolves to NOTHING in light, and an unresolved var() does not
+ * error — it inherits, which is how a page comes to render black text on a black
+ * panel with no warning anywhere.
+ *
+ * WHAT THE COLOURS MEAN. The accent is the logo's own indigo, #2d3a9e, sampled
+ * from static/logo.png rather than picked to look like it. It is links, focus
+ * rings, and primary affordances. The accent NEVER says healthy or broken: the
+ * state colours (--ok / --warn / --bad / --idle) are reserved for device and
+ * command truth. On this site that means two things and no others: the receipt
+ * panels quoted out of EVIDENCE.md, and the label saying whether a claim was
+ * proven on hardware or only in a container. A hue that means both "this is a
+ * link" and "this device is converged" means neither, and a hue that means
+ * "verified on a Mac" must not also mean "we like this feature".
+ */
+
+:root {
+  /* ---- layout ----------------------------------------------------------- */
+  --container-reading: 920px;
+  --container-wide: 1280px;
+  --gutter: 32px;
+
+  --block-gap: 18px;
+  --block-gap-tight: 10px;
+
+  color-scheme: light;
+
+  /* ---- surfaces --------------------------------------------------------- */
+  --ground:   #f2f4f8;
+  --surface:  #ffffff;
+  --raised:   #ffffff;
+  --footer:   #f7f8fb;
+  --hover:    #f6f8fb;
+
+  /* ---- text ------------------------------------------------------------- */
+  --ink:      #1a2029;
+  --muted:    #57606e;
+
+  /* TWO faint tokens. --faint-text is the lightest grey clearing WCAG AA on
+   * BOTH grounds text sits on (#69707d on #f2f4f8 is 4.53:1 — the binding
+   * constraint). "Faint" therefore recedes through ITALICS AND SPACING rather
+   * than through contrast, which is the one property a reader may not have.
+   *
+   * --faint-line is DECORATIVE ONLY: hairlines, dashed borders, separators, the
+   * receipt rule. It must never colour text, in either theme. */
+  --faint-text: #69707d;
+  --faint-line: #c6ccd6;
+
+  /* ---- lines ------------------------------------------------------------ */
+  --border:   #dce0e8;
+  --rowline:  #e9ebf1;
+
+  /* ---- brand ------------------------------------------------------------ */
+  /* --logo-ground is --accent's value under a name that says what it is for:
+   * the badge keeps the logo's own indigo in BOTH themes, app-icon style, so
+   * the mark is never recoloured by a theme it did not ask for. */
+  --accent:          #2d3a9e;
+  --accent-strong:   #232e83;
+  --accent-contrast: #ffffff;
+  --accent-soft:     #e9ebf8;
+  --logo-ground:     #2d3a9e;
+
+  /* ---- state: device and command truth, and nothing else ---------------- */
+  --ok:      #177a55;
+  --ok-bg:   #e2f1ea;
+  --ok-ink:  #14563f;
+  --ok-line: #c4e0d3;
+
+  --warn:      #b9891b;
+  --warn-bg:   #f6ecd6;
+  --warn-ink:  #7a5306;
+  --warn-line: #ecdcb8;
+
+  --bad:      #b3402f;
+  --bad-bg:   #f7e7e4;
+  --bad-ink:  #8f2f26;
+  --bad-line: #eccfc9;
+
+  --idle:      #8a919e;
+  --idle-bg:   #e9ebf0;
+  --idle-ink:  #4b515c;
+  --idle-line: #d7dbe2;
+
+  --shadow: 0 6px 20px rgba(26, 32, 41, 0.14);
+
+  /* ---- type ------------------------------------------------------------- */
+  /* Self-hosted (see global.css). The console names IBM Plex as its design and
+   * runs the system stack only because an admin console must not tell Google
+   * when an operator opens their fleet; the site has no such constraint but
+   * keeps the same rule anyway — no third-party request on any page. */
+  --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          system-ui, "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+          Consolas, "Liberation Mono", monospace;
+}
+
+/* The OS asked for dark, and the reader has not overridden it. Guarded rather
+ * than bare: without :not([data-theme="light"]) a reader who explicitly chose
+ * LIGHT on a machine set to dark would get dark anyway. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --ground:   #12151b;
+    --surface:  #191d25;
+    --raised:   #1f242e;
+    --footer:   #15191f;
+    --hover:    #1e232d;
+
+    --ink:      #e6eaf1;
+    --muted:    #9aa3b3;
+    --faint-text: #8d96a6;
+    --faint-line: #3a4150;
+
+    --border:   #2a303c;
+    --rowline:  #232935;
+
+    --accent:          #9aa7ee;
+    --accent-strong:   #b6c0f4;
+    --accent-contrast: #12151b;
+    --accent-soft:     #262d52;
+    --logo-ground:     #2d3a9e;
+
+    --ok:      #3ec08c;
+    --ok-bg:   #16352a;
+    --ok-ink:  #7fd7b2;
+    --ok-line: #234b3a;
+
+    --warn:      #d9a54a;
+    --warn-bg:   #382d16;
+    --warn-ink:  #e4bc74;
+    --warn-line: #4d3f21;
+
+    --bad:      #e0705c;
+    --bad-bg:   #3c211c;
+    --bad-ink:  #eda090;
+    --bad-line: #55322a;
+
+    --idle:      #77808f;
+    --idle-bg:   #262c37;
+    --idle-ink:  #a6afbe;
+    --idle-line: #363d4a;
+
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* The reader asked for dark, whatever the OS thinks. Identical values to the
+ * block above, repeated rather than shared — the console repeats them because
+ * it has no build step, and this file repeats them because it is a port and
+ * drifting from the original would defeat the point of porting. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ground:   #12151b;
+  --surface:  #191d25;
+  --raised:   #1f242e;
+  --footer:   #15191f;
+  --hover:    #1e232d;
+
+  --ink:      #e6eaf1;
+  --muted:    #9aa3b3;
+  --faint-text: #8d96a6;
+  --faint-line: #3a4150;
+
+  --border:   #2a303c;
+  --rowline:  #232935;
+
+  --accent:          #9aa7ee;
+  --accent-strong:   #b6c0f4;
+  --accent-contrast: #12151b;
+  --accent-soft:     #262d52;
+  --logo-ground:     #2d3a9e;
+
+  --ok:      #3ec08c;
+  --ok-bg:   #16352a;
+  --ok-ink:  #7fd7b2;
+  --ok-line: #234b3a;
+
+  --warn:      #d9a54a;
+  --warn-bg:   #382d16;
+  --warn-ink:  #e4bc74;
+  --warn-line: #4d3f21;
+
+  --bad:      #e0705c;
+  --bad-bg:   #3c211c;
+  --bad-ink:  #eda090;
+  --bad-line: #55322a;
+
+  --idle:      #77808f;
+  --idle-bg:   #262c37;
+  --idle-ink:  #a6afbe;
+  --idle-line: #363d4a;
+
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}

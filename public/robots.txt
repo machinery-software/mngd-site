@@ -1,0 +1,5 @@
+# mngd.app
+User-agent: *
+Allow: /
+
+Sitemap: https://mngd.app/sitemap-index.xml

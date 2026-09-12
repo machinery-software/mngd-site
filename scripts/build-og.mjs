@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
+import { execFileSync } from 'node:child_process';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -73,7 +74,17 @@ const svg = await satori(
         flexDirection: 'column',
         justifyContent: 'center',
         background: ground,
-        padding: 80,
+        // Left padding is 305, not 80, and the number is a CROP CONSTRAINT rather
+        // than a taste choice. Some share surfaces crop an OG card toward a
+        // centred square, which on a 1200x630 canvas keeps roughly x 285-915. At
+        // 80 the mark fell entirely outside that window and the wordmark lost its
+        // leading edge — the card survived as a tagline with no brand on it. The
+        // group now starts inside the crop window; the right-hand breathing room
+        // stays, so the full card still reads left-aligned.
+        paddingTop: 80,
+        paddingRight: 80,
+        paddingBottom: 80,
+        paddingLeft: 305,
         fontFamily: 'IBM Plex Sans',
       },
       children: [
@@ -125,7 +136,10 @@ const svg = await satori(
                 props: {
                   style: {
                     display: 'flex',
-                    fontSize: 52,
+                    // 47, not 52: at 52 the tagline ran past x 915 and the centred
+                    // square crop ate its last letter. A clipped word reads as a
+                    // broken image rather than as a deliberate crop.
+                    fontSize: 47,
                     fontWeight: 400,
                     letterSpacing: '-0.02em',
                     color: muted,
@@ -155,5 +169,27 @@ writeFileSync(join(root, 'public/og.svg'), svg);
 
 const png = new Resvg(svg, { fitTo: { mode: 'width', value: 1200 } }).render().asPng();
 writeFileSync(join(root, 'public/og.png'), png);
+
+/**
+ * The crop check, kept as an artifact rather than as a memory.
+ *
+ * docs/og-crop-preview.png is the centred 1:1 crop — what a share surface that
+ * squares the card actually shows. It is regenerated with the card so the two
+ * cannot drift, and it is the second thing David approves, because both are
+ * faces the brand wears.
+ *
+ * sips is macOS-only and this is a review artifact, not a build output: if it is
+ * unavailable the card is still written and only the preview is skipped.
+ */
+try {
+  execFileSync('sips', [
+    '-c', '630', '630',
+    '--out', join(root, 'docs/og-crop-preview.png'),
+    join(root, 'public/og.png'),
+  ], { stdio: 'ignore' });
+  console.log('docs/og-crop-preview.png written — centred 1:1 crop (x 285-915)');
+} catch {
+  console.log('crop preview skipped (sips unavailable) — card itself is unaffected');
+}
 
 console.log(`og.png written — 1200x630, ground ${ground}, mark ${logoGround}, ${png.length} bytes`);

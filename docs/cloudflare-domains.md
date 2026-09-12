@@ -25,9 +25,16 @@ Order matters only where it says so.
 - 301, preserving path and query.
 - Verify: `curl -sI https://www.mngd.app/blog | head -3` shows `301` and a
   `location:` of `https://mngd.app/blog`.
+- **Status 2026-09-11: `www.mngd.app` does not resolve at all** — curl returns
+  000, a connection failure rather than an unredirected 200. So this is not "the
+  redirect is missing", it is "the hostname is dead". Anyone who types the www
+  form today gets a browser error.
 
 ## 3. getmngd.app → mngd.app, 301 — ONCE REGISTERED
 
+- **Which TLD? Confirm before registering.** This checklist was written as
+  `getmngd.app`; David's note of 2026-09-11 said `getmngd.com`. They are different
+  registrations and only one of them is the one he wants. Not guessed here.
 - Not registered yet. Nothing to do until it is; this line exists so the step is
   not rediscovered later.
 - When it is: whole-domain 301 to `https://mngd.app`, path preserved. It is a

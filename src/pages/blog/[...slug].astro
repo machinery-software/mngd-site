@@ -31,6 +31,7 @@ const fmt = (d: Date) =>
   title={`${post.data.title} — mngd Field Notes`}
   description={post.data.description}
   articleDate={post.data.date}
+  noindex={post.data.draft}
 >
   <article class="mx-auto max-w-(--container-wide) px-(--gutter) pt-16 pb-10 max-sm:px-5">
     <div class="mx-auto max-w-[70ch]">

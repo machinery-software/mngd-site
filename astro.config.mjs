@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // Tailwind v4 is CSS-first: the theme lives in src/styles/global.css, not in a
@@ -13,7 +14,15 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://mngd.app',
   output: 'static',
-  integrations: [mdx()],
+  // The sitemap lists published pages only. Draft notes and the 404 are
+  // reachable by URL but are not offered to a crawler, which is the same
+  // distinction the blog index makes.
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) => !page.includes('/blog/001-the-air-installed-chrome'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

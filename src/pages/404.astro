@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/**
+ * Cloudflare Pages serves this file for any path it cannot match, WITH a 404
+ * status. Without it, Pages falls back to index.html and answers 200 — which is
+ * how a missing /og.png came to return the home page and look, to every checker,
+ * like a working image. A wrong page that says 200 is worse than a missing one:
+ * it defeats link checkers, share-preview fetchers and search engines at once.
+ */
+---
+
+<Layout
+  title="Not found — mngd"
+  description="That page does not exist."
+  noindex={true}
+>
+  <section class="mx-auto max-w-(--container-wide) px-(--gutter) pt-20 pb-16 max-sm:px-5">
+    <div class="max-w-[60ch]">
+      <div class="eyebrow mb-6">404</div>
+      <h1 class="text-[clamp(28px,4.6vw,40px)] text-ink">That page isn't here</h1>
+      <p class="mt-5 text-[16px] leading-relaxed text-muted">
+        It may never have been. Some pages that once existed here — a pricing page
+        and a product page — were retired because they described things that are not
+        shipping, and they now redirect to the home page rather than linger.
+      </p>
+      <ul class="mt-8 flex flex-wrap gap-3">
+        <li><a href="/" class="inline-flex rounded-lg border border-line bg-surface px-4 py-2 text-[14px] text-ink no-underline hover:bg-hover">Home</a></li>
+        <li><a href="/blog" class="inline-flex rounded-lg border border-line bg-surface px-4 py-2 text-[14px] text-ink no-underline hover:bg-hover">Field Notes</a></li>
+        <li><a href="/credits" class="inline-flex rounded-lg border border-line bg-surface px-4 py-2 text-[14px] text-ink no-underline hover:bg-hover">Built on</a></li>
+        <li><a href="/about" class="inline-flex rounded-lg border border-line bg-surface px-4 py-2 text-[14px] text-ink no-underline hover:bg-hover">About</a></li>
+      </ul>
+    </div>
+  </section>
+</Layout>

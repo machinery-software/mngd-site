@@ -68,6 +68,28 @@ Components available inside a note: `Receipt` (anything quoted from a device or
 from EVIDENCE.md) and `Screenshot` (a capture, or an honest pending frame for one
 that does not exist yet).
 
+## Fonts
+
+Every face is self-hosted through `@fontsource` — no page makes a font request
+that leaves this origin, and the build is checked for one.
+
+Two families ship at once, on purpose. The site sets **IBM Plex**; **Inter** and
+**JetBrains Mono** are the faces D-096 maps the admin console onto, added here so
+that swap copies a face set already built and served. Nothing on this site sets
+them yet.
+
+**Retiring the Plex imports belongs to the site's own restyle, not to the console
+swap.** Until that restyle is decided, both families are expected in `dist` and
+the doubled font payload is the known cost of landing the faces first. Note that
+the imports in `src/styles/global.css` are not Plex's only consumer:
+`scripts/build-og.mjs` loads Plex Sans 400/600 and Plex Mono 400/500 out of
+`node_modules` by filename, so dropping the packages is a two-part change and the
+OG card has to be re-cut with whatever replaces them.
+
+All four families are OFL-1.1. Their licence texts are vendored verbatim in
+`licenses/`, alongside Preline's — anything redistributed in `dist` is recorded
+there.
+
 ## The OG image
 
 `public/og.png` is generated from the brand tokens, not drawn by hand:

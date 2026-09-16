@@ -21,6 +21,24 @@
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
 
+/* The five faces D-096 maps the console onto. Added here, ahead of the console's
+ * own swap, so that swap copies a face set already built and served rather than
+ * introducing one: body/caption on Inter 400, quoted panels on its italic,
+ * section/label/emphasis on 600, title/stat and the wordmark on 700, and data on
+ * JetBrains Mono 400. Every weight is one a role declares and every face is used,
+ * which is what D-094's two type guards each require.
+ *
+ * The Plex imports above stay. The site still sets Plex and keeps doing so until
+ * its own restyle is decided; D-096 retires Plex Mono 500 on the CONSOLE, whose
+ * wordmark was its only reader. Removing anything here is a later, separate
+ * change. Until then both families ship, which is the known cost of landing the
+ * faces before the swap that uses them. */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/400-italic.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+
 @import "./tokens.css";
 
 /* Preline's plugins toggle `dark:` via a class on <html>. Our themes are driven
